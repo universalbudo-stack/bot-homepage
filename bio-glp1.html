@@ -1,0 +1,284 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>肥満は、病気として治せる時代になった。— BoT技術解析レポート #005-03</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased}
+.page{max-width:1100px;margin:0 auto;padding:80px 60px}
+.breadcrumb{font-size:11px;color:#666;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px}
+.breadcrumb span{color:#555}
+.label{font-size:11px;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:#777;margin-bottom:16px}
+h1{font-size:56px;font-weight:300;line-height:1.1;letter-spacing:-.03em;margin-bottom:24px}
+h1 span{color:#888}
+.meta{font-size:13px;color:#777;margin-bottom:80px}
+.section{margin-bottom:100px}
+h2{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#777;margin-bottom:48px;padding-bottom:16px;border-bottom:1px solid #1a1a1a}
+.plain{background:#0d0d0d;padding:48px;margin-bottom:2px}
+.plain h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.plain p{font-size:16px;color:#777;line-height:2;margin-bottom:20px}
+.plain p:last-child{margin-bottom:0}
+.plain p strong{color:#bbb;font-weight:400}
+.divider{height:1px;background:#1a1a1a;margin:32px 0}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:80px}
+.metric{background:#0d0d0d;padding:32px 24px;text-align:center}
+.metric .val{font-size:36px;font-weight:300;letter-spacing:-.02em;margin-bottom:8px}
+.metric .lbl{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.metric .note{font-size:12px;color:#666;line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px}
+.card{background:#0d0d0d;padding:36px}
+.card .tag{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.card h3{font-size:18px;font-weight:500;color:#fff;margin-bottom:12px}
+.card p{font-size:13px;color:#777;line-height:1.9}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:32px}
+.tier{padding:28px;border:1px solid #1a1a1a;background:#0a0a0a}
+.tier .tier-tag{font-size:9px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px}
+.tier .tier-name{font-size:15px;font-weight:500;margin-bottom:10px}
+.tier .tier-body{font-size:12px;color:#777;line-height:1.8}
+.tier.now .tier-tag{color:#4a9}
+.tier.near .tier-tag{color:#88f}
+.tier.far .tier-tag{color:#f84}
+.tier.meta .tier-tag{color:#888}
+.table-wrap{overflow-x:auto;margin-bottom:32px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#0a0a0a;color:#777;font-weight:500;text-transform:uppercase;letter-spacing:.08em;padding:14px 18px;text-align:left;border-bottom:1px solid #1a1a1a;font-size:11px}
+td{padding:14px 18px;border-bottom:1px solid #111;color:#777;vertical-align:top;line-height:1.7}
+td:first-child{color:#ccc;font-weight:400}
+tr:hover td{background:#080808}
+.bot-box{background:#0a0a0a;border:1px solid #1a1a1a;padding:48px}
+.bot-box h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.bot-box p{font-size:15px;color:#888;line-height:2;margin-bottom:16px}
+.bot-box p:last-child{margin-bottom:0}
+.bot-box strong{color:#aaa;font-weight:400}
+footer{margin-top:120px;padding-top:40px;border-top:1px solid #1a1a1a;display:flex;justify-content:space-between;font-size:12px;color:#555}
+@media(max-width:700px){.metrics,.cards,.tiers{grid-template-columns:1fr}.page{padding:40px 20px}h1{font-size:36px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="breadcrumb">
+  Bank of Technology <span>›</span> Report #005 バイオテクノロジー <span>›</span> #005-03 GLP-1受容体作動薬
+</div>
+
+<div class="label">Bank of Technology — 技術解析レポート #005-03</div>
+<h1>肥満は、病気として<br><span>治せる時代になった。</span></h1>
+<div class="meta">GLP-1 受容体作動薬の全貌 · 2026年 · 解析: Bank of Technology</div>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="lbl">セマグルチドの体重減少効果</div>
+    <div class="val">15〜20%</div>
+    <div class="note">週1回の注射で。以前の抗肥満薬は5〜7%が限界だった。別次元の効果。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">心血管死亡リスクの低下（SELECT試験）</div>
+    <div class="val">20%</div>
+    <div class="note">2023年。心臓病のある肥満患者に対し、心血管疾患による死亡を20%減少させた。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">Novo Nordisk の時価総額（2024年ピーク）</div>
+    <div class="val">$600B</div>
+    <div class="note">オゼンピック・ウゴービの爆発的需要で欧州最大の企業に。LVMHを抜いた。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">世界の肥満人口</div>
+    <div class="val">10億人</div>
+    <div class="note">2030年には世界人口の20%が肥満になると予測。潜在市場は医薬品史上最大規模。</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>まず、一般の人向けに</h2>
+  <div class="plain">
+    <h3>薬の起源は、毒トカゲだった</h3>
+    <p>
+      1990年代、アメリカの科学者ジョン・エンゲルが
+      ギラモンスター（毒トカゲの一種）の唾液を研究していた。
+      このトカゲは数ヶ月食べなくても生きられる。
+      <strong>唾液の中に、人間のインスリン分泌を強烈に促すペプチドが含まれていた。</strong>
+      これがGLP-1（グルカゴン様ペプチド-1）の発見につながる糸口だった。
+    </p>
+    <p>
+      GLP-1は実は人間の腸でも分泌されるホルモンだ。食事をすると放出され、
+      膵臓にインスリンを分泌させ、食欲を抑え、胃の動きを遅らせる。
+      問題は分解が速すぎること——体内で数分で消えてしまう。
+      Novo Nordisk の科学者たちは分解されにくい構造に改造し、
+      <strong>週1回の注射で効果が続くセマグルチド（オゼンピック）を開発した。</strong>
+    </p>
+    <div class="divider"></div>
+    <h3>「ダイエット薬」として広まったが、本質はもっと深い</h3>
+    <p>
+      オゼンピックはもともと2型糖尿病の薬だった。
+      ところが副作用として<strong>体重が15〜20%減る</strong>ことが発覚した。
+      これは以前の抗肥満薬の2〜3倍の効果だ。
+      「食欲を根本から変える薬」として、
+      セレブリティや富裕層の間でダイエット薬として爆発的に広がった。
+    </p>
+    <p>
+      しかし医学的な発見はさらに驚くべきものだった。
+      2023年の大規模試験（SELECT試験）で、心臓病のある肥満患者に投与すると
+      <strong>心血管疾患による死亡が20%減る</strong>ことが判明した。
+      さらに腎臓病・脂肪肝・睡眠時無呼吸・アルコール依存症・アルツハイマーへの効果も示唆されている。
+      肥満の薬を超えた「代謝疾患の万能薬」として見方が変わりつつある。
+    </p>
+    <div class="divider"></div>
+    <h3>問題は、世界中が欲しいのに、足りないことだ</h3>
+    <p>
+      需要は供給を大きく上回った。アメリカでは処方箋を書いてもらえても薬局に在庫がない。
+      Novo Nordisk はデンマークの工場を24時間稼働させ、
+      数十億ドルを新工場に投資しているが、追いつかない。
+      <strong>「史上最も必要とされているのに、最も手に入らない薬」</strong>という逆説が生まれた。
+      供給制約が解消されるとき、医薬品市場の地殻変動が起きる。
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>主要薬剤の比較</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>薬剤名</th>
+          <th>企業</th>
+          <th>投与方法</th>
+          <th>体重減少効果</th>
+          <th>承認状況</th>
+          <th>特徴</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>セマグルチド（オゼンピック/ウゴービ）</td>
+          <td>Novo Nordisk</td>
+          <td>週1回注射</td>
+          <td>15〜17%</td>
+          <td>糖尿病・肥満で承認済み</td>
+          <td>心血管リスク20%低下も証明。最も普及している</td>
+        </tr>
+        <tr>
+          <td>チルゼパチド（マンジャロ/ゼップバウンド）</td>
+          <td>Eli Lilly</td>
+          <td>週1回注射</td>
+          <td>20〜22%</td>
+          <td>糖尿病・肥満で承認済み</td>
+          <td>GLP-1とGIPの二重作動薬。効果がセマグルチドを上回る</td>
+        </tr>
+        <tr>
+          <td>レタトルチド（開発中）</td>
+          <td>Eli Lilly</td>
+          <td>週1回注射</td>
+          <td>24%（第2相）</td>
+          <td>第3相試験中</td>
+          <td>GLP-1・GIP・グルカゴンの三重作動薬。次世代の本命</td>
+        </tr>
+        <tr>
+          <td>経口セマグルチド（リベルサス）</td>
+          <td>Novo Nordisk</td>
+          <td>1日1回経口</td>
+          <td>注射版より低い</td>
+          <td>糖尿病で承認済み</td>
+          <td>「注射なしで飲める」形への転換。普及の鍵</td>
+        </tr>
+        <tr>
+          <td>経口 GLP-1（開発中）</td>
+          <td>複数社（Pfizer等）</td>
+          <td>1日1〜2回経口</td>
+          <td>注射版に近い効果を目指す</td>
+          <td>開発中</td>
+          <td>飲み薬化できれば普及が一桁変わる。製剤技術が競争軸</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <h2>肥満を超えた応用の広がり</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="tag">心臓・腎臓</div>
+      <h3>心血管・腎臓保護</h3>
+      <p>SELECT試験（2023年）で心血管死亡20%減を証明。FLOW試験（2024年）では腎臓病の進行を抑制。「体重を減らす薬」から「代謝・循環器疾患を治す薬」への格上げが進む。適応拡大で市場規模がさらに膨らむ。</p>
+    </div>
+    <div class="card">
+      <div class="tag">脳・認知</div>
+      <h3>アルツハイマー・依存症</h3>
+      <p>GLP-1受容体は脳にも存在する。動物実験でアルツハイマーの病態改善が示され、大規模試験が始まっている。またアルコール・ニコチン・麻薬への欲求が減るという臨床報告が相次ぎ、依存症治療への展開が注目される。</p>
+    </div>
+    <div class="card">
+      <div class="tag">睡眠・生活習慣</div>
+      <h3>睡眠時無呼吸・脂肪肝</h3>
+      <p>肥満に伴う睡眠時無呼吸が改善するという試験結果が出た（SURMOUNT-OSA）。非アルコール性脂肪性肝炎（NASH）への承認申請も進む。「肥満が原因の病気を根こそぎ治す」薬としての可能性が広がっている。</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>産業化ロードマップ</h2>
+  <div class="tiers">
+    <div class="tier now">
+      <div class="tier-tag">NOW · 実用化済み</div>
+      <div class="tier-name">糖尿病・肥満治療</div>
+      <div class="tier-body">セマグルチド・チルゼパチドが世界80カ国以上で承認・販売中。需要が供給を大幅に超え、Novo Nordisk・Eli Lilly の時価総額が急騰。年間売上規模はすでに数兆円に達している。</div>
+    </div>
+    <div class="tier near">
+      <div class="tier-tag">NEAR · 2026-2028</div>
+      <div class="tier-name">経口薬・長時間作用型</div>
+      <div class="tier-body">「注射から飲み薬へ」の転換が普及の最大のカギ。月1回の長時間作用型注射薬も開発中。飲み薬が実現すれば処方のハードルが劇的に下がり、市場規模が一桁変わる可能性がある。</div>
+    </div>
+    <div class="tier far">
+      <div class="tier-tag">FAR · 2028-2035</div>
+      <div class="tier-name">予防医療・保険適用</div>
+      <div class="tier-body">「病気になる前に飲む」予防薬としての位置づけが広がる。アルツハイマー・心臓病の予防試験が進行中。保険適用が広がれば「生活習慣病を丸ごと予防する薬」として医療費構造を変える可能性がある。</div>
+    </div>
+    <div class="tier meta">
+      <div class="tier-tag">META · 2035+</div>
+      <div class="tier-name">個別化 GLP-1 医療</div>
+      <div class="tier-body">患者の遺伝的背景・腸内細菌叢・代謝プロファイルに合わせた GLP-1 系薬の最適化。「どの GLP-1 薬がこの患者に効くか」をAIが予測する個別化医療と組み合わさるとき、効果はさらに高まる。</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Bank of Technology の視点</h2>
+  <div class="bot-box">
+    <h3>GLP-1 は「肥満薬」ではない。代謝の制御装置だ</h3>
+    <p>
+      GLP-1 受容体作動薬の本質は「食欲中枢へのハック」だ。
+      脂肪細胞を燃やすわけでも、カロリーを阻害するわけでもない。
+      <strong>脳が「満腹だ」と感じるシグナルを強化することで、食べる量が自然に減る。</strong>
+      これが15〜20%という前例のない体重減少につながる。
+      そして同じ受容体が心臓・腎臓・脳に存在するから、多臓器への効果が出る。
+    </p>
+    <p>
+      産業への影響は医薬品にとどまらない。
+      <strong>「肥満が治る」なら、肥満に関連するすべての産業が縮小する。</strong>
+      整形外科（関節への負担）・循環器科・睡眠クリニック・透析センター——
+      これらの市場が中長期で縮小するシナリオを描く必要がある。
+      逆に、GLP-1 薬を届けるための「新しいインフラ」——
+      処方管理アプリ・配送・継続率向上サービス——が巨大市場になる。
+    </p>
+    <p>
+      日本にとって注目すべきは供給側だ。
+      Novo Nordisk は原薬（API）製造のサプライチェーン拡大を急いでいる。
+      <strong>日本の精密医薬品製造技術（大塚製薬・武田薬品・富士フイルム）が
+      グローバルな GLP-1 生産網に組み込まれる機会がある。</strong>
+      また日本の高齢化社会では「代謝疾患の予防」という文脈で、
+      GLP-1 の長期的な予防医療利用の議論を先行させることができる。
+    </p>
+  </div>
+</div>
+
+<footer>
+  <span>Bank of Technology — 技術解析レポート #005-03</span>
+  <span>親レポート: <a href="bio-analysis.html" style="color:#555">#005 バイオテクノロジー</a> · 2026</span>
+</footer>
+
+</div>
+</body>
+</html>

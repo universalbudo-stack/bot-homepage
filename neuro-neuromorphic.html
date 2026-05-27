@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>脳を模倣したチップは、AIを超えるか。 — Bank of Technology</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#e8e8e8;font-family:'Inter',sans-serif;font-weight:300;line-height:1.8}
+.page{max-width:1100px;margin:0 auto;padding:80px 60px}
+h1{font-size:56px;font-weight:300;letter-spacing:-.03em;line-height:1.1;margin-bottom:24px}
+.subtitle{font-size:18px;color:#777;margin-bottom:80px;font-weight:300}
+h2{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#888;border-bottom:1px solid #1a1a1a;padding-bottom:12px;margin-bottom:32px}
+.section{margin-bottom:100px}
+.plain{background:#0d0d0d;padding:48px;border-radius:2px;margin-bottom:32px}
+.plain p{font-size:16px;color:#777;line-height:2;margin-bottom:16px}
+.plain p:last-child{margin-bottom:0}
+.plain strong{color:#aaa;font-weight:400}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#111;margin-bottom:32px}
+.metric{background:#000;padding:40px 32px}
+.metric-val{font-size:36px;font-weight:300;letter-spacing:-.02em;margin-bottom:8px}
+.metric-label{font-size:11px;color:#666;letter-spacing:.1em;text-transform:uppercase}
+.metric-sub{font-size:12px;color:#555;margin-top:4px}
+table{width:100%;border-collapse:collapse;margin-bottom:32px}
+th{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#666;padding:16px 20px;text-align:left;border-bottom:1px solid #111}
+td{padding:20px;border-bottom:1px solid #0d0d0d;font-size:14px;color:#888;vertical-align:top}
+td:first-child{color:#aaa;font-weight:400}
+tr:last-child td{border-bottom:none}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:#111;margin-bottom:32px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#111;margin-bottom:32px}
+.card{background:#000;padding:40px 32px}
+.card-title{font-size:13px;font-weight:500;letter-spacing:.05em;margin-bottom:16px;color:#ccc}
+.card-body{font-size:13px;color:#777;line-height:1.9}
+.bot-box{background:#0a0a0a;border:1px solid #1a1a1a;padding:48px;margin-bottom:32px}
+.bot-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#555;margin-bottom:24px}
+.bot-text{font-size:16px;color:#777;line-height:2}
+.bot-text strong{color:#999;font-weight:400}
+.tag{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;background:#111;color:#666;margin-right:8px;margin-bottom:8px}
+.nav{font-size:12px;color:#555;margin-bottom:60px}
+.nav a{color:#666;text-decoration:none}
+.nav a:hover{color:#888}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#111;margin-bottom:32px}
+.cmp-head{background:#000;padding:24px 32px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#777}
+.cmp-row{display:contents}
+.cmp-label{background:#0a0a0a;padding:20px 32px;font-size:13px;color:#777;border-bottom:1px solid #111}
+.cmp-val{background:#000;padding:20px 32px;font-size:13px;color:#888;border-bottom:1px solid #111}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="nav">
+  <a href="index.html">Bank of Technology</a> / <a href="frontier-analysis.html">フロンティア技術解析</a> / <a href="neuro-analysis.html">神経技術</a> / ニューロモーフィックコンピューティング
+</div>
+
+<h1>脳を模倣したチップは、<br>AIを超えるか。</h1>
+<p class="subtitle">ニューロモーフィックコンピューティング：消費電力1/1000のAIへ　— 技術解析レポート #008-03</p>
+
+<div class="section">
+<h2>まず、一般の人向けに</h2>
+<div class="plain">
+<p>GPT-4を一回動かすのに、人間が一日で使う電力と同じくらいのエネルギーが必要だ——という試算がある。AIは賢くなるほど電力を食う。このままのペースでAIが成長すると、2030年代には電力不足がAIの進化を止める「エネルギーの壁」が来る、とエンジニアは警告する。</p>
+<p>脳はこの問題を20ワットで解いている。スマート電球1個分の電力で、音声理解・視覚処理・思考・感情・記憶——現代のデータセンター全体でも難しいことを同時にこなす。</p>
+<p>「脳の原理を真似たチップを作ればいい」——これがニューロモーフィックコンピューティングの発想だ。1980年代にCaltechのCarver Mead教授が提唱したこのアイデアは、40年後にIntel・IBM・研究機関が実際のシリコンチップとして実現しようとしている。</p>
+<p>通常のコンピュータはCPUがメモリからデータを読んで計算し、また書き戻す（フォン・ノイマン方式）。これが「データの移動」にエネルギーを消費する元凶だ。脳のニューロンは、記憶と計算が同じ場所で起きる。スパイク（電気パルス）が来た時だけ処理し、何もなければ待機する。ニューロモーフィックチップは、この原理をシリコンで再現する。</p>
+<p>現時点では汎用コンピュータやGPUの代替にはならない。しかし特定用途——センサーでリアルタイムに判断するエッジAI、超低消費電力が求められるウェアラブル・宇宙機器——では、ニューロモーフィックチップが唯一の解になりつつある。</p>
+</div>
+</div>
+
+<div class="section">
+<h2>主要指標</h2>
+<div class="metrics">
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">20W</div>
+    <div class="metric-label">人間の脳の消費電力</div>
+    <div class="metric-sub">GPT-4推論は〜500W相当</div>
+  </div>
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">1/1000</div>
+    <div class="metric-label">エネルギー効率の理論的優位</div>
+    <div class="metric-sub">特定タスクでGPU比</div>
+  </div>
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">1M</div>
+    <div class="metric-label">Intel Hala Point ニューロン数</div>
+    <div class="metric-sub">2024年発表。世界最大規模</div>
+  </div>
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">2.3B</div>
+    <div class="metric-label">IBM NorthPole トランジスタ数</div>
+    <div class="metric-sub">2023年。Nature掲載</div>
+  </div>
+</div>
+</div>
+
+<div class="section">
+<h2>脳とGPUの根本的な違い</h2>
+<div class="compare">
+  <div class="cmp-head">人間の脳</div>
+  <div class="cmp-head">現代のGPU（例：H100）</div>
+  <div class="cmp-label">消費電力</div><div class="cmp-val">約20W</div>
+  <div class="cmp-label">消費電力</div><div class="cmp-val">約700W（ピーク）</div>
+  <div class="cmp-label">ニューロン数</div><div class="cmp-val">860億</div>
+  <div class="cmp-label">計算コア</div><div class="cmp-val">16,896 CUDA コア</div>
+  <div class="cmp-label">シナプス数</div><div class="cmp-val">100兆以上</div>
+  <div class="cmp-label">メモリ帯域</div><div class="cmp-val">3.35TB/s</div>
+  <div class="cmp-label">処理方式</div><div class="cmp-val">スパイク（非同期・イベント駆動）</div>
+  <div class="cmp-label">処理方式</div><div class="cmp-val">クロック同期・行列演算</div>
+  <div class="cmp-label">メモリ配置</div><div class="cmp-val">計算と記憶が一体（局所的）</div>
+  <div class="cmp-label">メモリ配置</div><div class="cmp-val">演算とメモリが分離（フォン・ノイマン）</div>
+  <div class="cmp-label">学習方式</div><div class="cmp-val">スパイクタイミング依存可塑性（STDP）</div>
+  <div class="cmp-label">学習方式</div><div class="cmp-val">誤差逆伝播法（Backpropagation）</div>
+</div>
+</div>
+
+<div class="section">
+<h2>主要プラットフォーム</h2>
+<table>
+<tr>
+  <th>チップ / プラットフォーム</th>
+  <th>開発元</th>
+  <th>規模</th>
+  <th>特徴</th>
+</tr>
+<tr>
+  <td>Loihi 2（→Hala Point）</td>
+  <td>Intel</td>
+  <td>最大100万ニューロン（Hala Point）</td>
+  <td>研究者への無償提供プログラムあり。学術界での評価が進む</td>
+</tr>
+<tr>
+  <td>NorthPole</td>
+  <td>IBM</td>
+  <td>2.3Bトランジスタ</td>
+  <td>2023年Nature掲載。推論タスクでGPU比25倍のエネルギー効率</td>
+</tr>
+<tr>
+  <td>TrueNorth</td>
+  <td>IBM（旧世代）</td>
+  <td>100万コアニューロン・2億5600万シナプス</td>
+  <td>2014年発表。防衛・組込向け。消費電力65mW</td>
+</tr>
+<tr>
+  <td>SpiNNaker 2</td>
+  <td>マンチェスター大学</td>
+  <td>10億ニューロンをネットワーク化可能</td>
+  <td>Human Brain Projectの基盤インフラ。ARM コアベース</td>
+</tr>
+<tr>
+  <td>BrainScaleS-2</td>
+  <td>ハイデルベルク大学</td>
+  <td>実時間の1000倍速で学習可能</td>
+  <td>アナログ回路で生物的なスパイクを再現。EU Flagship採択</td>
+</tr>
+<tr>
+  <td>Akida（BrainChip）</td>
+  <td>BrainChip</td>
+  <td>商用エッジAI向け</td>
+  <td>唯一の上場ニューロモーフィック企業。IoT・自動車向けを中心に展開</td>
+</tr>
+</table>
+</div>
+
+<div class="section">
+<h2>どこが使えるか、今は</h2>
+<div class="plain">
+<p>ニューロモーフィックチップの現実的な強みは「イベント駆動型センサー処理」に集中している。</p>
+<p>カメラの代わりに「イベントカメラ」という新しいセンサーが注目されている。通常のカメラはフレームを定期的に撮影するが、イベントカメラは<strong>画素ごとに光の変化があった瞬間だけ信号を出す</strong>。これは脳の視覚野の原理に近い。ニューロモーフィックチップとイベントカメラの組み合わせは、高速ドローン回避・産業品質検査・AR/VRの遅延低減で圧倒的に低消費電力を実現できる。</p>
+<p>宇宙では既に実績がある。欧州宇宙機関（ESA）は小型衛星にSpiNNaker2ベースのニューロモーフィックプロセッサを搭載し、軌道上でリアルタイム画像処理を行うデモンストレーションを実施した。バッテリー容量が限られた宇宙機で、地上への通信なしに自律判断するには、超低消費電力が必須条件だ。</p>
+<p>医療機器でも期待が大きい。インスリンポンプ・補聴器・神経刺激デバイスは長期植え込みが前提で、バッテリー交換を最小化する必要がある。ニューロモーフィックチップは体内医療機器のAI処理に適した、おそらく唯一の現実的候補だ。</p>
+</div>
+
+<div class="grid3">
+  <div class="card">
+    <div class="card-title">エッジAI / IoT</div>
+    <div class="card-body">バッテリー動作のセンサーノードで常時AI推論。スマートフォン以下の電力でリアルタイム検出。工場・農業・インフラ監視に。</div>
+  </div>
+  <div class="card">
+    <div class="card-title">宇宙・防衛</div>
+    <div class="card-body">電力制約が厳しい衛星・ドローン。ESAはSpiNNakerベースの軌道上AI処理を実証済み。米国防総省も研究投資中。</div>
+  </div>
+  <div class="card">
+    <div class="card-title">医療埋め込み</div>
+    <div class="card-body">体内で長期動作するAI。てんかん発作予測・パーキンソン刺激の最適化・補聴処理。バッテリー寿命が直接患者QOLに影響。</div>
+  </div>
+</div>
+</div>
+
+<div class="section">
+<h2>なぜ普及が遅いか</h2>
+<div class="grid2">
+  <div class="card">
+    <div class="card-title">プログラミングの難しさ</div>
+    <div class="card-body">GPUはCUDA / PyTorchという巨大なエコシステムがある。ニューロモーフィックチップはプラットフォームごとに独自のツールチェーンが必要。開発者が圧倒的に少ない。</div>
+  </div>
+  <div class="card">
+    <div class="card-title">タスクの限定性</div>
+    <div class="card-body">スパイクニューラルネットワーク（SNN）は、標準的な深層学習（CNN/Transformer）ほどの汎用性を持たない。用途を絞らないと性能が出ない。</div>
+  </div>
+  <div class="card">
+    <div class="card-title">標準化の不在</div>
+    <div class="card-body">IntelのLoihi、IBMのTrueNorth、SpiNNakerは互換性がない。共通フレームワークの欠如がエコシステムの分断を生んでいる。</div>
+  </div>
+  <div class="card">
+    <div class="card-title">GPUの進化</div>
+    <div class="card-body">NVIDIAが毎年10倍のエネルギー効率改善を続けている。「ニューロモーフィックが追いつく前にGPUが追いついてくる」という競争が続く。</div>
+  </div>
+</div>
+</div>
+
+<div class="section">
+<h2>BoT Perspective</h2>
+<div class="bot-box">
+<div class="bot-label">Bank of Technology — 見解</div>
+<div class="bot-text">
+<p><strong>ニューロモーフィックコンピューティングは「汎用AIの代替」ではなく「エネルギーの壁への答え」として評価すべきだ。</strong>GPUを超える汎用性能を求めるアプローチは今後10年では実現しないと見ている。しかし「電力をほぼ使わずにリアルタイム推論する」という特定ニーズでは、明確な優位が存在し、その市場は実在する。</p>
+<p>最も重要な信号は<strong>IBMのNorthPole論文（2023年Nature）</strong>だ。「ニューロモーフィック的設計思想を標準チップに取り込む」アプローチで、推論タスクにおいてエネルギー効率でGPUの25倍を記録した。これはニューロモーフィックが独立したニッチ市場にとどまらず、主流AI半導体設計に影響を与えはじめたことを示す。</p>
+<p>日本にとって、ニューロモーフィックは戦略的重要性がある。NVIDIAのGPU供給に依存しない「エッジAIインフラ」を国内で作るには、超低消費電力チップが不可欠だ。富士通のFJ量子アニーラ、NECの神経科学研究との連携で、日本独自のニューロモーフィック路線を作る余地がある。</p>
+<p>産業化の鍵は「最初のキラーアプリ」だ。補聴器・体内埋め込み医療AI・小型衛星——このどれかで「ニューロモーフィックでなければ実現できなかった製品」が出れば、エコシステムの成長が始まる。その突破口を最初に開けた国・企業が、次の半導体競争の一角を占める。</p>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h2>タグ</h2>
+<div>
+<span class="tag">ニューロモーフィック</span>
+<span class="tag">スパイキングニューラルネット</span>
+<span class="tag">エッジAI</span>
+<span class="tag">低消費電力AI</span>
+<span class="tag">Intel Loihi</span>
+<span class="tag">IBM NorthPole</span>
+<span class="tag">SNN</span>
+<span class="tag">AI半導体</span>
+</div>
+</div>
+
+</div>
+</body>
+</html>

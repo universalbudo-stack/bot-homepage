@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>皿の上で、脳細胞がゲームを学んだ。 — Bank of Technology</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#e8e8e8;font-family:'Inter',sans-serif;font-weight:300;line-height:1.8}
+.page{max-width:1100px;margin:0 auto;padding:80px 60px}
+h1{font-size:56px;font-weight:300;letter-spacing:-.03em;line-height:1.1;margin-bottom:24px}
+.subtitle{font-size:18px;color:#777;margin-bottom:80px;font-weight:300}
+h2{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#888;border-bottom:1px solid #1a1a1a;padding-bottom:12px;margin-bottom:32px}
+.section{margin-bottom:100px}
+.plain{background:#0d0d0d;padding:48px;border-radius:2px;margin-bottom:32px}
+.plain p{font-size:16px;color:#777;line-height:2;margin-bottom:16px}
+.plain p:last-child{margin-bottom:0}
+.plain strong{color:#aaa;font-weight:400}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#111;margin-bottom:32px}
+.metric{background:#000;padding:40px 32px}
+.metric-val{font-size:36px;font-weight:300;letter-spacing:-.02em;margin-bottom:8px}
+.metric-label{font-size:11px;color:#666;letter-spacing:.1em;text-transform:uppercase}
+.metric-sub{font-size:12px;color:#555;margin-top:4px}
+table{width:100%;border-collapse:collapse;margin-bottom:32px}
+th{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#666;padding:16px 20px;text-align:left;border-bottom:1px solid #111}
+td{padding:20px;border-bottom:1px solid #0d0d0d;font-size:14px;color:#888;vertical-align:top}
+td:first-child{color:#aaa;font-weight:400}
+tr:last-child td{border-bottom:none}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:#111;margin-bottom:32px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#111;margin-bottom:32px}
+.card{background:#000;padding:40px 32px}
+.card-title{font-size:13px;font-weight:500;letter-spacing:.05em;margin-bottom:16px;color:#ccc}
+.card-body{font-size:13px;color:#777;line-height:1.9}
+.bot-box{background:#0a0a0a;border:1px solid #1a1a1a;padding:48px;margin-bottom:32px}
+.bot-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#555;margin-bottom:24px}
+.bot-text{font-size:16px;color:#777;line-height:2}
+.bot-text strong{color:#999;font-weight:400}
+.tag{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;background:#111;color:#666;margin-right:8px;margin-bottom:8px}
+.nav{font-size:12px;color:#555;margin-bottom:60px}
+.nav a{color:#666;text-decoration:none}
+.nav a:hover{color:#888}
+.ethics-box{background:#0d0d0d;border-left:2px solid #2a2a2a;padding:40px 40px 40px 48px;margin-bottom:24px}
+.ethics-q{font-size:17px;color:#888;font-weight:300;margin-bottom:12px;line-height:1.6}
+.ethics-body{font-size:14px;color:#666;line-height:2}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="nav">
+  <a href="index.html">Bank of Technology</a> / <a href="frontier-analysis.html">フロンティア技術解析</a> / <a href="neuro-analysis.html">神経技術</a> / 脳オルガノイド
+</div>
+
+<h1>皿の上で、<br>脳細胞がゲームを学んだ。</h1>
+<p class="subtitle">脳オルガノイド・バイオコンピューティング：生きた神経組織が「計算」する時代　— 技術解析レポート #008-04</p>
+
+<div class="section">
+<h2>まず、一般の人向けに</h2>
+<div class="plain">
+<p>2022年、オーストラリアのスタートアップ「Cortical Labs」が発表した論文は、科学界を静かに騒然とさせた。</p>
+<p>シャーレの中で培養された約80万個のヒト脳細胞が、<strong>Pong（卓球ゲーム）のプレイを「学んだ」</strong>。電極を通じてゲームの状態（ボールの位置）を電気信号として神経細胞に伝えると、細胞は誤差（ボールを外す）を減らすように神経接続を自発的に変化させた。人工知能プログラムなしに、生物の神経組織が学習した——という実験だ。</p>
+<p>論文タイトルは「DishBrain」。皿（Dish）の上の脳（Brain）。SFの話ではなく、査読付き論文として「Neuron」誌に掲載された。</p>
+<p>脳オルガノイドは、ヒトのiPS細胞（人工多能性幹細胞）から分化させた神経細胞の3次元構造体だ。直径は数ミリ、実際の脳の数十億分の一の規模だが、シナプスを形成し、電気的に活動し、外部刺激に反応する。</p>
+<p>研究者が興奮するのは2つの理由からだ。第一に、<strong>アルツハイマー・パーキンソン・自閉スペクトラム症などの神経疾患を「ヒトの脳モデル」で研究できる</strong>。これまで動物実験が主体だったが、マウスの脳とヒトの脳は根本的に異なる。オルガノイドなら「ヒト由来の神経組織で、倫理的な範囲で」研究できる。第二に、将来的にはシリコンを超える生物学的コンピュータの可能性だ——ただしこれは、まだ遠い未来の話だ。</p>
+</div>
+</div>
+
+<div class="section">
+<h2>主要指標</h2>
+<div class="metrics">
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">2013</div>
+    <div class="metric-label">脳オルガノイド初生成</div>
+    <div class="metric-sub">Lancaster et al. / ウィーン医科大学</div>
+  </div>
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">800K</div>
+    <div class="metric-label">DishBrain使用ニューロン数</div>
+    <div class="metric-sub">Pong学習実験（2022年）</div>
+  </div>
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">6ヶ月</div>
+    <div class="metric-label">現在の最長培養期間</div>
+    <div class="metric-sub">栄養供給・血管化が限界</div>
+  </div>
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">$500M+</div>
+    <div class="metric-label">累積研究投資額（概算）</div>
+    <div class="metric-sub">NIH・EU Flagship・民間含む</div>
+  </div>
+</div>
+</div>
+
+<div class="section">
+<h2>DishBrainとは何だったか</h2>
+<div class="plain">
+<p>Cortical Labsの実験を正確に理解することが重要だ。過大評価も過小評価もせずに。</p>
+<p>研究チームは、ヒトのiPS細胞とマウスの神経細胞を混合して電極アレイの上に培養した。電極で「ボールが左にある」「ボールが右にある」という情報を電気パルスとして送る。細胞が「正確にパドルを動かす」と電気刺激（報酬）を与え、「外す」と乱雑な刺激（ペナルティ）を与える。</p>
+<p>約5分後、神経細胞はボールを外す頻度を統計的に有意な形で減らした——これが「Pongを学んだ」という主張の内容だ。<strong>強化学習の原理を、生物の神経組織が自発的に実装した</strong>ような結果だ。</p>
+<p>ただし重要な注意点もある。「ゲームを理解した」わけではない。計算の「質」は現在のGPUとは比較にならない。「意識があった」と言う科学的根拠はゼロだ。それでもこの実験は、「生物の神経組織がシリコンなしで環境に適応する」という証明として科学史に残るだろう。</p>
+</div>
+</div>
+
+<div class="section">
+<h2>本命の応用：神経疾患の研究プラットフォーム</h2>
+<div class="plain">
+<p>DishBrainは話題を集めたが、脳オルガノイドの現在の最大の価値は「疾患モデル」だ。</p>
+<p>アルツハイマー病の動物実験は、過去20年で約99%が「動物では効いたが人間では効かなかった」で失敗してきた。理由のひとつは、マウスのアルツハイマーモデルがヒトのアルツハイマーの病態を完全に再現しないことだ。ヒトのApoE4遺伝子変異を持つiPS細胞から作ったオルガノイドなら、<strong>ヒト固有の病態進行を体外で観察できる</strong>。</p>
+<p>自閉スペクトラム症（ASD）の研究では、患者のiPS細胞から作ったオルガノイドと健常者由来のものを比較することで、発達過程の神経回路の違いを直接観察する研究が進んでいる。</p>
+<p>新型コロナウイルスがどのように脳に影響するかも、オルガノイドで研究が進んだ。感染後の「ブレインフォグ」のメカニズム解明にオルガノイドが貢献した研究が複数発表されている。</p>
+</div>
+
+<div class="grid3">
+  <div class="card">
+    <div class="card-title">アルツハイマー・認知症</div>
+    <div class="card-body">ApoE4変異オルガノイドでタウ蓄積・神経炎症の進行を再現。動物実験を通らない薬剤候補の初期スクリーニングに活用中。</div>
+  </div>
+  <div class="card">
+    <div class="card-title">自閉スペクトラム症</div>
+    <div class="card-body">患者iPS由来オルガノイドで神経回路形成の異常を可視化。SHANK3・CHD8などの遺伝子変異の影響を発達段階ごとに観察。</div>
+  </div>
+  <div class="card">
+    <div class="card-title">薬剤毒性スクリーニング</div>
+    <div class="card-body">新薬の神経毒性を動物を使わずにヒト神経組織でテスト。製薬会社がハイスループット薬剤スクリーニングに組み込み始めている。</div>
+  </div>
+</div>
+</div>
+
+<div class="section">
+<h2>バイオコンピューティング：可能性と限界</h2>
+<div class="plain">
+<p>「オルガノイドコンピュータ」という概念は、DishBrain以降に急速に注目された。米国防高等研究計画局（DARPA）は「Organoid Intelligence」プログラムを開始し、ジョンズ・ホプキンス大学は脳オルガノイドの計算への応用を専門とする研究チームを組織した。</p>
+<p>原理的な優位性の主張はある。脳は20Wで860億ニューロンが動くが、GPT-4規模のシリコンモデルには数MWが必要だ。オルガノイドが「意図した計算」を効率的に行えるなら、エネルギー効率は桁違いになる可能性がある。また脳は「少ないデータから学習する」——子供はネコを3枚の写真で認識できるが、AIには数百万枚が必要だ。</p>
+<p>しかし現実の技術的壁は非常に高い。<strong>オルガノイドに「何を計算させたいか」を伝える入出力インターフェース</strong>が未成熟だ。培養を長期維持する血管化の問題（現状6ヶ月が限界）。計算結果の「読み取り」の方法。そして最大の課題は、<strong>脳の計算がどのような仕組みで動いているか、まだ人類が理解していない</strong>という根本的な問題だ。</p>
+</div>
+</div>
+
+<div class="section">
+<h2>倫理の問い</h2>
+
+<div class="ethics-box">
+<div class="ethics-q">オルガノイドに「感覚」はあるか？</div>
+<div class="ethics-body">現在の研究コンセンサスは「ない」だ。サイズが小さすぎ（数百万ニューロン）、感覚器官を持たず、意識が生まれるための統合的神経活動パターンも確認されていない。しかしオルガノイドが大型化・複雑化するにつれて、この問いは現実的になる。Johns Hopkins Universityの倫理委員会は、オルガノイド研究の「感受性の閾値」を定義する試みを進めている。</div>
+</div>
+
+<div class="ethics-box">
+<div class="ethics-q">「患者由来」オルガノイドの所有権は誰のものか？</div>
+<div class="ethics-body">患者のiPS細胞からオルガノイドを作った場合、それは「患者の一部」か「研究機関の財産」か。特に脳由来の細胞が関わる場合、個人のアイデンティティとの関連が問われる。現在の生命倫理法では、採取後の細胞は患者の財産とはみなされない場合が多いが、脳神経細胞に同じルールを適用することへの異議が出始めている。</div>
+</div>
+</div>
+
+<div class="section">
+<h2>BoT Perspective</h2>
+<div class="bot-box">
+<div class="bot-label">Bank of Technology — 見解</div>
+<div class="bot-text">
+<p><strong>「皿の上でゲームを学んだ脳細胞」は、科学史において間違いなく記録に残る実験だ。</strong>しかしDishBrainをバイオコンピュータ革命の始まりとして投資判断をするのは時期尚早だ。「学習した」と「汎用的な計算ができる」の間には、埋まっていない巨大なギャップがある。</p>
+<p>現在のBoT評価では、脳オルガノイドの産業的価値は<strong>創薬・疾患研究プラットフォームとして5〜10年以内に確立する</strong>、という方向で見る。特にアルツハイマー・ASDの研究加速と、動物実験の代替としての規制緩和（EU・UK・日本で動物代替試験の推進が進む）が後押しになる。このセグメントでは既に複数の商業モデルが動きはじめている。</p>
+<p>バイオコンピューティングの実用化は、より長期（15年以上）のタイムラインで見るべきだ。脳の計算原理の理解・入出力インターフェース・長期培養技術のすべてが揃わないと実現しない。しかし、だからといって無視すべき分野でもない——もし実現すれば、シリコンAIの限界を根本から覆す可能性を持つ。</p>
+<p>日本への提言：理化学研究所（RIKEN）・慶應大学・京都大学でオルガノイド研究が活発で、iPS細胞技術（山中ノーベル賞）という土台もある。しかし製薬大手との連携による「創薬プラットフォームとしての商業化」への動きが遅い。アカデミアの研究を産業応用に結ぶブリッジが必要な分野の典型例だ。</p>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h2>タグ</h2>
+<div>
+<span class="tag">脳オルガノイド</span>
+<span class="tag">バイオコンピューティング</span>
+<span class="tag">iPS細胞</span>
+<span class="tag">DishBrain</span>
+<span class="tag">神経疾患モデル</span>
+<span class="tag">アルツハイマー研究</span>
+<span class="tag">生命倫理</span>
+<span class="tag">創薬プラットフォーム</span>
+</div>
+</div>
+
+</div>
+</body>
+</html>

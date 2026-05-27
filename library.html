@@ -1,0 +1,461 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>技術解析レポート — Bank of Technology</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#000;color:#e8e8e8;font-family:'Inter',sans-serif;font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;padding:28px 60px;display:flex;justify-content:space-between;align-items:center;z-index:100;background:linear-gradient(to bottom,rgba(0,0,0,.95) 0%,transparent 100%)}
+.nav-logo{font-size:13px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:#e8e8e8;text-decoration:none}
+.nav-back{font-size:12px;color:#666;text-decoration:none;letter-spacing:.08em;transition:color .2s}
+.nav-back:hover{color:#888}
+
+/* HERO */
+.hero{padding:160px 60px 80px;border-bottom:1px solid #111}
+.hero-eyebrow{font-size:11px;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:#555;margin-bottom:32px}
+.hero-title{font-size:clamp(48px,7vw,88px);font-weight:300;letter-spacing:-.03em;line-height:1.05;margin-bottom:32px}
+.hero-sub{font-size:16px;color:#666;max-width:480px;line-height:2}
+
+/* CATEGORY NAV */
+.cat-nav{padding:32px 60px;border-bottom:1px solid #111;display:flex;gap:0;position:sticky;top:80px;background:#000;z-index:50}
+.cat-link{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#555;text-decoration:none;padding:8px 24px 8px 0;transition:color .2s;white-space:nowrap}
+.cat-link:first-child{padding-left:0}
+.cat-link:hover{color:#888}
+.cat-link.active{color:#e8e8e8}
+
+/* FEATURED */
+.featured{padding:80px 60px;border-bottom:1px solid #111}
+.section-label{font-size:10px;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:#555;margin-bottom:48px}
+.featured-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#111}
+.featured-card{background:#000;padding:48px 40px;text-decoration:none;display:block;transition:background .2s;position:relative}
+.featured-card:hover{background:#080808}
+.featured-card:hover .card-arrow{opacity:1;transform:translateX(4px)}
+.featured-num{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#444;margin-bottom:24px}
+.featured-title{font-size:22px;font-weight:300;color:#e8e8e8;line-height:1.4;letter-spacing:-.01em;margin-bottom:24px}
+.featured-keyword{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#555}
+.card-arrow{font-size:16px;color:#555;position:absolute;bottom:48px;right:40px;opacity:0;transition:opacity .2s,transform .2s}
+
+/* CATEGORY SECTION */
+.category{padding:80px 60px;border-bottom:1px solid #111}
+.cat-header{display:flex;align-items:baseline;gap:32px;margin-bottom:48px}
+.cat-title{font-size:clamp(28px,3vw,40px);font-weight:300;letter-spacing:-.02em}
+.cat-count{font-size:11px;color:#555;letter-spacing:.1em;text-transform:uppercase}
+.cat-parent-link{font-size:11px;color:#555;letter-spacing:.1em;text-decoration:none;margin-left:auto;transition:color .2s}
+.cat-parent-link:hover{color:#888}
+
+/* REPORT LIST */
+.report-list{display:flex;flex-direction:column}
+.report-item{display:flex;align-items:baseline;gap:0;padding:28px 0;border-bottom:1px solid #0d0d0d;text-decoration:none;transition:background .15s;position:relative}
+.report-item:last-child{border-bottom:none}
+.report-item:hover{background:transparent}
+.report-item:hover .report-title{color:#fff}
+.report-item:hover .report-indicator{opacity:1;transform:translateX(4px)}
+.report-num{font-size:10px;color:#444;letter-spacing:.15em;width:64px;flex-shrink:0;padding-top:3px;font-variant-numeric:tabular-nums}
+.report-body{flex:1}
+.report-title{font-size:18px;font-weight:300;color:#aaa;letter-spacing:-.01em;line-height:1.4;transition:color .2s;margin-bottom:6px}
+.report-keyword{font-size:11px;color:#444;letter-spacing:.12em;text-transform:uppercase}
+.report-indicator{font-size:14px;color:#555;margin-left:24px;opacity:0;transition:opacity .2s,transform .2s;flex-shrink:0;align-self:center}
+
+/* COLOR ACCENTS per category */
+.cat-bio .cat-title{color:#e8e8e8}
+.cat-robotics .cat-title{color:#e8e8e8}
+.cat-materials .cat-title{color:#e8e8e8}
+.cat-neuro .cat-title{color:#e8e8e8}
+.cat-space .cat-title{color:#e8e8e8}
+
+/* FOOTER */
+footer{padding:48px 60px;border-top:1px solid #111;display:flex;justify-content:space-between;align-items:center}
+.footer-logo{font-size:12px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:#555}
+.footer-link{font-size:12px;color:#555;text-decoration:none;transition:color .2s}
+.footer-link:hover{color:#888}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:24px 24px}
+  .hero{padding:120px 24px 60px}
+  .cat-nav{padding:24px 24px;gap:0;overflow-x:auto}
+  .cat-link{padding:8px 20px 8px 0;font-size:10px}
+  .featured{padding:60px 24px}
+  .featured-grid{grid-template-columns:1fr}
+  .category{padding:60px 24px}
+  .report-num{width:48px}
+  footer{padding:40px 24px;flex-direction:column;gap:12px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Bank of Technology</a>
+  <a href="index.html" class="nav-back">← ホームへ</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">Report Library</p>
+  <h1 class="hero-title">技術解析<br>レポート</h1>
+  <p class="hero-sub">フロンティア技術の現在地を読む。<br>超伝導・量子・バイオ・ロボット・素材・脳・宇宙——28本のレポート。</p>
+</div>
+
+<!-- CATEGORY NAV -->
+<div class="cat-nav">
+  <a href="#featured" class="cat-link active">フィーチャー</a>
+  <a href="#bio" class="cat-link">バイオ</a>
+  <a href="#robotics" class="cat-link">ロボティクス</a>
+  <a href="#materials" class="cat-link">先端材料</a>
+  <a href="#neuro" class="cat-link">神経技術</a>
+  <a href="#space" class="cat-link">宇宙</a>
+</div>
+
+<!-- FEATURED -->
+<div class="featured" id="featured">
+  <p class="section-label">Featured — 技術解析レポートの起点</p>
+  <div class="featured-grid">
+
+    <a href="superconductor-analysis.html" class="featured-card">
+      <div class="featured-num">#001 — 超伝導</div>
+      <div class="featured-title">室温超伝導はいつ産業になるか。</div>
+      <div class="featured-keyword">Superconductivity</div>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a href="quantum-analysis.html" class="featured-card">
+      <div class="featured-num">#002 — 量子技術</div>
+      <div class="featured-title">量子技術は何を変えるのか。</div>
+      <div class="featured-keyword">Quantum Computing</div>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a href="energy-analysis.html" class="featured-card">
+      <div class="featured-num">#003 — エネルギー</div>
+      <div class="featured-title">エネルギーの次の形。</div>
+      <div class="featured-keyword">Fusion · Battery · Hydrogen</div>
+      <div class="card-arrow">→</div>
+    </a>
+
+  </div>
+</div>
+
+<!-- BIO -->
+<div class="category cat-bio" id="bio">
+  <div class="cat-header">
+    <h2 class="cat-title">バイオテクノロジー</h2>
+    <span class="cat-count">5 reports</span>
+    <a href="bio-analysis.html" class="cat-parent-link">概観レポートを読む →</a>
+  </div>
+  <div class="report-list">
+
+    <a href="bio-mrna.html" class="report-item">
+      <span class="report-num">#005-01</span>
+      <div class="report-body">
+        <div class="report-title">ワクチンは、生まれ変わった。</div>
+        <div class="report-keyword">mRNA · LNP · 癌ワクチン</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="bio-crispr.html" class="report-item">
+      <span class="report-num">#005-02</span>
+      <div class="report-body">
+        <div class="report-title">遺伝子は、書き換えられる。</div>
+        <div class="report-keyword">CRISPR · Casgevy · 塩基編集</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="bio-glp1.html" class="report-item">
+      <span class="report-num">#005-03</span>
+      <div class="report-body">
+        <div class="report-title">肥満は、病気として治せる時代になった。</div>
+        <div class="report-keyword">GLP-1 · セマグルチド · 心血管</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="bio-synthetic.html" class="report-item">
+      <span class="report-num">#005-04</span>
+      <div class="report-body">
+        <div class="report-title">生命を、プログラムする。</div>
+        <div class="report-keyword">合成生物学 · DBTL · Spiber</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="bio-protein.html" class="report-item">
+      <span class="report-num">#005-05</span>
+      <div class="report-body">
+        <div class="report-title">タンパク質の謎は解かれた。次は、設計する。</div>
+        <div class="report-keyword">AlphaFold · RFdiffusion · タンパク質設計</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+  </div>
+</div>
+
+<!-- ROBOTICS -->
+<div class="category cat-robotics" id="robotics">
+  <div class="cat-header">
+    <h2 class="cat-title">ロボティクス</h2>
+    <span class="cat-count">5 reports</span>
+    <a href="robotics-analysis.html" class="cat-parent-link">概観レポートを読む →</a>
+  </div>
+  <div class="report-list">
+
+    <a href="robotics-humanoid.html" class="report-item">
+      <span class="report-num">#006-01</span>
+      <div class="report-body">
+        <div class="report-title">人型ロボットは、なぜ今なのか。</div>
+        <div class="report-keyword">ヒューマノイド · Tesla Optimus · Figure</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="robotics-industrial.html" class="report-item">
+      <span class="report-num">#006-02</span>
+      <div class="report-body">
+        <div class="report-title">工場のロボットは、知性を持ちはじめた。</div>
+        <div class="report-keyword">産業ロボット · コボット · 言語命令制御</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="robotics-embodied-ai.html" class="report-item">
+      <span class="report-num">#006-03</span>
+      <div class="report-body">
+        <div class="report-title">AIが体を持つ。それは何を意味するか。</div>
+        <div class="report-keyword">Embodied AI · RT-2 · Physical Intelligence</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="robotics-soft.html" class="report-item">
+      <span class="report-num">#006-04</span>
+      <div class="report-body">
+        <div class="report-title">柔らかいロボットは、なぜ難しいのか。</div>
+        <div class="report-keyword">ソフトロボティクス · 空気圧アクチュエータ · 医療応用</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="robotics-autonomous.html" class="report-item">
+      <span class="report-num">#006-05</span>
+      <div class="report-body">
+        <div class="report-title">自律システムは、いつ「判断」を任せられるか。</div>
+        <div class="report-keyword">自律走行 · Waymo · L4 · ロングテール問題</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+  </div>
+</div>
+
+<!-- MATERIALS -->
+<div class="category cat-materials" id="materials">
+  <div class="cat-header">
+    <h2 class="cat-title">先端材料</h2>
+    <span class="cat-count">5 reports</span>
+    <a href="materials-analysis.html" class="cat-parent-link">概観レポートを読む →</a>
+  </div>
+  <div class="report-list">
+
+    <a href="materials-graphene.html" class="report-item">
+      <span class="report-num">#007-01</span>
+      <div class="report-body">
+        <div class="report-title">グラフェンは、なぜ20年間「次の素材」のままなのか。</div>
+        <div class="report-keyword">グラフェン · 製造スケール · マジックアングル</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="materials-metamaterials.html" class="report-item">
+      <span class="report-num">#007-02</span>
+      <div class="report-body">
+        <div class="report-title">自然界にない物質を、人間は作れる。</div>
+        <div class="report-keyword">メタマテリアル · 負屈折率 · 音響遮蔽</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="materials-hea.html" class="report-item">
+      <span class="report-num">#007-03</span>
+      <div class="report-body">
+        <div class="report-title">5元素以上の合金が、材料の常識を壊す。</div>
+        <div class="report-keyword">高エントロピー合金 · HEA · 耐熱・耐放射線</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="materials-mxene.html" class="report-item">
+      <span class="report-num">#007-04</span>
+      <div class="report-body">
+        <div class="report-title">MXeneは、電磁波を遮断する。そして何になるか。</div>
+        <div class="report-keyword">MXene · EMIシールド · 2次元金属</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="materials-ai-design.html" class="report-item">
+      <span class="report-num">#007-05</span>
+      <div class="report-body">
+        <div class="report-title">AIが新素材を発見する時代が来た。</div>
+        <div class="report-keyword">GNoME · マテリアルズインフォマティクス · 自律実験</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+  </div>
+</div>
+
+<!-- NEURO -->
+<div class="category cat-neuro" id="neuro">
+  <div class="cat-header">
+    <h2 class="cat-title">神経技術</h2>
+    <span class="cat-count">5 reports</span>
+    <a href="neuro-analysis.html" class="cat-parent-link">概観レポートを読む →</a>
+  </div>
+  <div class="report-list">
+
+    <a href="neuro-bci.html" class="report-item">
+      <span class="report-num">#008-01</span>
+      <div class="report-body">
+        <div class="report-title">脳とコンピュータは、つながりはじめた。</div>
+        <div class="report-keyword">BCI · BrainGate · 思考入力 · 90bpm</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="neuro-neuralink.html" class="report-item">
+      <span class="report-num">#008-02</span>
+      <div class="report-body">
+        <div class="report-title">Neuralinkは、脳に電極を刺す。それは正しいか。</div>
+        <div class="report-keyword">Neuralink · 1024電極 · 神経倫理 · FDA</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="neuro-neuromorphic.html" class="report-item">
+      <span class="report-num">#008-03</span>
+      <div class="report-body">
+        <div class="report-title">脳を模倣したチップは、AIを超えるか。</div>
+        <div class="report-keyword">ニューロモーフィック · Intel Loihi · 20W vs 500W</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="neuro-organoid.html" class="report-item">
+      <span class="report-num">#008-04</span>
+      <div class="report-body">
+        <div class="report-title">皿の上で、脳細胞がゲームを学んだ。</div>
+        <div class="report-keyword">脳オルガノイド · DishBrain · バイオコンピューティング</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="neuro-noninvasive.html" class="report-item">
+      <span class="report-num">#008-05</span>
+      <div class="report-body">
+        <div class="report-title">手術なしで、脳を読む。</div>
+        <div class="report-keyword">EEG · fNIRS · 非侵襲BCI · 島津製作所</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+  </div>
+</div>
+
+<!-- SPACE -->
+<div class="category cat-space" id="space">
+  <div class="cat-header">
+    <h2 class="cat-title">宇宙産業</h2>
+    <span class="cat-count">5 reports</span>
+    <a href="space-analysis.html" class="cat-parent-link">概観レポートを読む →</a>
+  </div>
+  <div class="report-list">
+
+    <a href="space-launch-cost.html" class="report-item">
+      <span class="report-num">#009-01</span>
+      <div class="report-body">
+        <div class="report-title">宇宙へ行くコストは、100分の1になった。</div>
+        <div class="report-keyword">打ち上げコスト · SpaceX · Starship · 再使用ロケット</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="space-constellation.html" class="report-item">
+      <span class="report-num">#009-02</span>
+      <div class="report-body">
+        <div class="report-title">6000基の衛星が、空をインターネットに変える。</div>
+        <div class="report-keyword">Starlink · LEO · 衛星コンステレーション · 地政学</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="space-orbital-manufacturing.html" class="report-item">
+      <span class="report-num">#009-03</span>
+      <div class="report-body">
+        <div class="report-title">宇宙でしか作れないものがある。</div>
+        <div class="report-keyword">軌道上製造 · ZBLAN · 微小重力 · Axiom Space</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="space-lunar.html" class="report-item">
+      <span class="report-num">#009-04</span>
+      <div class="report-body">
+        <div class="report-title">月は、次の地政学の舞台だ。</div>
+        <div class="report-keyword">月開発 · Artemis · 水氷 · 米中競争</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+    <a href="space-sbsp.html" class="report-item">
+      <span class="report-num">#009-05</span>
+      <div class="report-body">
+        <div class="report-title">太陽は宇宙で発電し、地球に送電できるか。</div>
+        <div class="report-keyword">SBSP · マイクロ波送電 · エネルギー安全保障 · JAXA</div>
+      </div>
+      <span class="report-indicator">→</span>
+    </a>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Bank of Technology</span>
+  <a href="index.html" class="footer-link">← ホームへ戻る</a>
+</footer>
+
+<script>
+// カテゴリナビのアクティブ状態をスクロールで更新
+const sections = ['featured','bio','robotics','materials','neuro','space'];
+const links = document.querySelectorAll('.cat-link');
+
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const id = entry.target.id;
+      links.forEach(l=>{
+        l.classList.remove('active');
+        if(l.getAttribute('href')==='#'+id) l.classList.add('active');
+      });
+    }
+  });
+},{threshold:0.2,rootMargin:'-100px 0px -60% 0px'});
+
+sections.forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) observer.observe(el);
+});
+</script>
+
+</body>
+</html>

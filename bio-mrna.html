@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ワクチンは、生まれ変わった。— BoT技術解析レポート #005-01</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased}
+.page{max-width:1100px;margin:0 auto;padding:80px 60px}
+.breadcrumb{font-size:11px;color:#666;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px}
+.breadcrumb span{color:#555}
+.label{font-size:11px;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:#777;margin-bottom:16px}
+h1{font-size:56px;font-weight:300;line-height:1.1;letter-spacing:-.03em;margin-bottom:24px}
+h1 span{color:#888}
+.meta{font-size:13px;color:#777;margin-bottom:80px}
+.section{margin-bottom:100px}
+h2{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#777;margin-bottom:48px;padding-bottom:16px;border-bottom:1px solid #1a1a1a}
+.plain{background:#0d0d0d;padding:48px;margin-bottom:2px}
+.plain h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.plain p{font-size:16px;color:#777;line-height:2;margin-bottom:20px}
+.plain p:last-child{margin-bottom:0}
+.plain p strong{color:#bbb;font-weight:400}
+.divider{height:1px;background:#1a1a1a;margin:32px 0}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:80px}
+.metric{background:#0d0d0d;padding:32px 24px;text-align:center}
+.metric .val{font-size:36px;font-weight:300;letter-spacing:-.02em;margin-bottom:8px}
+.metric .lbl{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.metric .note{font-size:12px;color:#666;line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px}
+.card{background:#0d0d0d;padding:36px}
+.card .tag{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.card h3{font-size:18px;font-weight:500;color:#fff;margin-bottom:12px}
+.card p{font-size:13px;color:#777;line-height:1.9}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:32px}
+.tier{padding:28px;border:1px solid #1a1a1a;background:#0a0a0a}
+.tier .tier-tag{font-size:9px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px}
+.tier .tier-name{font-size:15px;font-weight:500;margin-bottom:10px}
+.tier .tier-body{font-size:12px;color:#777;line-height:1.8}
+.tier.now .tier-tag{color:#4a9}
+.tier.near .tier-tag{color:#88f}
+.tier.far .tier-tag{color:#f84}
+.tier.meta .tier-tag{color:#888}
+.table-wrap{overflow-x:auto;margin-bottom:32px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#0a0a0a;color:#777;font-weight:500;text-transform:uppercase;letter-spacing:.08em;padding:14px 18px;text-align:left;border-bottom:1px solid #1a1a1a;font-size:11px}
+td{padding:14px 18px;border-bottom:1px solid #111;color:#777;vertical-align:top;line-height:1.7}
+td:first-child{color:#ccc;font-weight:400}
+tr:hover td{background:#080808}
+.bot-box{background:#0a0a0a;border:1px solid #1a1a1a;padding:48px}
+.bot-box h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.bot-box p{font-size:15px;color:#888;line-height:2;margin-bottom:16px}
+.bot-box p:last-child{margin-bottom:0}
+.bot-box strong{color:#aaa;font-weight:400}
+footer{margin-top:120px;padding-top:40px;border-top:1px solid #1a1a1a;display:flex;justify-content:space-between;font-size:12px;color:#555}
+@media(max-width:700px){.metrics,.cards,.tiers{grid-template-columns:1fr}.page{padding:40px 20px}h1{font-size:36px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="breadcrumb">
+  Bank of Technology <span>›</span> Report #005 バイオテクノロジー <span>›</span> #005-01 mRNA技術
+</div>
+
+<div class="label">Bank of Technology — 技術解析レポート #005-01</div>
+<h1>ワクチンは、<br><span>生まれ変わった。</span></h1>
+<div class="meta">mRNA 技術の全貌 · 2026年 · 解析: Bank of Technology</div>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="lbl">コロナワクチン開発にかかった時間</div>
+    <div class="val">11ヶ月</div>
+    <div class="note">通常のワクチン開発は10〜15年。100倍以上の速度で作られた。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">mRNA-4157 がん再発抑制効果</div>
+    <div class="val">44%</div>
+    <div class="note">Moderna とメルクが開発する個別化がんワクチン。2023年第2相試験の結果。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">カリコが研究を始めてから承認まで</div>
+    <div class="val">30年</div>
+    <div class="note">大学に降格させられながら研究を続け、2023年ノーベル賞を受賞した。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">mRNA ワクチン接種回数（2023年末）</div>
+    <div class="val">130億回</div>
+    <div class="note">人類史上、最も短期間で最も多くの人に届いた医薬品技術。</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>まず、一般の人向けに</h2>
+  <div class="plain">
+    <h3>「使えない」と言われ続けた技術が、世界を救った</h3>
+    <p>
+      1990年代、ハンガリー出身の科学者カタリン・カリコはひとつの信念を持っていた。
+      <strong>mRNA（メッセンジャーRNA）を薬にできる</strong>、と。
+      しかし当時の科学界は冷淡だった。mRNAは体内に入ると免疫系に攻撃されて分解されてしまう。
+      不安定で実用化など不可能だ——誰もがそう思っていた。
+    </p>
+    <p>
+      大学は彼女の研究費を打ち切り、准教授から講師に降格させた。
+      それでも彼女は研究を続けた。<strong>2005年、ある発見がすべてを変えた。</strong>
+      mRNAの特定の塩基を化学修飾（シュードウリジン置換）すると、
+      免疫の攻撃を回避できることを突き止めた。
+    </p>
+    <div class="divider"></div>
+    <h3>mRNAとは何か。一言で言えば「設計図の一時コピー」だ</h3>
+    <p>
+      DNAがすべての遺伝情報の「マスターファイル」なら、mRNAは「その日の作業指示書」だ。
+      細胞はmRNAを読んでタンパク質を作り、mRNA自体はすぐに分解される。
+      <strong>従来のワクチンは弱めたウイルスや断片を注射していた。
+      mRNAワクチンは「ウイルスのタンパク質を作る指示書」を注射する。</strong>
+      体が自分でスパイクタンパク質を作り、それを免疫が覚える。
+    </p>
+    <p>
+      この仕組みの革命的な点は、<strong>設計図さえあれば何に対してもワクチンが作れる</strong>ことだ。
+      2020年1月、新型コロナウイルスのゲノム配列が公開されてから
+      Modernaはわずか<strong>2日でワクチンの設計図を完成</strong>させた。
+      インフルエンザ、HIV、がん——ウイルスが変異してもコンピュータ上で設計図を書き換えるだけでいい。
+    </p>
+    <div class="divider"></div>
+    <h3>次の標的は、がんだ</h3>
+    <p>
+      コロナで実証されたこの技術は今、<strong>がんワクチンに向けられている</strong>。
+      患者のがん細胞のゲノムを解析し、その患者だけのがん特有の変異（ネオアンチゲン）を特定する。
+      そのタンパク質を作るmRNAを設計して投与する。
+      免疫ががん細胞だけを狙い撃ちにする——これが個別化がんワクチンの原理だ。
+      2023年の第2相試験では<strong>術後の再発を44%抑制</strong>した。
+      次の第3相試験の結果が、医療の歴史を変えるかもしれない。
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>技術の核心 — なぜ mRNA が「プラットフォーム」なのか</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>要素技術</th>
+          <th>解決した問題</th>
+          <th>解決策</th>
+          <th>意義</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>シュードウリジン修飾</td>
+          <td>mRNAが自然免疫に攻撃・分解される</td>
+          <td>ウリジンをシュードウリジンに化学置換</td>
+          <td>カリコとワイスマンの2005年の発見。2023年ノーベル賞の核心</td>
+        </tr>
+        <tr>
+          <td>脂質ナノ粒子（LNP）</td>
+          <td>mRNAは単体では細胞に入れない・血中で分解される</td>
+          <td>脂質の泡でmRNAをくるんで細胞内に送り込む</td>
+          <td>デリバリー技術。これなしにmRNA医薬は成立しない</td>
+        </tr>
+        <tr>
+          <td>コドン最適化</td>
+          <td>mRNAの翻訳効率が低く、タンパク質産生量が少ない</td>
+          <td>同じアミノ酸をコードする塩基配列を最適化</td>
+          <td>少量のmRNAで最大の免疫応答を引き出す</td>
+        </tr>
+        <tr>
+          <td>自己複製mRNA（saRNA）</td>
+          <td>大量投与が必要でコストが高い</td>
+          <td>細胞内で自己複製する配列を組み込む</td>
+          <td>投与量を1/10〜1/100に削減できる。次世代技術として開発中</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <h2>主要プレイヤーと戦略</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="tag">ワクチン・がん治療</div>
+      <h3>Moderna（米）</h3>
+      <p>コロナで実証済みのプラットフォームを全疾患に展開。個別化がんワクチン mRNA-4157（メルクと共同）が第3相試験中。インフルエンザ・RSV・HIV ワクチンも並行開発。「がんをワクチンで治す会社」への転換を宣言している。</p>
+    </div>
+    <div class="card">
+      <div class="tag">ワクチン・希少疾患</div>
+      <h3>BioNTech（独）</h3>
+      <p>Pfizerとの提携でコロナワクチンを供給。mRNA による希少疾患治療（代謝疾患・筋ジストロフィー）に軸足を移しつつある。がんワクチンも複数のパイプラインを保有。欧州の mRNA エコシステムの中心。</p>
+    </div>
+    <div class="card">
+      <div class="tag">デリバリー技術</div>
+      <h3>Arctus / Alnylam（米）</h3>
+      <p>LNP（脂質ナノ粒子）技術のパイオニア。mRNA の配送技術を複数の製薬会社にライセンス提供。「mRNA 時代のインフラ企業」として存在感を持つ。肝臓以外の臓器（筋肉・肺・脳）への到達が次の競争軸。</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>産業化ロードマップ</h2>
+  <div class="tiers">
+    <div class="tier now">
+      <div class="tier-tag">NOW · 実用化済み</div>
+      <div class="tier-name">感染症ワクチン</div>
+      <div class="tier-body">コロナ・RSV（Moderna が2023年承認）。インフルエンザ mRNA ワクチンが第3相試験中。従来ワクチンより免疫応答が強く、製造速度が桁違いに速い。次のパンデミックへの「備え」が整いつつある。</div>
+    </div>
+    <div class="tier near">
+      <div class="tier-tag">NEAR · 2026-2030</div>
+      <div class="tier-name">個別化がんワクチン</div>
+      <div class="tier-body">mRNA-4157（Moderna × Merck）が第3相。承認されれば術後の再発予防が標準治療になる。患者ごとにカスタム設計する「n=1の薬」が現実になる初めてのケース。製造コストの低減が普及の鍵。</div>
+    </div>
+    <div class="tier far">
+      <div class="tier-tag">FAR · 2028-2035</div>
+      <div class="tier-name">タンパク質補充療法</div>
+      <div class="tier-body">遺伝子の欠損で作れないタンパク質をmRNAで補充する。嚢胞性線維症・プロピオン酸血症など希少疾患が対象。「遺伝子治療」より安全で可逆的な次世代治療として開発が加速。</div>
+    </div>
+    <div class="tier meta">
+      <div class="tier-tag">META · 2035+</div>
+      <div class="tier-name">臓器内ナノファクトリー</div>
+      <div class="tier-body">体の中にmRNAを送り込み、必要なタンパク質を必要な量だけ体内で生産させる。インスリンを注射しなくても膵臓の細胞に作らせる——1型糖尿病が消える可能性。「体を薬の工場にする」ビジョン。</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Bank of Technology の視点</h2>
+  <div class="bot-box">
+    <h3>mRNA は「薬のプログラミング言語」だ</h3>
+    <p>
+      コロナワクチンで実証されたことを正確に理解する必要がある。
+      速かったのは「運」ではない。<strong>「設計図さえ書けば製造できる」という仕組みを先に作っていたから速かった。</strong>
+      ゲノム配列の公開から2日でワクチン設計を完成させた——これはソフトウェアの世界に近い。
+    </p>
+    <p>
+      この「ソフトウェア的な薬」の登場は、製薬産業の構造を変える。
+      従来の創薬は「分子の発見」に10年・10億ドルをかけていた。
+      mRNAは<strong>「設計図をコンピュータで書く」フェーズに置き換える</strong>。
+      特にがんワクチンは患者一人ひとりにカスタム設計される。
+      製薬会社の競争優位が「分子の発見」から「設計・製造・配送のプラットフォーム」に移行する。
+    </p>
+    <p>
+      日本にとっての機会は<strong>LNP（脂質ナノ粒子）製造と原材料供給</strong>だ。
+      mRNAの品質は原料の純度に直結する。日本の化学・製薬素材産業（富士フイルム・NOF・日本触媒）が
+      グローバルな mRNA サプライチェーンのボトルネックを担える立場にある。
+      コロナ禍でワクチン製造を他国に依存した教訓が、この分野への国内投資を後押しする。
+    </p>
+  </div>
+</div>
+
+<footer>
+  <span>Bank of Technology — 技術解析レポート #005-01</span>
+  <span>親レポート: <a href="bio-analysis.html" style="color:#555">#005 バイオテクノロジー</a> · 2026</span>
+</footer>
+
+</div>
+</body>
+</html>

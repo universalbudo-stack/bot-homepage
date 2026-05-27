@@ -1,0 +1,285 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>工場のロボットは、知性を持ちはじめた。— BoT技術解析レポート #006-02</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased}
+.page{max-width:1100px;margin:0 auto;padding:80px 60px}
+.breadcrumb{font-size:11px;color:#666;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px}
+.breadcrumb span{color:#555}
+.label{font-size:11px;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:#777;margin-bottom:16px}
+h1{font-size:56px;font-weight:300;line-height:1.1;letter-spacing:-.03em;margin-bottom:24px}
+h1 span{color:#888}
+.meta{font-size:13px;color:#777;margin-bottom:80px}
+.section{margin-bottom:100px}
+h2{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#777;margin-bottom:48px;padding-bottom:16px;border-bottom:1px solid #1a1a1a}
+.plain{background:#0d0d0d;padding:48px;margin-bottom:2px}
+.plain h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.plain p{font-size:16px;color:#777;line-height:2;margin-bottom:20px}
+.plain p:last-child{margin-bottom:0}
+.plain p strong{color:#bbb;font-weight:400}
+.divider{height:1px;background:#1a1a1a;margin:32px 0}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:80px}
+.metric{background:#0d0d0d;padding:32px 24px;text-align:center}
+.metric .val{font-size:36px;font-weight:300;letter-spacing:-.02em;margin-bottom:8px}
+.metric .lbl{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.metric .note{font-size:12px;color:#666;line-height:1.6}
+.table-wrap{overflow-x:auto;margin-bottom:32px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#0a0a0a;color:#777;font-weight:500;text-transform:uppercase;letter-spacing:.08em;padding:14px 18px;text-align:left;border-bottom:1px solid #1a1a1a;font-size:11px}
+td{padding:14px 18px;border-bottom:1px solid #111;color:#777;vertical-align:top;line-height:1.7}
+td:first-child{color:#ccc;font-weight:400}
+tr:hover td{background:#080808}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:32px}
+.tier{padding:28px;border:1px solid #1a1a1a;background:#0a0a0a}
+.tier .tier-tag{font-size:9px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px}
+.tier .tier-name{font-size:15px;font-weight:500;margin-bottom:10px}
+.tier .tier-body{font-size:12px;color:#777;line-height:1.8}
+.tier.now .tier-tag{color:#4a9}
+.tier.near .tier-tag{color:#88f}
+.tier.far .tier-tag{color:#f84}
+.tier.meta .tier-tag{color:#888}
+.bot-box{background:#0a0a0a;border:1px solid #1a1a1a;padding:48px}
+.bot-box h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.bot-box p{font-size:15px;color:#888;line-height:2;margin-bottom:16px}
+.bot-box p:last-child{margin-bottom:0}
+.bot-box strong{color:#aaa;font-weight:400}
+.gen-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:32px}
+.gen{background:#0d0d0d;padding:28px}
+.gen .gnum{font-size:36px;font-weight:300;color:#444;margin-bottom:12px}
+.gen .gname{font-size:13px;font-weight:500;color:#fff;margin-bottom:8px}
+.gen .gbody{font-size:12px;color:#777;line-height:1.8}
+.gen .gyear{font-size:10px;color:#666;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+footer{margin-top:120px;padding-top:40px;border-top:1px solid #1a1a1a;display:flex;justify-content:space-between;font-size:12px;color:#555}
+@media(max-width:700px){.metrics,.gen-grid,.tiers{grid-template-columns:1fr}.page{padding:40px 20px}h1{font-size:36px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="breadcrumb">
+  Bank of Technology <span>›</span> Report #006 ロボティクス <span>›</span> #006-02 産業用ロボット
+</div>
+
+<div class="label">Bank of Technology — 技術解析レポート #006-02</div>
+<h1>工場のロボットは、<br><span>知性を持ちはじめた。</span></h1>
+<div class="meta">産業用ロボットの全貌 · 2026年 · 解析: Bank of Technology</div>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="lbl">日本の産業用ロボット出荷台数シェア</div>
+    <div class="val">世界1位</div>
+    <div class="note">FANUC・安川電機・川崎重工・不二越。日本は産業ロボット大国だった。過去形になりつつある。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">中国の産業用ロボット設置台数（2023年）</div>
+    <div class="val">全世界の70%</div>
+    <div class="note">10年前は10%以下。中国が世界の工場として爆発的に設置を増やした。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">協働ロボット（コボット）市場成長率</div>
+    <div class="val">年率30%</div>
+    <div class="note">Universal Robots が切り開いた「人と並んで働くロボット」市場。中小企業へと拡大中。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">AI 統合で変わるロボットのプログラミング時間</div>
+    <div class="val">95%削減</div>
+    <div class="note">従来の「ティーチング」（手取り足取り教える）が、「言語指示」に置き換わりつつある。</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>まず、一般の人向けに</h2>
+  <div class="plain">
+    <h3>産業ロボットは「賢くないが正確」な機械だった</h3>
+    <p>
+      1961年、GM の工場に世界初の産業用ロボット「Unimate」が導入された。
+      溶接と部品搬送を行う油圧式のアームだ。
+      以来60年、産業ロボットは「決まった動作を繰り返す機械」として進化してきた。
+      <strong>速く、正確で、疲れない。しかし、融通が利かない。</strong>
+      少しでも部品の位置がずれると止まる。新しい作業を教えるのに何週間もかかる。
+      「プログラムされた場所でしか働けない囚人」だった。
+    </p>
+    <p>
+      この限界が、産業ロボットを「大企業専用」にした。
+      中小企業は専任のエンジニアを雇えないし、頻繁にモデルチェンジをする製品には対応できない。
+      <strong>世界の製造業の99%を占める中小企業に、産業ロボットは届いていなかった。</strong>
+    </p>
+    <div class="divider"></div>
+    <h3>協働ロボットが「触れる安全なロボット」を生んだ</h3>
+    <p>
+      2008年、デンマークのスタートアップ Universal Robots が「UR5」を発売した。
+      安全センサーを内蔵し、人間に触れると止まる「協働ロボット（コボット）」だ。
+      従来の産業ロボットは人間と同じ空間に置くと危険で、
+      必ずフェンスで囲う必要があった。コボットはフェンス不要で人の隣に置ける。
+    </p>
+    <p>
+      そして設定が驚くほど簡単だった。
+      アームを手で動かして「こう動いてほしい」と見せるだけでプログラムが完了する——
+      これを「ティーチング」と言う。<strong>電気工事士でも1日で使えるようになった。</strong>
+      小さなパン屋が、弁当工場が、歯科技工所がロボットを導入し始めた。
+    </p>
+    <div class="divider"></div>
+    <h3>2024年から始まった「AI の侵入」が次の革命だ</h3>
+    <p>
+      コボットの革命は「プログラミングの壁を下げた」。
+      次の革命は「プログラミングをなくす」ことだ。
+      <strong>「このビンのキャップを外して」と言葉で指示するだけで、
+      ロボットが初見の作業を実行できる</strong>——これが視覚言語モデル（VLM）とロボットの統合だ。
+      Amazon の Robin・NVIDIA の GR00T・Google の RT-2 がこのアプローチで急速に進化している。
+      「ティーチング」すら不要な時代が来ようとしている。
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>産業ロボットの4世代の進化</h2>
+  <div class="gen-grid">
+    <div class="gen">
+      <div class="gnum">01</div>
+      <div class="gyear">1960〜1990年代</div>
+      <div class="gname">固定プログラム型</div>
+      <div class="gbody">Unimate に始まる固定動作のロボット。自動車溶接・塗装が主な用途。プログラム変更は専門エンジニアが必要。大量生産・単一品種に最適化。</div>
+    </div>
+    <div class="gen">
+      <div class="gnum">02</div>
+      <div class="gyear">2000〜2010年代</div>
+      <div class="gname">センサー統合型</div>
+      <div class="gbody">視覚センサー・力センサーを統合し、位置ズレを補正できるようになった。より柔軟な部品ピッキングが可能に。FANUC・安川電機・KUKA が高精度化で競争。</div>
+    </div>
+    <div class="gen">
+      <div class="gnum">03</div>
+      <div class="gyear">2010〜2020年代</div>
+      <div class="gname">協働ロボット（コボット）</div>
+      <div class="gbody">Universal Robots が中小製造業への普及を実現。フェンス不要・簡単ティーチング。AMR（自律走行搬送ロボット）の普及で工場の「移動」も自動化。</div>
+    </div>
+    <div class="gen">
+      <div class="gnum">04</div>
+      <div class="gyear">2024年〜</div>
+      <div class="gname">AI 統合型（現在進行中）</div>
+      <div class="gbody">視覚言語モデルで「言葉で指示できる」ロボットが登場。初見の作業・不規則な環境への適応が可能に。NVIDIA GR00T・Amazon Robin が先行事例。</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>主要プレイヤーの比較</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>企業</th>
+          <th>国</th>
+          <th>強み</th>
+          <th>主力製品</th>
+          <th>AI 統合状況</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>FANUC</td>
+          <td>日本</td>
+          <td>圧倒的な信頼性・稼働率。CNC との連携。世界最多の設置台数</td>
+          <td>溶接・塗装・組立ロボット全般</td>
+          <td>「FIELD」プラットフォームで IoT 化。AI による予知保全に注力</td>
+        </tr>
+        <tr>
+          <td>安川電機</td>
+          <td>日本</td>
+          <td>モーション制御技術。インバーター・サーボとの垂直統合</td>
+          <td>MOTOMAN シリーズ。溶接・半導体</td>
+          <td>i³-Mechatronics でデジタルツイン・AI 連携を推進</td>
+        </tr>
+        <tr>
+          <td>KUKA</td>
+          <td>ドイツ（美的集団傘下）</td>
+          <td>自動車産業への深い実績。柔軟なプログラミング環境</td>
+          <td>LBR iiwa（コボット）・KR シリーズ</td>
+          <td>iiQA AI 品質検査。中国資本でコスト強化</td>
+        </tr>
+        <tr>
+          <td>Universal Robots</td>
+          <td>デンマーク（Teradyne 傘下）</td>
+          <td>コボット市場のパイオニア。容易なプログラミング・エコシステム</td>
+          <td>UR3/5/10/16/20（可搬重量で展開）</td>
+          <td>AI グリッパー・AI ティーチング機能を追加中</td>
+        </tr>
+        <tr>
+          <td>EFORT（節卡機器人）</td>
+          <td>中国</td>
+          <td>急速なコスト低下。政府補助金。中国市場でのシェア急拡大</td>
+          <td>溶接・パレタイジング・スプレー</td>
+          <td>中国の AI スタートアップとの統合を加速</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <h2>産業化ロードマップ</h2>
+  <div class="tiers">
+    <div class="tier now">
+      <div class="tier-tag">NOW · 実用化</div>
+      <div class="tier-name">コボット・AMR の普及</div>
+      <div class="tier-body">協働ロボットが中小製造業・食品・医療デバイス工場へ普及。AMR（自律搬送ロボット）が物流倉庫の標準設備になりつつある。日本では自動化率がまだ低い中小企業が最大の市場。</div>
+    </div>
+    <div class="tier near">
+      <div class="tier-tag">NEAR · 2026-2030</div>
+      <div class="tier-name">AI 統合による「言語プログラミング」</div>
+      <div class="tier-body">「このビンを箱に入れて」という言語指示でロボットが動く。段取り替えの時間が現状の1/10に。多品種少量生産への対応力が劇的に向上。日本のモノづくり現場の課題に直撃する。</div>
+    </div>
+    <div class="tier far">
+      <div class="tier-tag">FAR · 2030-2038</div>
+      <div class="tier-name">完全自律の柔軟生産</div>
+      <div class="tier-body">設計データを入力すると、ロボットが自律的に工程を設計して製造する。「ライン設計の自動化」が実現。製品設計→量産準備のリードタイムが数ヶ月から数日に短縮。</div>
+    </div>
+    <div class="tier meta">
+      <div class="tier-tag">META · 2038+</div>
+      <div class="tier-name">ダークファクトリー（無人工場）</div>
+      <div class="tier-body">照明も不要な完全無人工場が標準化。ヒューマノイドとアーム型ロボットが協力して24時間稼働。「工場の場所」が人件費でなく電力コスト・物流コストで決まる世界へ。</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Bank of Technology の視点</h2>
+  <div class="bot-box">
+    <h3>日本の産業ロボット産業は「ハードの強さ」が「ソフトの弱さ」に追われている</h3>
+    <p>
+      日本の FANUC・安川・川崎は世界最高水準の機構・制御・信頼性を持つ。
+      しかし産業ロボットの競争軸が「動作精度」から「AI 統合のしやすさ」に移りつつある。
+      <strong>NVIDIA が GR00T でロボット向け AI 基盤を提供し、
+      Amazon・Google が自社の AI をロボットに組み込む動きは、
+      「ソフトウェアがロボットを定義する時代」の到来を示している。</strong>
+    </p>
+    <p>
+      中国の圧力も見逃せない。EFORT・Siasun などの中国製ロボットは
+      2015年時点では品質が劣っていたが、急速に改善している。
+      政府補助金と自国市場での大量設置経験が「学習速度」を上げている。
+      日本のロボットが競争力を保つには、
+      <strong>「精度・信頼性」という強みを AI 統合で掛け算する戦略が必要だ。</strong>
+    </p>
+    <p>
+      具体的には、日本のロボットメーカーは AI スタートアップとの連携か、
+      AI 企業への M&A を急ぐべきだ。
+      「ハードは日本、ソフトは海外」という分業では、
+      ソフトを持つ側がロボットをコモディティ化する未来が見える。
+      FANUC が製造業 DX の「プラットフォーム」になれるか、
+      単なる「部品メーカー」に後退するかの分岐点が近づいている。
+    </p>
+  </div>
+</div>
+
+<footer>
+  <span>Bank of Technology — 技術解析レポート #006-02</span>
+  <span>親レポート: <a href="robotics-analysis.html" style="color:#555">#006 ロボティクス</a> · 2026</span>
+</footer>
+
+</div>
+</body>
+</html>

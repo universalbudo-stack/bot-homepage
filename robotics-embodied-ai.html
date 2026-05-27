@@ -1,0 +1,243 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIが体を持つ。それは何を意味するか。— BoT技術解析レポート #006-03</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased}
+.page{max-width:1100px;margin:0 auto;padding:80px 60px}
+.breadcrumb{font-size:11px;color:#666;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px}
+.breadcrumb span{color:#555}
+.label{font-size:11px;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:#777;margin-bottom:16px}
+h1{font-size:56px;font-weight:300;line-height:1.1;letter-spacing:-.03em;margin-bottom:24px}
+h1 span{color:#888}
+.meta{font-size:13px;color:#777;margin-bottom:80px}
+.section{margin-bottom:100px}
+h2{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#777;margin-bottom:48px;padding-bottom:16px;border-bottom:1px solid #1a1a1a}
+.plain{background:#0d0d0d;padding:48px;margin-bottom:2px}
+.plain h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.plain p{font-size:16px;color:#777;line-height:2;margin-bottom:20px}
+.plain p:last-child{margin-bottom:0}
+.plain p strong{color:#bbb;font-weight:400}
+.divider{height:1px;background:#1a1a1a;margin:32px 0}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:80px}
+.metric{background:#0d0d0d;padding:32px 24px;text-align:center}
+.metric .val{font-size:36px;font-weight:300;letter-spacing:-.02em;margin-bottom:8px}
+.metric .lbl{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.metric .note{font-size:12px;color:#666;line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px}
+.card{background:#0d0d0d;padding:36px}
+.card .tag{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.card h3{font-size:18px;font-weight:500;color:#fff;margin-bottom:12px}
+.card p{font-size:13px;color:#777;line-height:1.9}
+.stack{display:grid;gap:2px;margin-bottom:32px}
+.stack-row{display:grid;grid-template-columns:160px 1fr;gap:2px}
+.stack-label{background:#111;padding:20px 24px;display:flex;align-items:center;font-size:12px;color:#777;text-transform:uppercase;letter-spacing:.1em}
+.stack-content{background:#0d0d0d;padding:20px 24px;font-size:13px;color:#888;line-height:1.7}
+.stack-content strong{color:#aaa;font-weight:400}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:32px}
+.tier{padding:28px;border:1px solid #1a1a1a;background:#0a0a0a}
+.tier .tier-tag{font-size:9px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px}
+.tier .tier-name{font-size:15px;font-weight:500;margin-bottom:10px}
+.tier .tier-body{font-size:12px;color:#777;line-height:1.8}
+.tier.now .tier-tag{color:#4a9}
+.tier.near .tier-tag{color:#88f}
+.tier.far .tier-tag{color:#f84}
+.tier.meta .tier-tag{color:#888}
+.bot-box{background:#0a0a0a;border:1px solid #1a1a1a;padding:48px}
+.bot-box h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.bot-box p{font-size:15px;color:#888;line-height:2;margin-bottom:16px}
+.bot-box p:last-child{margin-bottom:0}
+.bot-box strong{color:#aaa;font-weight:400}
+footer{margin-top:120px;padding-top:40px;border-top:1px solid #1a1a1a;display:flex;justify-content:space-between;font-size:12px;color:#555}
+@media(max-width:700px){.metrics,.cards,.tiers{grid-template-columns:1fr}.stack-row{grid-template-columns:1fr}.page{padding:40px 20px}h1{font-size:36px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="breadcrumb">
+  Bank of Technology <span>›</span> Report #006 ロボティクス <span>›</span> #006-03 Embodied AI
+</div>
+
+<div class="label">Bank of Technology — 技術解析レポート #006-03</div>
+<h1>AIが体を持つ。<br><span>それは何を意味するか。</span></h1>
+<div class="meta">Embodied AI（身体を持つ AI）の全貌 · 2026年 · 解析: Bank of Technology</div>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="lbl">Physical Intelligence π0 の調達額</div>
+    <div class="val">$400M</div>
+    <div class="note">2024年。ロボット AI スタートアップとして史上最大規模の資金調達。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">RT-2（Google）の初見タスク成功率の改善</div>
+    <div class="val">2倍</div>
+    <div class="note">言語モデルをロボット制御に組み込んだことで、一度も見たことのない指示への対応力が向上。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">NVIDIA GR00T の学習データ量</div>
+    <div class="val">数十億フレーム</div>
+    <div class="note">シミュレーション環境での合成データを活用。実機での試行錯誤なしに行動を学習させる。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">OpenAI のロボット投資（2024年）</div>
+    <div class="val">$675M</div>
+    <div class="note">Figure AI への出資。ChatGPT を作った組織がロボットの「脳」に本格参入した象徴。</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>まず、一般の人向けに</h2>
+  <div class="plain">
+    <h3>「賢い AI」と「動けるロボット」は、なぜ別々だったのか</h3>
+    <p>
+      ChatGPT は会話が得意だ。しかし「コップを取って」と言っても何もできない。
+      一方、工場のロボットアームは部品を正確に掴める。
+      しかし「今日はこっちの箱に入れて」と言い方を変えると止まる。
+      <strong>AI は賢いが体がない。ロボットは体があるが賢くない。</strong>
+      この「脳と体の分離」が、ロボットが「汎用的な道具」になれなかった本質的な理由だ。
+    </p>
+    <p>
+      Embodied AI（身体を持つ AI）とは、この分離を解消する試みだ。
+      大規模言語モデルの「理解力」と、ロボットの「行動力」を統合する。
+      「冷蔵庫から卵を取り出して、割らないようにフライパンに入れて」——
+      <strong>人間が子供に頼むように話しかけるだけで、ロボットが実行できる世界</strong>を目指している。
+    </p>
+    <div class="divider"></div>
+    <h3>転換点は「言語モデルのロボットへの移植」だった</h3>
+    <p>
+      2023年、Google DeepMind が「RT-2」を発表した。
+      GPT-4 に相当する大規模な視覚言語モデルを、ロボット制御システムに直接組み込んだものだ。
+      重要な実験として「ポケモンのフィギュアを手の上に乗せて」と英語で指示すると、
+      <strong>ロボットはフィギュアを識別して掴む動作を実行した。
+      このタスクを「訓練したことが一切なかった」にもかかわらず。</strong>
+    </p>
+    <p>
+      これはロボット工学における革命的な出来事だ。
+      従来のロボットは「やったことがある動作しかできない」。
+      言語モデルを組み込んだロボットは「やったことがなくても、概念を理解して動ける」。
+      掃除ロボットが「あのペットボトルを捨てて」と言われたときに、
+      ペットボトルが何かを知っていて、どこに持って行けばいいかを推論できる。
+    </p>
+    <div class="divider"></div>
+    <h3>最大の壁は「シミュレーションと現実のギャップ」だ</h3>
+    <p>
+      AI の学習には大量のデータが必要だ。ロボットの場合、実機を使った学習は非常に遅い。
+      だからシミュレーション（仮想空間）で学習させて実機に転移する「Sim-to-Real」という手法が使われる。
+      しかし現実の世界には、シミュレーションが再現できない無数の「ノイズ」がある。
+      <strong>光の反射、布の質感、手の汗——これらが現実で失敗を引き起こす。</strong>
+      この「シミュレーションと現実のギャップ」を埋めることが、Embodied AI の最大の技術課題だ。
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Embodied AI の技術スタック</h2>
+  <div class="stack">
+    <div class="stack-row">
+      <div class="stack-label">言語理解</div>
+      <div class="stack-content"><strong>LLM（大規模言語モデル）</strong>が自然言語の指示を理解。「左の赤いコップ」を「赤い・左・コップ」に分解して把握。GPT-4・Gemini・Claude が基盤として使われる。</div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label">視覚認識</div>
+      <div class="stack-content"><strong>VLM（視覚言語モデル）</strong>がカメラ映像から物体・場所・状態を把握。「コップが傾いている」「床が濡れている」を認識して行動を変える。</div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label">行動生成</div>
+      <div class="stack-content"><strong>VLA（視覚言語行動モデル）</strong>が「何をすべきか」から「どう動くか」に変換。関節角度・力・速度の時系列を生成する。RT-2・π0 がこの層の代表。</div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label">シミュレーション</div>
+      <div class="stack-content"><strong>合成データ生成</strong>でリアルな仮想環境を大量に作り、実機データなしに動作を学習。NVIDIA Isaac Sim・Genesis が代表的プラットフォーム。</div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label">ハードウェア</div>
+      <div class="stack-content">ヒューマノイド・アーム・車輪型ロボットという<strong>物理的な体</strong>。アクチュエーター・センサー・バッテリーの性能がボトルネック。</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>主要プレイヤー</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="tag">スタートアップ</div>
+      <h3>Physical Intelligence（π0）</h3>
+      <p>元 Google Robotics・OpenAI・DeepMind の研究者が設立。2024年に$400M を調達。VLA（視覚言語行動）モデル「π0」を発表し、折り紙・料理・洗濯など多様なタスクへの汎用性を実証。ロボット AI 界の最注目株。</p>
+    </div>
+    <div class="card">
+      <div class="tag">テックジャイアント</div>
+      <h3>NVIDIA（GR00T）</h3>
+      <p>ロボット学習のためのシミュレーション基盤「Isaac」と、ヒューマノイド向けの基盤モデル「GR00T」を提供。「ロボット AI のプラットフォーマー」を目指す。GPU 製造からロボット OS へのシフトが鮮明。</p>
+    </div>
+    <div class="card">
+      <div class="tag">研究機関</div>
+      <h3>Google DeepMind（RT-2）</h3>
+      <p>RT-2 で「言語→行動」の直接マッピングを実証した先駆者。Gemini の視覚言語能力を活用したロボット制御の研究を継続。Aloha（低コスト研究用ロボット）を OSS として公開し、研究加速に貢献。</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>産業化ロードマップ</h2>
+  <div class="tiers">
+    <div class="tier now">
+      <div class="tier-tag">NOW · 研究段階</div>
+      <div class="tier-name">制限環境でのデモ</div>
+      <div class="tier-body">研究室・制御された工場でのデモが増加。「言語で指示できる」ことの実証は完了しつつある。ただし商業展開には信頼性・安全性・コストの壁が残る。</div>
+    </div>
+    <div class="tier near">
+      <div class="tier-tag">NEAR · 2026-2029</div>
+      <div class="tier-name">特定ドメインでの商業展開</div>
+      <div class="tier-body">倉庫・食品工場など、比較的変動の少ない環境から Embodied AI ロボットが商業導入。Amazon・Walmart が大規模テスト。Sim-to-Real ギャップの縮小が商業化のペースを決める。</div>
+    </div>
+    <div class="tier far">
+      <div class="tier-tag">FAR · 2030-2037</div>
+      <div class="tier-name">家庭・介護への展開</div>
+      <div class="tier-body">「お皿を洗って」「薬を持ってきて」という家庭内の雑多なタスクを実行できるロボット。最も困難な非構造化環境（家の中）への対応が可能になる段階。</div>
+    </div>
+    <div class="tier meta">
+      <div class="tier-tag">META · 2037+</div>
+      <div class="tier-name">汎用ロボット知性</div>
+      <div class="tier-body">「経験の共有」が実現する——1台のロボットが学んだことを他のすべてのロボットが即座に学べる世界。NVIDIA が「ロボットの AWS」として提供するシナリオ。</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Bank of Technology の視点</h2>
+  <div class="bot-box">
+    <h3>Embodied AI は「ChatGPT モーメント」をロボットに起こそうとしている</h3>
+    <p>
+      ChatGPT が登場したとき、「言語 AI のゲームチェンジャー」が来たと世界が感じた。
+      Embodied AI は「物理世界の ChatGPT モーメント」を目指している。
+      <strong>「話しかけるだけで何でも動く」ロボットが実現するとき、
+      製造・物流・介護・農業・建設のすべてが変わる。</strong>
+    </p>
+    <p>
+      この競争の本質は「モデルの質とデータの量」だ。
+      Google・OpenAI・NVIDIA はすでに莫大な言語・視覚データを持っている。
+      これをロボット行動データで補強する「行動データの収集競争」が始まっている。
+      Physical Intelligence がキッチン・倉庫・工場で大量の「人間の作業データ」を集めているのはこのためだ。
+    </p>
+    <p>
+      <strong>日本のロボットメーカーにとって、この競争は「ハードの戦い」から「データの戦い」への移行を意味する。</strong>
+      FANUC が1台ロボットを売るごとに、そのロボットの稼働データを学習に使う——
+      世界最大のロボット設置台数が「データの金鉱」になれるか。
+      この問いへの答えを急ぐ必要がある。
+    </p>
+  </div>
+</div>
+
+<footer>
+  <span>Bank of Technology — 技術解析レポート #006-03</span>
+  <span>親レポート: <a href="robotics-analysis.html" style="color:#555">#006 ロボティクス</a> · 2026</span>
+</footer>
+
+</div>
+</body>
+</html>

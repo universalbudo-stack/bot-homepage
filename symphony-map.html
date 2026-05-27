@@ -1,0 +1,493 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>技術の協奏マップ — Bank of Technology</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-weight: 300; line-height: 1.8; -webkit-font-smoothing: antialiased; }
+    .page { max-width: 1200px; margin: 0 auto; padding: 80px 60px; }
+    .label { font-size: 11px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: #555; margin-bottom: 16px; }
+    h1 { font-size: 64px; font-weight: 300; line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 24px; }
+    h1 span { color: #888; }
+    .meta { font-size: 13px; color: #555; margin-bottom: 100px; }
+    .section { margin-bottom: 120px; }
+    h2 { font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: #555; margin-bottom: 56px; padding-bottom: 16px; border-bottom: 1px solid #1a1a1a; }
+
+    /* INTRO */
+    .intro-text { font-size: 28px; font-weight: 300; line-height: 1.8; color: #888; max-width: 800px; margin-bottom: 48px; letter-spacing: -0.02em; }
+    .intro-text strong { color: #fff; font-weight: 300; }
+
+    /* NETWORK MAP (CSS-based) */
+    .network { position: relative; width: 100%; height: 700px; border: 1px solid #0d0d0d; background: #010101; margin-bottom: 80px; overflow: hidden; }
+    .network-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, #050510 0%, #000 70%); }
+
+    /* Nodes */
+    .node { position: absolute; display: flex; flex-direction: column; align-items: center; cursor: default; }
+    .node-circle { border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
+    .node-label { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-align: center; margin-top: 12px; line-height: 1.4; }
+    .node-sub { font-size: 10px; color: #444; text-align: center; margin-top: 4px; }
+
+    /* Center node */
+    .node-center { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    .node-center .node-circle { width: 120px; height: 120px; background: radial-gradient(circle, #1a1a1a, #000); border: 1px solid #333; }
+    .node-center .node-label { font-size: 13px; color: #fff; }
+    .node-center-text { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #666; }
+
+    /* Outer nodes */
+    .node-outer .node-circle { width: 72px; height: 72px; border: 1px solid; }
+    .node-outer .node-label { font-size: 10px; }
+
+    /* Colors per domain */
+    .c-quantum { color: #4488ff; }
+    .c-bio { color: #44ff88; }
+    .c-energy { color: #ffaa44; }
+    .c-robot { color: #ff88aa; }
+    .c-material { color: #aa88ff; }
+    .c-space { color: #44ffff; }
+    .c-neuro { color: #ffff44; }
+    .c-sc { color: #88aaff; }
+
+    .bg-quantum { background: radial-gradient(circle, #0a1a3a, #000); border-color: #4488ff44 !important; }
+    .bg-bio { background: radial-gradient(circle, #0a2a1a, #000); border-color: #44ff8844 !important; }
+    .bg-energy { background: radial-gradient(circle, #2a1a00, #000); border-color: #ffaa4444 !important; }
+    .bg-robot { background: radial-gradient(circle, #2a0a1a, #000); border-color: #ff88aa44 !important; }
+    .bg-material { background: radial-gradient(circle, #1a0a2a, #000); border-color: #aa88ff44 !important; }
+    .bg-space { background: radial-gradient(circle, #002a2a, #000); border-color: #44ffff44 !important; }
+    .bg-neuro { background: radial-gradient(circle, #2a2a00, #000); border-color: #ffff4444 !important; }
+    .bg-sc { background: radial-gradient(circle, #0a0a2a, #000); border-color: #88aaff44 !important; }
+
+    /* SVG Lines */
+    .network-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    /* Positions (as % from top-left) */
+    /* Center: 50%, 50% */
+    /* Quantum: 20%, 20% */
+    /* Bio: 78%, 18% */
+    /* Energy: 12%, 60% */
+    /* Robot: 82%, 55% */
+    /* Material: 30%, 82% */
+    /* Space: 68%, 80% */
+    /* Neuro: 50%, 15% */
+    /* SC: 50%, 78% */
+
+    .n-quantum { top: 16%; left: 16%; }
+    .n-bio { top: 14%; left: 70%; }
+    .n-energy { top: 52%; left: 4%; }
+    .n-robot { top: 50%; left: 78%; }
+    .n-material { top: 76%; left: 22%; }
+    .n-space { top: 74%; left: 64%; }
+    .n-neuro { top: 4%; left: 46%; }
+    .n-sc { top: 72%; left: 44%; }
+
+    /* CONNECTIONS TABLE */
+    .connections { display: grid; gap: 2px; }
+    .conn { display: grid; grid-template-columns: 220px 220px 1fr; gap: 0; background: #0d0d0d; }
+    .conn-from { padding: 20px 24px; font-size: 13px; font-weight: 500; border-right: 1px solid #1a1a1a; }
+    .conn-to { padding: 20px 24px; font-size: 13px; font-weight: 500; border-right: 1px solid #1a1a1a; }
+    .conn-desc { padding: 20px 24px; font-size: 13px; color: #555; line-height: 1.7; }
+    .conn-header { background: #000; }
+    .conn-header .conn-from, .conn-header .conn-to, .conn-header .conn-desc { font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #444; padding: 16px 24px; }
+
+    /* SYNERGY MATRIX */
+    .matrix-wrap { overflow-x: auto; }
+    .matrix { border-collapse: collapse; min-width: 900px; }
+    .matrix th, .matrix td { padding: 12px 16px; font-size: 11px; border: 1px solid #111; text-align: center; }
+    .matrix th { font-weight: 500; letter-spacing: 0.08em; color: #555; background: #050505; }
+    .matrix th.domain-header { font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; }
+    .matrix td.row-header { text-align: left; font-weight: 500; color: #666; font-size: 11px; letter-spacing: 0.08em; }
+    .cell-high { background: #0a2a0a; color: #44ff88; font-weight: 500; }
+    .cell-mid { background: #0a0a2a; color: #4488ff; }
+    .cell-low { background: #0d0d0d; color: #333; }
+    .cell-self { background: #050505; color: #1a1a1a; }
+
+    /* INVESTMENT PRIORITY */
+    .priority-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .priority-axis { display: grid; grid-template-rows: 1fr 1fr; gap: 2px; height: 500px; }
+    .quadrant { padding: 32px; display: flex; flex-direction: column; justify-content: space-between; }
+    .q-label { font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 20px; }
+    .q-items { display: flex; flex-direction: column; gap: 8px; }
+    .q-item { font-size: 13px; padding: 8px 12px; border-left: 2px solid; }
+    .q1 { background: #050510; } .q1 .q-label { color: #4488ff; } .q1 .q-item { border-color: #4488ff33; color: #555; }
+    .q2 { background: #001a00; } .q2 .q-label { color: #44ff88; } .q2 .q-item { border-color: #44ff8833; color: #555; }
+    .q3 { background: #0d0d0d; } .q3 .q-label { color: #555; } .q3 .q-item { border-color: #33333333; color: #444; }
+    .q4 { background: #100500; } .q4 .q-label { color: #ffaa44; } .q4 .q-item { border-color: #ffaa4433; color: #555; }
+    .axis-labels { display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 20px 0; }
+    .axis-label { font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #333; writing-mode: vertical-rl; transform: rotate(180deg); }
+
+    /* BOT ROLE */
+    .bot-role { background: #000; border: 1px solid #1a1a1a; padding: 80px; }
+    .bot-role h3 { font-size: 40px; font-weight: 300; color: #fff; line-height: 1.2; letter-spacing: -0.03em; margin-bottom: 48px; }
+    .bot-role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 48px; }
+    .br-item { background: #050505; padding: 36px; }
+    .br-num { font-size: 48px; font-weight: 300; color: #111; margin-bottom: 16px; }
+    .br-title { font-size: 18px; font-weight: 500; color: #fff; margin-bottom: 16px; }
+    .br-body { font-size: 13px; color: #444; line-height: 1.9; }
+    .br-body strong { color: #666; font-weight: 400; }
+
+    /* FUTURE SCENARIOS */
+    .scenarios { display: grid; gap: 2px; }
+    .scenario { background: #0d0d0d; padding: 40px; display: grid; grid-template-columns: 160px 1fr; gap: 32px; }
+    .sc-year { font-size: 36px; font-weight: 300; color: #333; letter-spacing: -0.03em; }
+    .sc-body h3 { font-size: 20px; font-weight: 500; color: #fff; margin-bottom: 16px; }
+    .sc-body p { font-size: 14px; color: #555; line-height: 1.9; }
+    .sc-body p strong { color: #888; font-weight: 400; }
+    .sc-techs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+    .sc-tech { font-size: 10px; padding: 4px 10px; border: 1px solid #1a1a1a; color: #444; letter-spacing: 0.05em; }
+
+    footer { margin-top: 120px; padding-top: 40px; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-between; font-size: 12px; color: #333; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="label">Bank of Technology — 統合解析ドキュメント</div>
+  <h1>技術の<br /><span>協奏マップ。</span></h1>
+  <div class="meta">超伝導 · 量子 · エネルギー · バイオ · ロボット · 素材 · 脳科学 · 宇宙 の相互接続を可視化 · 2026年5月</div>
+
+  <!-- INTRO -->
+  <div class="section">
+    <h2>なぜ「協奏」なのか</h2>
+    <div class="intro-text">
+      オーケストラは、個々の楽器が単独で演奏するより、<strong>指揮者のもとで協奏するとき</strong>に初めて交響曲になる。<br/><br/>
+      技術も同じだ。<strong>各技術が孤立したまま進化しても、産業文明は変わらない。</strong><br/>
+      接続されたとき、指数関数的な変化が起きる。
+    </div>
+  </div>
+
+  <!-- NETWORK VISUALIZATION -->
+  <div class="section">
+    <h2>技術ネットワーク — 接続の全体像</h2>
+
+    <div class="network">
+      <div class="network-bg"></div>
+
+      <!-- SVG Connection Lines -->
+      <svg class="network-svg" viewBox="0 0 1200 700" preserveAspectRatio="none">
+        <!-- Center connections (50%=600, 50%=350) -->
+        <!-- Quantum 20%=240, 20%=140 -->
+        <line x1="600" y1="350" x2="240" y2="140" stroke="#4488ff" stroke-width="0.5" opacity="0.3"/>
+        <!-- Bio 70%=840, 14%=98 -->
+        <line x1="600" y1="350" x2="840" y2="98" stroke="#44ff88" stroke-width="0.5" opacity="0.3"/>
+        <!-- Energy 4%=48, 52%=364 -->
+        <line x1="600" y1="350" x2="48" y2="364" stroke="#ffaa44" stroke-width="0.5" opacity="0.3"/>
+        <!-- Robot 78%=936, 50%=350 -->
+        <line x1="600" y1="350" x2="936" y2="350" stroke="#ff88aa" stroke-width="0.5" opacity="0.3"/>
+        <!-- Material 22%=264, 76%=532 -->
+        <line x1="600" y1="350" x2="264" y2="532" stroke="#aa88ff" stroke-width="0.5" opacity="0.3"/>
+        <!-- Space 64%=768, 74%=518 -->
+        <line x1="600" y1="350" x2="768" y2="518" stroke="#44ffff" stroke-width="0.5" opacity="0.3"/>
+        <!-- Neuro 46%=552, 4%=28 -->
+        <line x1="600" y1="350" x2="552" y2="28" stroke="#ffff44" stroke-width="0.5" opacity="0.3"/>
+        <!-- SC 44%=528, 72%=504 -->
+        <line x1="600" y1="350" x2="528" y2="504" stroke="#88aaff" stroke-width="0.5" opacity="0.3"/>
+
+        <!-- Cross connections (key synergies, thicker) -->
+        <!-- Quantum - Bio -->
+        <line x1="240" y1="140" x2="840" y2="98" stroke="#33ff66" stroke-width="0.8" opacity="0.15"/>
+        <!-- Quantum - SC (superconducting qubits) -->
+        <line x1="240" y1="140" x2="528" y2="504" stroke="#6688ff" stroke-width="1" opacity="0.25"/>
+        <!-- SC - Energy (fusion magnets) -->
+        <line x1="528" y1="504" x2="48" y2="364" stroke="#aa66ff" stroke-width="1" opacity="0.2"/>
+        <!-- Robot - AI/Neuro -->
+        <line x1="936" y1="350" x2="552" y2="28" stroke="#ff88cc" stroke-width="0.8" opacity="0.15"/>
+        <!-- Material - Space -->
+        <line x1="264" y1="532" x2="768" y2="518" stroke="#88aadd" stroke-width="0.8" opacity="0.15"/>
+        <!-- Material - SC -->
+        <line x1="264" y1="532" x2="528" y2="504" stroke="#9966ff" stroke-width="0.8" opacity="0.2"/>
+        <!-- Bio - Neuro -->
+        <line x1="840" y1="98" x2="552" y2="28" stroke="#44ff88" stroke-width="0.6" opacity="0.15"/>
+        <!-- Robot - Material -->
+        <line x1="936" y1="350" x2="264" y2="532" stroke="#cc88ff" stroke-width="0.6" opacity="0.12"/>
+        <!-- Space - Energy (SBSP) -->
+        <line x1="768" y1="518" x2="48" y2="364" stroke="#88ddaa" stroke-width="0.8" opacity="0.15"/>
+        <!-- Quantum - Energy (optimization) -->
+        <line x1="240" y1="140" x2="48" y2="364" stroke="#4488aa" stroke-width="0.6" opacity="0.15"/>
+
+        <!-- Pulsing center indicator -->
+        <circle cx="600" cy="350" r="60" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.1"/>
+        <circle cx="600" cy="350" r="100" fill="none" stroke="#ffffff" stroke-width="0.2" opacity="0.05"/>
+        <circle cx="600" cy="350" r="160" fill="none" stroke="#ffffff" stroke-width="0.1" opacity="0.03"/>
+      </svg>
+
+      <!-- Center Node -->
+      <div class="node node-center">
+        <div class="node-circle" style="width:110px;height:110px;background:radial-gradient(circle,#1a1a1a,#000);border:1px solid #333;flex-direction:column;gap:4px">
+          <span style="font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#777">Bank of</span>
+          <span style="font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#888">Technology</span>
+        </div>
+        <div class="node-label" style="color:#777;font-size:9px">指揮者</div>
+      </div>
+
+      <!-- Outer Nodes -->
+      <div class="node node-outer n-quantum">
+        <div class="node-circle bg-quantum" style="width:72px;height:72px"><span style="font-size:9px;font-weight:500;letter-spacing:0.05em;text-align:center;color:#4488ff">量子<br/>技術</span></div>
+        <div class="node-label c-quantum">Quantum</div>
+      </div>
+
+      <div class="node node-outer n-bio">
+        <div class="node-circle bg-bio" style="width:72px;height:72px"><span style="font-size:9px;font-weight:500;letter-spacing:0.05em;text-align:center;color:#44ff88">バイオ</span></div>
+        <div class="node-label c-bio">Biotech</div>
+      </div>
+
+      <div class="node node-outer n-energy">
+        <div class="node-circle bg-energy" style="width:72px;height:72px"><span style="font-size:9px;font-weight:500;letter-spacing:0.05em;text-align:center;color:#ffaa44">エネ<br/>ルギー</span></div>
+        <div class="node-label c-energy">Energy</div>
+      </div>
+
+      <div class="node node-outer n-robot">
+        <div class="node-circle bg-robot" style="width:72px;height:72px"><span style="font-size:9px;font-weight:500;letter-spacing:0.05em;text-align:center;color:#ff88aa">ロボ<br/>ット</span></div>
+        <div class="node-label c-robot">Robotics</div>
+      </div>
+
+      <div class="node node-outer n-material">
+        <div class="node-circle bg-material" style="width:72px;height:72px"><span style="font-size:9px;font-weight:500;letter-spacing:0.05em;text-align:center;color:#aa88ff">先端<br/>素材</span></div>
+        <div class="node-label c-material">Materials</div>
+      </div>
+
+      <div class="node node-outer n-space">
+        <div class="node-circle bg-space" style="width:72px;height:72px"><span style="font-size:9px;font-weight:500;letter-spacing:0.05em;text-align:center;color:#44ffff">宇宙</span></div>
+        <div class="node-label c-space">Space</div>
+      </div>
+
+      <div class="node node-outer n-neuro">
+        <div class="node-circle bg-neuro" style="width:72px;height:72px"><span style="font-size:9px;font-weight:500;letter-spacing:0.05em;text-align:center;color:#ffff44">脳科学<br/>BCI</span></div>
+        <div class="node-label c-neuro">Neuro</div>
+      </div>
+
+      <div class="node node-outer n-sc">
+        <div class="node-circle bg-sc" style="width:72px;height:72px"><span style="font-size:9px;font-weight:500;letter-spacing:0.05em;text-align:center;color:#88aaff">超伝導</span></div>
+        <div class="node-label c-sc">Supercond.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- KEY CONNECTIONS -->
+  <div class="section">
+    <h2>主要な接続ライン — 14の技術融合点</h2>
+    <div class="connections">
+      <div class="conn conn-header">
+        <div class="conn-from">技術A</div>
+        <div class="conn-to">技術B</div>
+        <div class="conn-desc">融合によって何が生まれるか</div>
+      </div>
+      <div class="conn"><div class="conn-from c-sc">超伝導</div><div class="conn-to c-quantum">量子技術</div><div class="conn-desc">超伝導量子ビットは量子コンピュータの主流方式。室温超伝導が実現すれば、量子コンピュータの冷却コストが消滅し、普及が一気に加速する。同一の材料科学の問題を共有。</div></div>
+      <div class="conn"><div class="conn-from c-sc">超伝導</div><div class="conn-to c-energy">エネルギー</div><div class="conn-desc">核融合炉は超伝導マグネットで動く。室温超伝導送電線で電力ロスがゼロになる。超伝導×エネルギーの融合は、人類のエネルギー問題の根本的解決につながる。</div></div>
+      <div class="conn"><div class="conn-from c-quantum">量子技術</div><div class="conn-to c-bio">バイオ</div><div class="conn-desc">量子シミュレーションがタンパク質折りたたみ・薬剤分子の相互作用を高精度で計算。AlphaFold後の「さらに精密な創薬設計」が量子計算で可能になる。個人化医療の加速。</div></div>
+      <div class="conn"><div class="conn-from c-quantum">量子技術</div><div class="conn-to c-energy">エネルギー</div><div class="conn-desc">量子コンピュータによる電力グリッド最適化・核融合プラズマ制御の高度化・電池材料の量子化学設計。エネルギーシステム全体の最適化に量子計算が不可欠になる。</div></div>
+      <div class="conn"><div class="conn-from c-material">先端素材</div><div class="conn-to c-sc">超伝導</div><div class="conn-desc">超伝導は素材問題そのもの。グラフェン（ツイスト）・高エントロピー合金・新しい水素化物が室温超伝導候補。AIによる材料探索が超伝導研究を加速している。</div></div>
+      <div class="conn"><div class="conn-from c-material">先端素材</div><div class="conn-to c-robot">ロボット</div><div class="conn-desc">軽量高強度素材（グラフェン複合材）がロボットの可動性を改善。人工筋肉（高分子アクチュエータ・形状記憶合金）が柔軟ロボットを可能にする。素材がロボットの身体を作る。</div></div>
+      <div class="conn"><div class="conn-from c-material">先端素材</div><div class="conn-to c-space">宇宙</div><div class="conn-desc">極限環境（宇宙放射線・熱サイクル・真空）に耐える高エントロピー合金・超耐熱セラミックスが宇宙機の寿命を決める。逆に宇宙での製造（無重力）が地上では作れない素材を生む。</div></div>
+      <div class="conn"><div class="conn-from c-bio">バイオ</div><div class="conn-to c-neuro">脳科学</div><div class="conn-desc">CRISPR遺伝子編集が神経疾患の根本治療を可能にする。mRNA技術が神経変性疾患（ALS・パーキンソン）のタンパク質異常を修正する可能性。バイオとBCIの融合で「生物学的な脳の修復」が実現。</div></div>
+      <div class="conn"><div class="conn-from c-robot">ロボット</div><div class="conn-to c-neuro">脳科学</div><div class="conn-desc">BCIがロボットの直接制御を可能にする（思考でロボット操作）。神経形態コンピューティングチップがロボットの「脳」になる。脳とロボットの境界が消え「拡張された身体」が生まれる。</div></div>
+      <div class="conn"><div class="conn-from c-robot">ロボット</div><div class="conn-to c-space">宇宙</div><div class="conn-desc">人間が行けない宇宙環境でのロボット作業（月面基地建設・小惑星採掘・軌道上修理）。地球でのロボット技術が宇宙産業を可能にし、宇宙での極限環境がロボット技術を鍛える。</div></div>
+      <div class="conn"><div class="conn-from c-energy">エネルギー</div><div class="conn-to c-space">宇宙</div><div class="conn-desc">宇宙太陽光発電が地球のエネルギー問題を宇宙から解決する。核融合燃料（ヘリウム3）の月採掘。Starshipの安価な打ち上げがエネルギーインフラの宇宙展開を現実的にする。</div></div>
+      <div class="conn"><div class="conn-from c-bio">バイオ</div><div class="conn-to c-material">先端素材</div><div class="conn-desc">生命が使う素材（骨・腱・クモの糸）の設計原理を工業材料に転用するバイオインスパイアード材料設計。合成生物学で微生物が特殊素材を生産する「生物製造」が化学産業を変える。</div></div>
+      <div class="conn"><div class="conn-from c-sc">超伝導</div><div class="conn-to c-space">宇宙</div><div class="conn-desc">衛星搭載用超伝導コイルによる高精度磁場測定・宇宙機の電磁推進システム（超伝導推進）・宇宙太陽光の送電システム（超伝導ケーブル）。宇宙と超伝導は深く結びつく。</div></div>
+      <div class="conn"><div class="conn-from c-quantum">量子技術</div><div class="conn-to c-material">先端素材</div><div class="conn-desc">量子化学計算（第一原理計算）がAI材料設計の精度を劇的に向上させる。GNoMEが予測した素材の信頼性を量子計算で検証する。AI×量子×材料の三角形が材料科学を変える。</div></div>
+    </div>
+  </div>
+
+  <!-- SYNERGY MATRIX -->
+  <div class="section">
+    <h2>技術シナジーマトリクス — 接続の強度</h2>
+    <div class="matrix-wrap">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="domain-header c-sc">超伝導</th>
+            <th class="domain-header c-quantum">量子</th>
+            <th class="domain-header c-energy">エネルギー</th>
+            <th class="domain-header c-bio">バイオ</th>
+            <th class="domain-header c-robot">ロボット</th>
+            <th class="domain-header c-material">素材</th>
+            <th class="domain-header c-neuro">脳科学</th>
+            <th class="domain-header c-space">宇宙</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-header c-sc">超伝導</td>
+            <td class="cell-self">—</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-low">★</td>
+            <td class="cell-low">★</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-low">★</td>
+            <td class="cell-mid">★★</td>
+          </tr>
+          <tr>
+            <td class="row-header c-quantum">量子</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-self">—</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-mid">★★</td>
+          </tr>
+          <tr>
+            <td class="row-header c-energy">エネルギー</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-self">—</td>
+            <td class="cell-low">★</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-low">★</td>
+            <td class="cell-high">★★★</td>
+          </tr>
+          <tr>
+            <td class="row-header c-bio">バイオ</td>
+            <td class="cell-low">★</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-low">★</td>
+            <td class="cell-self">—</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-mid">★★</td>
+          </tr>
+          <tr>
+            <td class="row-header c-robot">ロボット</td>
+            <td class="cell-low">★</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-self">—</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-high">★★★</td>
+          </tr>
+          <tr>
+            <td class="row-header c-material">素材</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-self">—</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-high">★★★</td>
+          </tr>
+          <tr>
+            <td class="row-header c-neuro">脳科学</td>
+            <td class="cell-low">★</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-low">★</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-self">—</td>
+            <td class="cell-low">★</td>
+          </tr>
+          <tr>
+            <td class="row-header c-space">宇宙</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-mid">★★</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-high">★★★</td>
+            <td class="cell-low">★</td>
+            <td class="cell-self">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12px;color:#555;margin-top:16px">★★★ 強い相互依存 &nbsp;|&nbsp; ★★ 重要な接続 &nbsp;|&nbsp; ★ 補助的な関係</p>
+  </div>
+
+  <!-- FUTURE SCENARIOS -->
+  <div class="section">
+    <h2>技術の協奏が生む未来シナリオ</h2>
+    <div class="scenarios">
+      <div class="scenario">
+        <div class="sc-year">2030</div>
+        <div class="sc-body">
+          <h3>量子・AI・バイオの融合による創薬革命</h3>
+          <p>量子コンピュータによる分子シミュレーション×AlphaFold系AIによるタンパク質設計×mRNA製造の高速化が統合され、<strong>新薬の開発期間が15年から2〜3年に短縮</strong>される。個人の遺伝子情報に合わせた「設計された薬」が一般的になる。</p>
+          <div class="sc-techs"><span class="sc-tech">量子コンピュータ</span><span class="sc-tech">AlphaFold</span><span class="sc-tech">mRNA</span><span class="sc-tech">CRISPR</span></div>
+        </div>
+      </div>
+      <div class="scenario">
+        <div class="sc-year">2033</div>
+        <div class="sc-body">
+          <h3>ロボット×素材×AIによる製造業の完全変容</h3>
+          <p>ヒューマノイドロボット（AIで動く）×新素材アクチュエータ×全固体電池（長時間稼働）が統合され、<strong>製造ラインの完全無人化</strong>が主要産業で達成。人間は設計・監督・改良に専念する。日本の「ものづくり」がAIロボット産業として世界に再輸出される。</p>
+          <div class="sc-techs"><span class="sc-tech">ヒューマノイド</span><span class="sc-tech">Embodied AI</span><span class="sc-tech">全固体電池</span><span class="sc-tech">新素材</span></div>
+        </div>
+      </div>
+      <div class="scenario">
+        <div class="sc-year">2038</div>
+        <div class="sc-body">
+          <h3>核融合×超伝導送電によるエネルギー文明の転換</h3>
+          <p>核融合実証炉が稼働開始×室温超伝導（またはHTS）送電が商業展開。<strong>発電コストが化石燃料の1/10以下</strong>になる見通しが立ち、グリーン水素・淡水化・CO₂直接回収が経済合理的に。カーボンニュートラルの実現が技術的に確定する。</p>
+          <div class="sc-techs"><span class="sc-tech">核融合</span><span class="sc-tech">超伝導送電</span><span class="sc-tech">グリーン水素</span><span class="sc-tech">グリッド蓄電</span></div>
+        </div>
+      </div>
+      <div class="scenario">
+        <div class="sc-year">2045</div>
+        <div class="sc-body">
+          <h3>脳×AI×ロボットによる人間拡張の一般化</h3>
+          <p>BCIが医療から一般普及へ。AIアシスタントが脳に直接情報を提供し、ロボットが拡張された「外骨格」として機能する。<strong>人間の認知・身体能力が技術的に拡張され、老化・障害・言語の壁が大幅に緩和</strong>される。人間の定義が問い直される時代へ。</p>
+          <div class="sc-techs"><span class="sc-tech">BCI</span><span class="sc-tech">神経形態AI</span><span class="sc-tech">外骨格ロボット</span><span class="sc-tech">抗老化薬</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOT ROLE -->
+  <div class="section">
+    <h2>Bank of Technology の役割設計</h2>
+    <div class="bot-role">
+      <h3>指揮者は何をするのか。<br/><span style="color:#888">具体的な機能定義。</span></h3>
+      <p style="font-size:17px;color:#777;line-height:2;max-width:700px">オーケストラの指揮者は楽器を演奏しない。各奏者の実力を理解し、全体として最高の音楽を生み出す「構造」を設計する。Bank of Technologyも同じだ。</p>
+      <div class="bot-role-grid">
+        <div class="br-item">
+          <div class="br-num">01</div>
+          <div class="br-title">技術解析・翻訳</div>
+          <div class="br-body">研究室にある技術を「産業語」に翻訳する。論文の発見が何を意味し、どの産業課題を解決し、いつ実用化可能かを<strong>具体的なシナリオとして言語化する</strong>。研究者と産業人が同じ地図を見られるようにする。</div>
+        </div>
+        <div class="br-item">
+          <div class="br-num">02</div>
+          <div class="br-title">接続設計</div>
+          <div class="br-body">「この素材×この製造技術×この産業課題」という組み合わせを設計する。今日この資料で示した14の接続ラインを、実際のプロジェクト・投資・研究開発として形にする。<strong>知的接続を現実の協働に変える</strong>機能。</div>
+        </div>
+        <div class="br-item">
+          <div class="br-num">03</div>
+          <div class="br-title">産業化設計図</div>
+          <div class="br-body">技術が産業になるためには、研究→実証→量産→普及の各ステージで異なる支援が必要。<strong>「どの技術がいつどのステージにあり、次のステージに進むために何が必要か」</strong>のロードマップを描き、産業化を加速する。</div>
+        </div>
+        <div class="br-item">
+          <div class="br-num">04</div>
+          <div class="br-title">人材・組織の接続</div>
+          <div class="br-body">技術の協奏は人の協奏でもある。量子物理学者と製造エンジニアが同じプロジェクトで動ける環境を設計する。<strong>専門の壁を越えた「共鳴するチーム」の設計</strong>が、Bank of Technologyの人材機能だ。</div>
+        </div>
+        <div class="br-item">
+          <div class="br-num">05</div>
+          <div class="br-title">投資・政策への提言</div>
+          <div class="br-body">技術の全体像を把握しているからこそ、「今何に投資すべきか」「何を規制すべきか」が分かる。単一技術の専門家には見えない<strong>「システム全体への最適な介入点」を特定し、資源の配分を最適化する</strong>提言機能。</div>
+        </div>
+        <div class="br-item">
+          <div class="br-num">06</div>
+          <div class="br-title">未来の可視化</div>
+          <div class="br-body">技術が2030年・2040年にどんな世界を作るかを、一般の人にも理解できる言語とビジュアルで表現する。「見えない未来を見える化する」ことで、<strong>社会全体が技術に参加できる基盤を作る</strong>。このドキュメントはその第一歩だ。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>Bank of Technology — 技術の協奏マップ v1.0</span>
+    <span>2026年5月 · 統合解析</span>
+  </footer>
+</div>
+</body>
+</html>

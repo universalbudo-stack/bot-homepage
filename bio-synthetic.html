@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生命を、プログラムする。— BoT技術解析レポート #005-04</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased}
+.page{max-width:1100px;margin:0 auto;padding:80px 60px}
+.breadcrumb{font-size:11px;color:#666;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px}
+.breadcrumb span{color:#555}
+.label{font-size:11px;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:#777;margin-bottom:16px}
+h1{font-size:56px;font-weight:300;line-height:1.1;letter-spacing:-.03em;margin-bottom:24px}
+h1 span{color:#888}
+.meta{font-size:13px;color:#777;margin-bottom:80px}
+.section{margin-bottom:100px}
+h2{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#777;margin-bottom:48px;padding-bottom:16px;border-bottom:1px solid #1a1a1a}
+.plain{background:#0d0d0d;padding:48px;margin-bottom:2px}
+.plain h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.plain p{font-size:16px;color:#777;line-height:2;margin-bottom:20px}
+.plain p:last-child{margin-bottom:0}
+.plain p strong{color:#bbb;font-weight:400}
+.divider{height:1px;background:#1a1a1a;margin:32px 0}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:80px}
+.metric{background:#0d0d0d;padding:32px 24px;text-align:center}
+.metric .val{font-size:36px;font-weight:300;letter-spacing:-.02em;margin-bottom:8px}
+.metric .lbl{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.metric .note{font-size:12px;color:#666;line-height:1.6}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:2px}
+.card{background:#0d0d0d;padding:36px}
+.card .tag{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.card h3{font-size:18px;font-weight:500;color:#fff;margin-bottom:12px}
+.card p{font-size:13px;color:#777;line-height:1.9}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:32px}
+.tier{padding:28px;border:1px solid #1a1a1a;background:#0a0a0a}
+.tier .tier-tag{font-size:9px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px}
+.tier .tier-name{font-size:15px;font-weight:500;margin-bottom:10px}
+.tier .tier-body{font-size:12px;color:#777;line-height:1.8}
+.tier.now .tier-tag{color:#4a9}
+.tier.near .tier-tag{color:#88f}
+.tier.far .tier-tag{color:#f84}
+.tier.meta .tier-tag{color:#888}
+.cycle{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:32px}
+.cycle-step{background:#0d0d0d;padding:28px;position:relative}
+.cycle-step .step-num{font-size:48px;font-weight:300;color:#111;letter-spacing:-.04em;margin-bottom:12px}
+.cycle-step .step-name{font-size:15px;font-weight:500;color:#fff;margin-bottom:8px}
+.cycle-step .step-body{font-size:12px;color:#777;line-height:1.8}
+.bot-box{background:#0a0a0a;border:1px solid #1a1a1a;padding:48px}
+.bot-box h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.bot-box p{font-size:15px;color:#888;line-height:2;margin-bottom:16px}
+.bot-box p:last-child{margin-bottom:0}
+.bot-box strong{color:#aaa;font-weight:400}
+footer{margin-top:120px;padding-top:40px;border-top:1px solid #1a1a1a;display:flex;justify-content:space-between;font-size:12px;color:#555}
+@media(max-width:700px){.metrics,.grid2,.grid3,.tiers,.cycle{grid-template-columns:1fr}.page{padding:40px 20px}h1{font-size:36px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="breadcrumb">
+  Bank of Technology <span>›</span> Report #005 バイオテクノロジー <span>›</span> #005-04 合成生物学
+</div>
+
+<div class="label">Bank of Technology — 技術解析レポート #005-04</div>
+<h1>生命を、<br><span>プログラムする。</span></h1>
+<div class="meta">合成生物学の全貌 · 2026年 · 解析: Bank of Technology</div>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="lbl">合成生物学の市場規模（2030年予測）</div>
+    <div class="val">$30B</div>
+    <div class="note">2022年の$10Bから3倍に成長。農業・化学・医療・素材すべてに波及する。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">DNA合成コストの低下（2000年→2023年）</div>
+    <div class="val">1/100万</div>
+    <div class="note">1塩基のDNA合成が$10から$0.00001に。半導体のムーアの法則を超える速度。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">Impossible Burger の使用水量（牛肉比）</div>
+    <div class="val">1/87</div>
+    <div class="note">大豆から作る代替肉。土地は1/12、温室効果ガスは1/9。微生物発酵で製造。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">Spiber のクモの糸タンパク質繊維</div>
+    <div class="val">鉄の340倍</div>
+    <div class="note">強度あたり重量比で鉄の340倍の引張強度。山形の Spiber が量産化に成功。</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>まず、一般の人向けに</h2>
+  <div class="plain">
+    <h3>最初の「プログラムされた生命」は、1982年のインスリンだった</h3>
+    <p>
+      1型糖尿病の治療に使うインスリンは、かつては豚や牛の膵臓から採取していた。
+      量に限界があり、アレルギーを起こす患者もいた。
+      1982年、科学者たちはヒトのインスリン遺伝子を大腸菌のDNAに組み込み、
+      <strong>大腸菌にヒトのインスリンを作らせることに成功した。</strong>
+      世界初の遺伝子組み換えタンパク質医薬品の誕生だ。
+      今も世界中の糖尿病患者が使うインスリンの多くは、微生物が「製造」している。
+    </p>
+    <p>
+      合成生物学とは、この発想を徹底的に拡張したものだ。
+      <strong>生命を「プログラム可能なシステム」として設計・改造する。</strong>
+      DNAを「コード」として書き換え、細胞を「工場」として使い、
+      医薬品・素材・燃料・食品を作る——これが合成生物学の本質だ。
+    </p>
+    <div class="divider"></div>
+    <h3>なぜ今、爆発的に進んでいるのか</h3>
+    <p>
+      理由は3つある。
+      第一に、<strong>DNA 合成と解読のコストが急落した</strong>。
+      2000年に1塩基あたり10ドルだった DNA 合成コストは、
+      2023年には0.00001ドル以下になった。
+      100万分の1以下のコスト低下。
+      「遺伝子を書く」ことが鉛筆で紙に書くほど安くなった。
+    </p>
+    <p>
+      第二に、<strong>AI が設計を加速している</strong>。
+      どの遺伝子を組み合わせれば目的の化合物が作れるか——
+      この設計問題をAIが解くようになった。
+      従来は試行錯誤で年単位かかった設計が、コンピュータで数日で仮説が出る。
+    </p>
+    <p>
+      第三に、<strong>CRISPR で編集が精密になった</strong>。
+      設計した遺伝子を生物に組み込む「書き込み作業」が、
+      ハサミとテープの作業から精密な外科手術レベルになった。
+    </p>
+    <div class="divider"></div>
+    <h3>クモの糸を着る時代が来た</h3>
+    <p>
+      山形県のスタートアップ Spiber は、クモの巣を作るタンパク質の遺伝子を微生物に組み込み、
+      発酵タンクの中でクモの糸タンパク質（ブリュード・プロテイン）を大量生産することに成功した。
+      <strong>鉄の340倍の引張強度を持つこの素材は、今ではノースフェイスのジャケットになっている。</strong>
+      石油から作るナイロンでなく、砂糖水と微生物から作る繊維——
+      素材産業の根本が変わろうとしている。
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>設計・構築・試験・学習のサイクル — DBTL</h2>
+  <div class="cycle">
+    <div class="cycle-step">
+      <div class="step-num">01</div>
+      <div class="step-name">Design（設計）</div>
+      <div class="step-body">目的の機能を持つ遺伝子回路を設計。AIが候補配列を予測。データベースの既知遺伝子パーツを組み合わせる「バイオ CAD」で設計。</div>
+    </div>
+    <div class="cycle-step">
+      <div class="step-num">02</div>
+      <div class="step-name">Build（構築）</div>
+      <div class="step-body">設計した DNA を合成・細胞に導入。DNA 合成機・遺伝子編集（CRISPR）・自動細胞培養ロボットがこの工程を自動化。</div>
+    </div>
+    <div class="cycle-step">
+      <div class="step-num">03</div>
+      <div class="step-name">Test（試験）</div>
+      <div class="step-body">構築した細胞が目的通りに機能するか検証。質量分析・蛍光イメージング・RNA シーケンシングで高速スクリーニング。</div>
+    </div>
+    <div class="cycle-step">
+      <div class="step-num">04</div>
+      <div class="step-name">Learn（学習）</div>
+      <div class="step-body">試験結果を AI に学習させ、次の設計に反映。サイクルを繰り返すごとに設計精度が上がる。ソフトウェアのアジャイル開発に似た思想。</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>産業別応用マップ</h2>
+  <div class="grid3">
+    <div class="card">
+      <div class="tag">医薬品</div>
+      <h3>バイオ医薬品製造</h3>
+      <p>抗体・ホルモン・ワクチンを微生物・細胞が製造。インスリン・成長ホルモン・エリスロポエチンはすでに合成生物学で作られる。次はより複雑な分子の製造へ。</p>
+    </div>
+    <div class="card">
+      <div class="tag">素材・繊維</div>
+      <h3>バイオ素材</h3>
+      <p>Spiber のクモの糸タンパク質・Bolt Threads のシルク・Bolt の菌糸（マッシュルーム）皮革。石油化学に依存しない「生きている素材」。ファッション・自動車内装が市場。</p>
+    </div>
+    <div class="card">
+      <div class="tag">農業・食品</div>
+      <h3>代替タンパク・農業改革</h3>
+      <p>Impossible Burger（大豆ヘムを酵母が生産）・Perfect Day（牛乳タンパクを微生物が生産）。土地・水・CO₂を劇的に削減。窒素固定菌の改良で化学肥料不要の農業も。</p>
+    </div>
+    <div class="card">
+      <div class="tag">化学・エネルギー</div>
+      <h3>バイオ化学品</h3>
+      <p>石油由来のプラスチック・溶剤・界面活性剤を微生物が代替製造。Ginkgo Bioworks がプラットフォーム提供。バイオジェット燃料（SAF）は航空業界の脱炭素の鍵。</p>
+    </div>
+    <div class="card">
+      <div class="tag">環境</div>
+      <h3>バイオレメディエーション</h3>
+      <p>プラスチックを分解する菌・石油汚染を浄化する微生物・CO₂を固定する藻類。自然界の「分解」機能を強化・高速化して環境問題を解く。</p>
+    </div>
+    <div class="card">
+      <div class="tag">診断・センサー</div>
+      <h3>バイオセンサー</h3>
+      <p>特定の化合物に反応して光る細胞・病原体を検知するDNA回路。工場の汚染物質検知・体内の疾患マーカー検知など、生物を「センサー」として使う新しい計測技術。</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>産業化ロードマップ</h2>
+  <div class="tiers">
+    <div class="tier now">
+      <div class="tier-tag">NOW · 実用化済み</div>
+      <div class="tier-name">バイオ医薬品・代替食品</div>
+      <div class="tier-body">インスリン・抗体医薬が合成生物学で製造。Impossible Burger・Oatly が食品市場で普及。Spiber がクモの糸タンパクの商業生産を開始。ここまでは「実証済みの産業」だ。</div>
+    </div>
+    <div class="tier near">
+      <div class="tier-tag">NEAR · 2026-2030</div>
+      <div class="tier-name">バイオ化学品の拡大</div>
+      <div class="tier-body">石油化学プロセスの置き換えが始まる。BDO・乳酸・コハク酸などの化学品を微生物が製造。Ginkgo Bioworks・Zymergen のプラットフォームが数十の化学品を同時展開。</div>
+    </div>
+    <div class="tier far">
+      <div class="tier-tag">FAR · 2028-2035</div>
+      <div class="tier-name">細胞農業・バイオ燃料</div>
+      <div class="tier-body">牛を育てずに牛肉の培養。漁業なしに魚の細胞から魚肉を作る「細胞農業」が量産段階へ。バイオジェット燃料が航空業界の主要燃料に。コスト競争力の確立が鍵。</div>
+    </div>
+    <div class="tier meta">
+      <div class="tier-tag">META · 2035+</div>
+      <div class="tier-name">プログラムされた生態系</div>
+      <div class="tier-body">大気中のCO₂を固定する藻類・プラスチックを分解する微生物・窒素固定する根粒菌が「設計された生態系」として地球規模で展開。生命が地球環境のエンジニアリングに使われる時代。</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Bank of Technology の視点</h2>
+  <div class="bot-box">
+    <h3>合成生物学は「製造業の OS が変わる」出来事だ</h3>
+    <p>
+      石油化学産業は「石油を原料にして化学物質を作る」という20世紀の製造 OS の上に成り立っている。
+      合成生物学は「糖・水・空気を原料にして微生物が化学物質を作る」という
+      <strong>まったく別の製造 OS への移行</strong>だ。
+      インプットが変わる。製造装置が変わる。工場が発酵タンクになる。
+    </p>
+    <p>
+      日本にとっての機会は、意外にも「味噌・醤油・日本酒」にある。
+      <strong>日本は数百年の発酵産業の歴史と技術を持つ国だ。</strong>
+      麹菌・乳酸菌・酵母の扱いに長けた技術者と設備がある。
+      これは合成生物学の「実装力」——
+      設計した微生物を大規模発酵タンクで安定的に培養する能力——に直結する。
+      Spiber が山形で世界最先端のタンパク質製造を実現できたのは偶然ではない。
+    </p>
+    <p>
+      <strong>「バイオ×製造」のプラットフォームを構築できる国が、
+      21世紀の化学産業の覇権を握る。</strong>
+      DNA を設計する力（ソフトウェア）と、微生物を培養する力（ハードウェア）を
+      両方持てる国は限られる。日本はそのポジションを狙える稀有な存在だ。
+    </p>
+  </div>
+</div>
+
+<footer>
+  <span>Bank of Technology — 技術解析レポート #005-04</span>
+  <span>親レポート: <a href="bio-analysis.html" style="color:#555">#005 バイオテクノロジー</a> · 2026</span>
+</footer>
+
+</div>
+</body>
+</html>

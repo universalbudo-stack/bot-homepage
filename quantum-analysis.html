@@ -1,0 +1,294 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>量子技術 — 技術解析レポート | Bank of Technology</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-weight: 300; line-height: 1.8; -webkit-font-smoothing: antialiased; }
+    .page { max-width: 1100px; margin: 0 auto; padding: 80px 60px; }
+    .label { font-size: 11px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: #555; margin-bottom: 16px; }
+    h1 { font-size: 56px; font-weight: 300; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 24px; }
+    h1 span { color: #888; }
+    .meta { font-size: 13px; color: #555; margin-bottom: 80px; }
+    .section { margin-bottom: 100px; }
+    h2 { font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: #555; margin-bottom: 48px; padding-bottom: 16px; border-bottom: 1px solid #1a1a1a; }
+    .plain { background: #0d0d0d; padding: 48px; margin-bottom: 2px; }
+    .plain h3 { font-size: 20px; font-weight: 500; color: #fff; margin-bottom: 24px; }
+    .plain p { font-size: 16px; color: #777; line-height: 2; margin-bottom: 20px; }
+    .plain p:last-child { margin-bottom: 0; }
+    .plain p strong { color: #bbb; font-weight: 400; }
+    .divider { height: 1px; background: #1a1a1a; margin: 32px 0; }
+
+    /* APPROACH CARDS */
+    .approaches { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-bottom: 2px; }
+    .approach { background: #0d0d0d; padding: 36px; }
+    .approach-name { font-size: 13px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #666; margin-bottom: 8px; }
+    .approach-title { font-size: 22px; font-weight: 300; color: #fff; margin-bottom: 16px; }
+    .approach-body { font-size: 13px; color: #555; line-height: 1.9; margin-bottom: 20px; }
+    .approach-players { font-size: 12px; color: #444; }
+    .approach-players span { color: #666; margin-right: 12px; }
+    .readiness { display: flex; align-items: center; gap: 12px; margin-top: 20px; }
+    .readiness-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #444; }
+    .readiness-bar-bg { flex: 1; height: 2px; background: #1a1a1a; }
+    .readiness-bar { height: 2px; }
+    .readiness-num { font-size: 12px; color: #555; width: 32px; text-align: right; }
+
+    /* MILESTONE TIMELINE */
+    .timeline { position: relative; padding-left: 32px; }
+    .timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 1px; background: #1a1a1a; }
+    .milestone { position: relative; margin-bottom: 48px; }
+    .milestone::before { content: ''; position: absolute; left: -36px; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: #333; }
+    .milestone.done::before { background: #44ff88; }
+    .milestone.near::before { background: #4488ff; }
+    .milestone.far::before { background: #333; }
+    .milestone-year { font-size: 11px; font-weight: 500; letter-spacing: 0.15em; color: #444; margin-bottom: 8px; }
+    .milestone-title { font-size: 18px; font-weight: 400; color: #fff; margin-bottom: 8px; }
+    .milestone-body { font-size: 13px; color: #555; line-height: 1.8; max-width: 600px; }
+    .milestone.done .milestone-year { color: #44ff88; }
+    .milestone.near .milestone-year { color: #4488ff; }
+
+    /* OPPORTUNITY */
+    .opps { display: grid; gap: 2px; }
+    .opp { display: grid; grid-template-columns: 80px 1fr 180px; gap: 24px; align-items: start; background: #0d0d0d; padding: 32px; }
+    .opp-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #444; padding-top: 4px; }
+    .opp h3 { font-size: 18px; font-weight: 500; color: #fff; margin-bottom: 8px; }
+    .opp p { font-size: 13px; color: #555; line-height: 1.8; }
+    .opp-right { text-align: right; }
+    .opp-horizon { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 8px; }
+    .opp-scale { font-size: 22px; font-weight: 300; color: #888; }
+
+    .bot-box { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 48px; }
+    .bot-box h3 { font-size: 20px; font-weight: 500; color: #fff; margin-bottom: 24px; }
+    .bot-box p { font-size: 15px; color: #666; line-height: 2; margin-bottom: 16px; }
+    .bot-box p:last-child { margin-bottom: 0; }
+    .bot-box strong { color: #aaa; font-weight: 400; }
+
+    footer { margin-top: 120px; padding-top: 40px; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-between; font-size: 12px; color: #333; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="label">Bank of Technology — 技術解析レポート #002</div>
+  <h1>量子技術は<br /><span>何を変えるのか。</span></h1>
+  <div class="meta">Google・IBM・Microsoft・IonQ・Quantinuum 等の公開論文・発表を解析 · 2026年5月</div>
+
+  <!-- PLAIN -->
+  <div class="section">
+    <h2>一般の人向けに</h2>
+    <div class="plain">
+      <h3>量子コンピュータって何が違うの？</h3>
+      <p>
+        普通のコンピュータは「0か1か」のビットで計算します。
+        量子コンピュータは<strong>「0でも1でも同時にある」量子ビット（qubit）</strong>を使います。
+        これにより、特定の問題を指数関数的に速く解けます。
+      </p>
+      <p>
+        ただし「すべての計算が速くなる」わけではありません。
+        <strong>量子コンピュータが圧倒的に得意なのは、「最適化」「暗号解読」「分子シミュレーション」</strong>
+        の3領域です。逆に動画編集やゲームは普通のコンピュータの方が速い。
+      </p>
+      <div class="divider"></div>
+      <h3>今どこまで来ているの？</h3>
+      <p>
+        2024年12月、Googleが<strong>「Willow」チップで量子超越性を再び実証</strong>しました。
+        古典コンピュータが10²⁵年かかる計算を5分で解いたと発表。
+        ただしこれは「量子コンピュータが得意な特殊な問題」であり、
+        ビジネス実用にはまだ距離があります。
+      </p>
+      <p>
+        最大の課題は<strong>「エラー率」</strong>です。量子ビットは非常に壊れやすく、
+        計算中にエラーが起きます。エラー訂正のために多数の物理量子ビットが必要で、
+        「論理量子ビット1個」を作るのに現状100〜1000個の物理量子ビットが必要です。
+      </p>
+    </div>
+  </div>
+
+  <!-- APPROACHES -->
+  <div class="section">
+    <h2>4つの技術方式 — 誰が何をやっているか</h2>
+    <div class="approaches">
+
+      <div class="approach">
+        <div class="approach-name">方式 01</div>
+        <div class="approach-title">超伝導量子ビット</div>
+        <div class="approach-body">
+          現在最も進んでいるアプローチ。マイクロ波で制御する超伝導回路を使う。
+          GoogleのWillow（105 qubit）、IBMのCondor（1,121 qubit）がここ。
+          課題は極低温（−273℃）が必要なことと、エラー率の高さ。
+          大手テック企業が集中投資しており、短期的な実用化が最も近い。
+        </div>
+        <div class="approach-players">
+          主なプレーヤー：<span>Google</span><span>IBM</span><span>Amazon</span>
+        </div>
+        <div class="readiness">
+          <div class="readiness-label">実用度</div>
+          <div class="readiness-bar-bg"><div class="readiness-bar" style="width:65%;background:#4488ff"></div></div>
+          <div class="readiness-num">65%</div>
+        </div>
+      </div>
+
+      <div class="approach">
+        <div class="approach-name">方式 02</div>
+        <div class="approach-title">イオントラップ</div>
+        <div class="approach-body">
+          原子イオンをレーザーで制御する方式。エラー率が超伝導より低く、
+          量子ビットの品質（フィデリティ）が高い。ただし動作が遅く、
+          スケールアップが難しい。金融・創薬の最適化問題での商用利用が先行。
+          IonQは2024年にフォーチュン500企業向けのクラウドサービスを展開中。
+        </div>
+        <div class="approach-players">
+          主なプレーヤー：<span>IonQ</span><span>Quantinuum</span><span>Oxford Ionics</span>
+        </div>
+        <div class="readiness">
+          <div class="readiness-label">実用度</div>
+          <div class="readiness-bar-bg"><div class="readiness-bar" style="width:55%;background:#44aaff"></div></div>
+          <div class="readiness-num">55%</div>
+        </div>
+      </div>
+
+      <div class="approach">
+        <div class="approach-name">方式 03</div>
+        <div class="approach-title">トポロジカル量子ビット</div>
+        <div class="approach-body">
+          Microsoftが20年以上研究してきた理論的に最もエラーに強い方式。
+          2025年2月、Microsoftが「Majoranaフェルミオン」の観測を発表し注目を集めた。
+          実現すれば少ない物理qubitで大規模な論理計算が可能になる。
+          ただし基礎物理の検証段階であり、実用化は最も遠い。ハイリスク・ハイリターン。
+        </div>
+        <div class="approach-players">
+          主なプレーヤー：<span>Microsoft</span>
+        </div>
+        <div class="readiness">
+          <div class="readiness-label">実用度</div>
+          <div class="readiness-bar-bg"><div class="readiness-bar" style="width:20%;background:#aa44ff"></div></div>
+          <div class="readiness-num">20%</div>
+        </div>
+      </div>
+
+      <div class="approach">
+        <div class="approach-name">方式 04</div>
+        <div class="approach-title">光量子コンピュータ</div>
+        <div class="approach-body">
+          光子（フォトン）を量子ビットとして使う。室温で動作できるのが最大の強み。
+          ただし光子の制御・検出が難しく、大規模化に課題がある。
+          PsiQuantumは「100万qubitの光量子チップ」を半導体製造プロセスで作る計画を発表。
+          量子通信・量子暗号との統合では最有力候補。
+        </div>
+        <div class="approach-players">
+          主なプレーヤー：<span>PsiQuantum</span><span>Xanadu</span><span>QuiX Quantum</span>
+        </div>
+        <div class="readiness">
+          <div class="readiness-label">実用度</div>
+          <div class="readiness-bar-bg"><div class="readiness-bar" style="width:30%;background:#ff8844"></div></div>
+          <div class="readiness-num">30%</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section">
+    <h2>実用化マイルストーン</h2>
+    <div class="timeline">
+      <div class="milestone done">
+        <div class="milestone-year">2019 — 達成済み</div>
+        <div class="milestone-title">量子超越性の実証</div>
+        <div class="milestone-body">GoogleのSycamoreが「量子コンピュータでなければ現実的な時間では解けない問題」を解いた。古典コンピュータ比で10,000年→200秒。</div>
+      </div>
+      <div class="milestone done">
+        <div class="milestone-year">2024 — 達成済み</div>
+        <div class="milestone-title">エラー訂正の実用水準への到達</div>
+        <div class="milestone-body">GoogleのWillowが、論理量子ビットのエラー率を物理量子ビットより低くすることに成功。理論通りのスケーリングを初めて実証。量子エラー訂正の実現可能性を証明した。</div>
+      </div>
+      <div class="milestone near">
+        <div class="milestone-year">2026〜2028 — 目前</div>
+        <div class="milestone-title">特定分野でのQuantum Advantage実証</div>
+        <div class="milestone-body">創薬（分子シミュレーション）・物流最適化・金融リスク計算など、限定された実問題で古典コンピュータを上回る成果が出始める。クラウド経由での商用利用が本格化。</div>
+      </div>
+      <div class="milestone near">
+        <div class="milestone-year">2030〜2035 — 近中期</div>
+        <div class="milestone-title">フォールトトレラント量子コンピュータ</div>
+        <div class="milestone-body">エラーに強い論理量子ビットを数百〜数千個持つシステムが稼働。化学・材料科学・最適化で産業レベルのインパクトが出る。現在の暗号（RSA等）への脅威が現実的になる。</div>
+      </div>
+      <div class="milestone far">
+        <div class="milestone-year">2035〜 — 長期</div>
+        <div class="milestone-title">汎用量子コンピュータ</div>
+        <div class="milestone-body">数百万論理量子ビットを持つ大規模システム。AIの学習加速・新材料設計・創薬革命が起きる。インターネットに相当するインフラとして「量子ネットワーク」が整備される。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPPORTUNITIES -->
+  <div class="section">
+    <h2>産業化チャンス</h2>
+    <div class="opps">
+      <div class="opp">
+        <div class="opp-tag">今すぐ</div>
+        <div>
+          <h3>量子暗号・量子セキュリティ</h3>
+          <p>量子コンピュータの脅威に備えた「耐量子暗号」への移行需要が今すぐ存在する。政府・金融・防衛機関は対応を開始している。量子鍵配送（QKD）の商用展開も始まっている。</p>
+        </div>
+        <div class="opp-right">
+          <div class="opp-horizon">Now</div>
+          <div class="opp-scale">数千億円</div>
+        </div>
+      </div>
+      <div class="opp">
+        <div class="opp-tag">5年以内</div>
+        <div>
+          <h3>創薬・分子シミュレーション</h3>
+          <p>タンパク質折りたたみ・薬剤分子の最適化は量子コンピュータが最も早く実用的優位を示す領域。大手製薬会社はIBM・Googleとすでに共同研究中。</p>
+        </div>
+        <div class="opp-right">
+          <div class="opp-horizon">5年以内</div>
+          <div class="opp-scale">数兆円</div>
+        </div>
+      </div>
+      <div class="opp">
+        <div class="opp-tag">今すぐ</div>
+        <div>
+          <h3>量子センシング</h3>
+          <p>量子コンピュータより先に産業化が進んでいる領域。原子時計・重力センサー・MRI感度向上・地下資源探査などで実用段階。量子コンピューティングの議論に隠れがちだが市場が確実に存在する。</p>
+        </div>
+        <div class="opp-right">
+          <div class="opp-horizon">Now〜3年</div>
+          <div class="opp-scale">数千億円</div>
+        </div>
+      </div>
+      <div class="opp">
+        <div class="opp-tag">メタ機会</div>
+        <div>
+          <h3>量子×AIのハイブリッドアルゴリズム</h3>
+          <p>「量子コンピュータとAIを組み合わせたハイブリッド計算」の設計・実装を担うプラットフォーム。量子ハードウェアは各社が作るが、その上でどう産業課題を解くかの「指揮」が空白。</p>
+        </div>
+        <div class="opp-right">
+          <div class="opp-horizon">今すぐ</div>
+          <div class="opp-scale">戦略的優位</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOT PERSPECTIVE -->
+  <div class="section">
+    <h2>Bank of Technology の視点</h2>
+    <div class="bot-box">
+      <h3>量子技術の「協奏」が起きていない</h3>
+      <p>量子コンピュータ・量子通信・量子センシング・量子暗号は、それぞれ別々のコミュニティで進化している。しかし<strong>これらを統合したシステムが「量子インターネット」であり、産業インフラとしての本当の価値はそこにある。</strong></p>
+      <p>さらに、量子技術は超伝導（量子ビットの動作原理）・AI（量子機械学習）・半導体（チップ製造）・暗号（セキュリティ）と深く結びついている。<strong>縦割りで進む各技術を横断的につなぐ設計者がいない。</strong></p>
+      <p>Bank of Technologyが入れる場所は、この「横断設計」だ。どの量子技術がいつ産業化されるかを予測し、それに合わせてサプライチェーン・人材・規制を準備するロードマップを描く。</p>
+    </div>
+  </div>
+
+  <footer>
+    <span>Bank of Technology — 技術解析レポート #002</span>
+    <span>2026年5月 · 量子技術解析</span>
+  </footer>
+</div>
+</body>
+</html>

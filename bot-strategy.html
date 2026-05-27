@@ -1,0 +1,1231 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bank of Technology — 戦略設計図</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #000;
+    --surface: #0a0a0a;
+    --surface2: #111;
+    --border: #1a1a1a;
+    --border2: #222;
+    --text: #fff;
+    --muted: #666;
+    --subtle: #333;
+    --accent: #fff;
+    --dim: #999;
+    --red: #ff4444;
+    --green: #44ff88;
+    --blue: #4488ff;
+    --yellow: #ffcc44;
+    --purple: #cc88ff;
+    --orange: #ff8844;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 24px;
+  }
+
+  /* HEADER */
+  .doc-header {
+    border-bottom: 1px solid var(--border2);
+    padding-bottom: 40px;
+    margin-bottom: 60px;
+  }
+  .doc-meta { color: var(--muted); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+  .doc-title { font-size: 42px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 16px; }
+  .doc-sub { font-size: 16px; color: var(--dim); font-weight: 300; max-width: 600px; }
+
+  /* SECTION */
+  .section { margin-bottom: 80px; }
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 32px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  h2 { font-size: 28px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 16px; }
+  h3 { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+  p { color: var(--dim); margin-bottom: 12px; }
+  strong { color: var(--text); font-weight: 600; }
+
+  /* POSITION BLOCK */
+  .position-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 40px;
+  }
+  .position-cell {
+    background: var(--surface);
+    padding: 24px;
+    border: 1px solid var(--border);
+  }
+  .position-cell.highlight { background: var(--surface2); border-color: var(--border2); }
+  .position-cell .label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .position-cell .value { font-size: 15px; font-weight: 500; }
+  .position-cell .note { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+  /* DEPENDENCY MAP */
+  .dep-map {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 32px;
+    margin-bottom: 32px;
+  }
+  .dep-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .dep-num {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .dep-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--border);
+    position: relative;
+  }
+  .dep-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--text);
+  }
+  .dep-label { font-size: 13px; color: var(--dim); min-width: 180px; }
+  .dep-type { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); min-width: 80px; }
+  .fn-arrow {
+    color: var(--muted);
+    font-size: 16px;
+    padding: 0 8px;
+  }
+
+  /* PHASE BLOCKS */
+  .phases {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 32px;
+  }
+  .phase {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px;
+  }
+  .phase-tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid var(--border2);
+    padding: 4px 10px;
+    margin-bottom: 16px;
+    color: var(--muted);
+  }
+  .phase-time { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .phase-theme { font-size: 14px; color: var(--dim); margin-bottom: 20px; font-style: italic; }
+  .phase-items { list-style: none; }
+  .phase-items li {
+    font-size: 13px;
+    color: var(--dim);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+  }
+  .phase-items li:last-child { border-bottom: none; }
+  .phase-items .item-fn {
+    font-weight: 600;
+    color: var(--text);
+    min-width: 24px;
+  }
+
+  /* FUNCTION DEEP DIVE */
+  .fn-block {
+    border: 1px solid var(--border);
+    margin-bottom: 2px;
+    overflow: hidden;
+  }
+  .fn-header {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 28px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .fn-num {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .fn-name { font-size: 18px; font-weight: 600; }
+  .fn-status {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 4px 12px;
+    border: 1px solid;
+  }
+  .status-now { color: var(--green); border-color: var(--green); }
+  .status-build { color: var(--yellow); border-color: var(--yellow); }
+  .status-future { color: var(--muted); border-color: var(--muted); }
+
+  .fn-body { padding: 28px; background: var(--bg); }
+  .fn-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .fn-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+  .fn-card-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .fn-card-body { font-size: 13px; color: var(--dim); }
+  .fn-card-body strong { color: var(--text); display: block; margin-bottom: 4px; }
+
+  .action-list { list-style: none; }
+  .action-list li {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 16px;
+    align-items: start;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .action-list li:last-child { border-bottom: none; }
+  .action-when {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+    padding-top: 2px;
+  }
+  .action-what { color: var(--dim); }
+  .action-what strong { color: var(--text); display: block; margin-bottom: 2px; }
+  .action-kpi {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* PRODUCT TABLE */
+  .product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+  }
+  .product-table th {
+    text-align: left;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border2);
+    font-weight: 500;
+  }
+  .product-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--dim);
+    vertical-align: top;
+  }
+  .product-table td:first-child { color: var(--text); font-weight: 500; }
+  .product-table tr:last-child td { border-bottom: none; }
+  .product-table tr:hover td { background: var(--surface); }
+
+  /* FLYWHEEL */
+  .flywheel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 40px;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .flywheel-title { font-size: 13px; color: var(--muted); margin-bottom: 32px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .flywheel-steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    flex-wrap: nowrap;
+  }
+  .fly-step {
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    padding: 20px 16px;
+    text-align: center;
+    width: 130px;
+    flex-shrink: 0;
+  }
+  .fly-step .num { font-size: 24px; font-weight: 700; color: var(--subtle); margin-bottom: 6px; }
+  .fly-step .name { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+  .fly-step .sub { font-size: 10px; color: var(--muted); }
+  .fly-arrow {
+    color: var(--subtle);
+    font-size: 20px;
+    padding: 0 4px;
+    flex-shrink: 0;
+  }
+
+  /* METRICS */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-bottom: 32px;
+  }
+  .metric-cell {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px 20px;
+    text-align: center;
+  }
+  .metric-val { font-size: 32px; font-weight: 700; margin-bottom: 4px; }
+  .metric-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .metric-when { font-size: 11px; color: var(--muted); font-style: italic; }
+
+  /* UNIQUE VALUE */
+  .uv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 32px;
+  }
+  .uv-cell {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+  }
+  .uv-cell .who { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .uv-cell .what { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+  .uv-cell .note { font-size: 12px; color: var(--muted); }
+  .uv-cell.bot { background: var(--surface2); border-color: var(--border2); }
+  .uv-cell.bot .who { color: var(--text); }
+
+  /* BUSINESS MODEL */
+  .biz-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 32px;
+  }
+  .biz-cell {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+  }
+  .biz-cell .stage { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .biz-cell .stream { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+  .biz-cell .detail { font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .biz-cell .amount { font-size: 20px; font-weight: 700; margin-top: 12px; color: var(--dim); }
+
+  /* FIRST MOVE */
+  .firstmove {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    padding: 40px;
+    margin-bottom: 32px;
+  }
+  .fm-title { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px; }
+  .fm-steps {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+  }
+  .fm-step {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+  .fm-step .week { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .fm-step .action { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+  .fm-step .output { font-size: 11px; color: var(--muted); }
+
+  /* INSIGHT BOX */
+  .insight {
+    border-left: 2px solid var(--border2);
+    padding: 16px 24px;
+    margin: 24px 0;
+    background: var(--surface);
+  }
+  .insight .insight-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 8px; }
+  .insight p { color: var(--dim); margin: 0; font-style: italic; }
+
+  /* FOOTER */
+  .doc-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 32px;
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-brand { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; }
+  .footer-meta { font-size: 11px; color: var(--muted); }
+
+  /* CHIP */
+  .chip {
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px 8px;
+    border: 1px solid var(--border2);
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+  .chip.green { border-color: var(--green); color: var(--green); }
+  .chip.yellow { border-color: var(--yellow); color: var(--yellow); }
+  .chip.blue { border-color: var(--blue); color: var(--blue); }
+
+  @media (max-width: 768px) {
+    .position-grid, .fn-grid, .metrics-grid, .biz-grid { grid-template-columns: 1fr; }
+    .phases, .uv-grid { grid-template-columns: 1fr; }
+    .flywheel-steps { flex-wrap: wrap; justify-content: center; }
+    .fm-steps { grid-template-columns: 1fr 1fr; }
+    .action-list li { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="doc-header">
+  <div class="doc-meta">Bank of Technology — 戦略設計図 / Strategic Blueprint · 2026</div>
+  <h1 class="doc-title">6つの機能を<br>現実にする</h1>
+  <p class="doc-sub">ビジョンと機能定義は完成した。次は、それぞれの機能を「実際の活動・産出物・指標」に落とし込み、BoT を動く組織として設計する。</p>
+</div>
+
+
+<!-- SECTION 0: BoT の独自ポジション -->
+<div class="section">
+  <div class="section-label">00 — Why BoT exists</div>
+  <h2>誰も持っていないポジション</h2>
+  <p>既存プレイヤーはそれぞれ「部分最適」しか持っていない。BoT はその全体を接続する唯一の機能だ。</p>
+
+  <div class="uv-grid">
+    <div class="uv-cell">
+      <div class="who">シンクタンク・コンサル</div>
+      <div class="what">政策提言・現業分析</div>
+      <div class="note">既存産業の最適化は得意。フロンティア技術の「産業化プロセス設計」は守備範囲外。</div>
+    </div>
+    <div class="uv-cell">
+      <div class="who">VC・投資機関</div>
+      <div class="what">資金提供・ポートフォリオ管理</div>
+      <div class="note">リターンが計算できる段階からしか動けない。研究→実証のステージは手が届かない。</div>
+    </div>
+    <div class="uv-cell">
+      <div class="who">大学・研究機関</div>
+      <div class="what">論文・基礎研究</div>
+      <div class="note">産業語への翻訳・産業課題との接続・量産化設計は構造的に苦手。</div>
+    </div>
+    <div class="uv-cell">
+      <div class="who">大企業 R&D 部門</div>
+      <div class="what">自社技術の深化</div>
+      <div class="note">単一ドメインに最適化。量子×材料×バイオの「交差点」を設計できない。</div>
+    </div>
+    <div class="uv-cell bot" style="grid-column: span 2;">
+      <div class="who">Bank of Technology</div>
+      <div class="what">研究室と産業の間、技術と技術の間、人と人の間を接続する「翻訳・接続・可視化」機能</div>
+      <div class="note">単一技術の専門家には見えない「システム全体への最適な介入点」を特定し、産業化を加速する。これは誰も持っていない。</div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div class="insight-label">Core Insight</div>
+    <p>BoT が提供するのは「技術情報」ではなく「技術の地図と接続の設計」だ。地図を持つ者が、技術の時代において最も強い。</p>
+  </div>
+</div>
+
+
+<!-- SECTION 1: 機能間の依存関係 -->
+<div class="section">
+  <div class="section-label">01 — Function Architecture</div>
+  <h2>6つの機能の依存関係</h2>
+  <p>6機能は独立していない。まず「基盤機能」が動き、それが他の機能を可能にする構造がある。</p>
+
+  <div class="dep-map">
+    <p style="font-size:12px;color:var(--muted);margin-bottom:24px;">機能の依存関係（上が先に動く必要がある）</p>
+
+    <div style="display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:start;">
+      <div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;">機能</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div class="dep-row" style="margin:0;">
+            <div class="dep-num">01</div>
+            <div class="dep-label">技術解析・翻訳</div>
+          </div>
+          <div class="dep-row" style="margin:0;">
+            <div class="dep-num">06</div>
+            <div class="dep-label">未来の可視化</div>
+          </div>
+          <div class="dep-row" style="margin:0;">
+            <div class="dep-num">03</div>
+            <div class="dep-label">産業化設計図</div>
+          </div>
+          <div class="dep-row" style="margin:0;">
+            <div class="dep-num">02</div>
+            <div class="dep-label">接続設計</div>
+          </div>
+          <div class="dep-row" style="margin:0;">
+            <div class="dep-num">04</div>
+            <div class="dep-label">人材・組織の接続</div>
+          </div>
+          <div class="dep-row" style="margin:0;">
+            <div class="dep-num">05</div>
+            <div class="dep-label">投資・政策への提言</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;">成熟度 / 優先度</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div class="dep-bar" style="height:36px;display:flex;align-items:center;padding:0 12px;">
+            <div class="dep-fill" style="width:85%;background:#fff;opacity:0.9;"></div>
+            <span style="font-size:11px;color:#000;position:absolute;padding-left:8px;font-weight:600;">基盤 · 今すぐ開始</span>
+          </div>
+          <div class="dep-bar" style="height:36px;display:flex;align-items:center;padding:0 12px;">
+            <div class="dep-fill" style="width:75%;background:#fff;opacity:0.7;"></div>
+            <span style="font-size:11px;color:#000;position:absolute;padding-left:8px;font-weight:600;">基盤 · 今すぐ開始</span>
+          </div>
+          <div class="dep-bar" style="height:36px;display:flex;align-items:center;padding:0 12px;">
+            <div class="dep-fill" style="width:55%;background:#fff;opacity:0.5;"></div>
+            <span style="font-size:11px;color:#fff;position:absolute;padding-left:8px;font-weight:600;opacity:0.9;">3〜6ヶ月後</span>
+          </div>
+          <div class="dep-bar" style="height:36px;display:flex;align-items:center;padding:0 12px;">
+            <div class="dep-fill" style="width:50%;background:#fff;opacity:0.45;"></div>
+            <span style="font-size:11px;color:#fff;position:absolute;padding-left:8px;font-weight:600;opacity:0.9;">3〜6ヶ月後</span>
+          </div>
+          <div class="dep-bar" style="height:36px;display:flex;align-items:center;padding:0 12px;">
+            <div class="dep-fill" style="width:30%;background:#fff;opacity:0.3;"></div>
+            <span style="font-size:11px;color:#fff;position:absolute;padding-left:8px;font-weight:600;opacity:0.7;">6〜18ヶ月後</span>
+          </div>
+          <div class="dep-bar" style="height:36px;display:flex;align-items:center;padding:0 12px;">
+            <div class="dep-fill" style="width:20%;background:#fff;opacity:0.2;"></div>
+            <span style="font-size:11px;color:#fff;position:absolute;padding-left:8px;font-weight:600;opacity:0.5;">18ヶ月以降</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div class="insight-label">設計原則</div>
+    <p>Function 01（翻訳）と Function 06（可視化）が「引力」だ。この2つが機能し始めると、優秀な人が集まり、接続が生まれ、産業化設計図が描け、政策提言の根拠が揃う。まず翻訳と可視化に全力を投資する。</p>
+  </div>
+</div>
+
+
+<!-- SECTION 2: フライホイール -->
+<div class="section">
+  <div class="section-label">02 — Growth Flywheel</div>
+  <h2>BoT のフライホイール</h2>
+  <p>6機能は循環する。「技術解析」が起点となり、接続・産業化・人材・政策提言・可視化を経て、さらに深い技術解析へ戻るサイクルが加速する。</p>
+
+  <div class="flywheel">
+    <div class="flywheel-title">BoT Growth Flywheel</div>
+    <div class="flywheel-steps">
+      <div class="fly-step">
+        <div class="num">01</div>
+        <div class="name">技術解析</div>
+        <div class="sub">論文→産業語</div>
+      </div>
+      <div class="fly-arrow">→</div>
+      <div class="fly-step">
+        <div class="num">06</div>
+        <div class="name">可視化</div>
+        <div class="sub">地図を公開</div>
+      </div>
+      <div class="fly-arrow">→</div>
+      <div class="fly-step">
+        <div class="num">04</div>
+        <div class="name">人が集まる</div>
+        <div class="sub">研究者・産業人</div>
+      </div>
+      <div class="fly-arrow">→</div>
+      <div class="fly-step">
+        <div class="num">02</div>
+        <div class="name">接続設計</div>
+        <div class="sub">プロジェクト化</div>
+      </div>
+      <div class="fly-arrow">→</div>
+      <div class="fly-step">
+        <div class="num">03</div>
+        <div class="name">産業化</div>
+        <div class="sub">ロードマップ</div>
+      </div>
+      <div class="fly-arrow">→</div>
+      <div class="fly-step">
+        <div class="num">05</div>
+        <div class="name">政策提言</div>
+        <div class="sub">影響力・信頼</div>
+      </div>
+      <div class="fly-arrow">→</div>
+      <div class="fly-step" style="background:var(--surface2);border-color:var(--border2);">
+        <div class="num" style="color:var(--text);">∞</div>
+        <div class="name">より深く</div>
+        <div class="sub">加速するループ</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SECTION 3: 各機能の詳細アクション -->
+<div class="section">
+  <div class="section-label">03 — Function Deep Dive</div>
+  <h2>各機能の具体的アクション</h2>
+
+  <!-- FN 01 -->
+  <div class="fn-block">
+    <div class="fn-header">
+      <div class="fn-num">01</div>
+      <div>
+        <div class="fn-name">技術解析・翻訳</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">研究室にある技術を「産業語」に翻訳する</div>
+      </div>
+      <div class="fn-status status-now">今すぐ開始</div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-grid">
+        <div class="fn-card">
+          <div class="fn-card-label">最小産出物 (MVP)</div>
+          <div class="fn-card-body">
+            <strong>技術翻訳レポート</strong>
+            月1〜2本、各技術ドメインを「発見→意味→産業課題との接続→実用化タイムライン」の4要素で構造化。すでに9本完成している。
+          </div>
+        </div>
+        <div class="fn-card">
+          <div class="fn-card-label">翻訳フレームワーク</div>
+          <div class="fn-card-body">
+            <strong>BoT 翻訳プロトコル</strong>
+            ①論文/発見の要点 ②「何が変わるか」(産業語) ③「誰の何の問題を解くか」④「いつ・どの条件で実用化か」⑤「今すぐやること」の5層構造を標準化する。
+          </div>
+        </div>
+        <div class="fn-card">
+          <div class="fn-card-label">差別化ポイント</div>
+          <div class="fn-card-body">
+            <strong>「単一技術 × 複数産業」視点</strong>
+            室温超伝導がエネルギー×輸送×医療×防衛に何をするか、全方位で書く。これができるのはドメインを横断する BoT だけ。
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom:16px;">具体的アクション</h3>
+      <ul class="action-list">
+        <li>
+          <div class="action-when">今週</div>
+          <div class="action-what"><strong>翻訳プロトコル v1 を文書化</strong>9本のレポートから共通構造を抽出し、「BoT 技術翻訳テンプレート」として1枚にまとめる</div>
+          <div class="action-kpi">テンプレート 1枚</div>
+        </li>
+        <li>
+          <div class="action-when">今月</div>
+          <div class="action-what"><strong>翻訳レポート #010 の執筆</strong>次のドメイン候補：光子コンピュータ、核融合商用化、合成生物学の工場化 — 最も産業化インパクトが大きいものから選ぶ</div>
+          <div class="action-kpi">レポート 1本/月</div>
+        </li>
+        <li>
+          <div class="action-when">3ヶ月以内</div>
+          <div class="action-what"><strong>共著者・査読者のネットワーク構築</strong>各ドメインに1名、研究者または産業専門家を「技術顧問」として迎える。報酬はないが、クレジットと地図への参加権を提供</div>
+          <div class="action-kpi">顧問 6名</div>
+        </li>
+        <li>
+          <div class="action-when">6ヶ月以内</div>
+          <div class="action-what"><strong>「BoT 技術スコア」システムの開発</strong>各技術を「技術成熟度(TRL)×産業接続性×タイムライン確実性」の3軸でスコアリングする独自指標を確立</div>
+          <div class="action-kpi">スコアシステム v1</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FN 06 -->
+  <div class="fn-block">
+    <div class="fn-header">
+      <div class="fn-num">06</div>
+      <div>
+        <div class="fn-name">未来の可視化</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">見えない未来を見える化し、社会が技術に参加できる基盤を作る</div>
+      </div>
+      <div class="fn-status status-now">今すぐ開始</div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-grid">
+        <div class="fn-card">
+          <div class="fn-card-label">出力メディア</div>
+          <div class="fn-card-body">
+            <strong>段階的な媒体展開</strong>
+            Phase 1: HTML文書（完成） → Phase 2: Webサイト統合 → Phase 3: インタラクティブマップ → Phase 4: 動画・プレゼン・講演
+          </div>
+        </div>
+        <div class="fn-card">
+          <div class="fn-card-label">コア資産</div>
+          <div class="fn-card-body">
+            <strong>技術協奏マップ（生きた文書）</strong>
+            symphony-map.html を「毎月更新される動的地図」として育てる。新技術、新接続ライン、実用化進捗を追加していく。
+          </div>
+        </div>
+        <div class="fn-card">
+          <div class="fn-card-label">ターゲット読者</div>
+          <div class="fn-card-body">
+            <strong>3層の読者</strong>
+            ①一般社会（未来イメージ） ②産業人・投資家（機会認識） ③研究者（自分の研究の位置づけ確認）。各層に別の価値を提供できる唯一の文書。
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom:16px;">具体的アクション</h3>
+      <ul class="action-list">
+        <li>
+          <div class="action-when">今月</div>
+          <div class="action-what"><strong>BoT レポートをウェブサイトに統合</strong>Framer または Netlify 上に「レポートライブラリ」ページを作成。9本のレポートにアクセスできるナビゲーションを設計</div>
+          <div class="action-kpi">レポートページ公開</div>
+        </li>
+        <li>
+          <div class="action-when">3ヶ月以内</div>
+          <div class="action-what"><strong>インタラクティブ技術マップ v1</strong>symphony-map の SVG をクリック可能にし、各ノードをクリックするとレポートに飛べる統合インターフェースを実装</div>
+          <div class="action-kpi">インタラクティブマップ</div>
+        </li>
+        <li>
+          <div class="action-when">6ヶ月以内</div>
+          <div class="action-what"><strong>「2030年の産業地図」レポート発行</strong>全9ドメインを統合した「2030年時点での世界産業地図」を1本の包括的レポートとして公開。BoT の旗印となる文書</div>
+          <div class="action-kpi">統合レポート 1本</div>
+        </li>
+        <li>
+          <div class="action-when">12ヶ月以内</div>
+          <div class="action-what"><strong>講演・発表デビュー</strong>技術系イベント（IVS, B Dash Camp, TEDx など）でのプレゼンを設計。「技術の協奏」というコンセプトをスライドと語りで表現</div>
+          <div class="action-kpi">登壇 1回</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FN 03 -->
+  <div class="fn-block">
+    <div class="fn-header">
+      <div class="fn-num">03</div>
+      <div>
+        <div class="fn-name">産業化設計図</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">研究→実証→量産→普及の各ステージを設計し、産業化を加速する</div>
+      </div>
+      <div class="fn-status status-build">3〜6ヶ月後</div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-grid">
+        <div class="fn-card">
+          <div class="fn-card-label">コア成果物</div>
+          <div class="fn-card-body">
+            <strong>技術パスポート</strong>
+            各技術に「現在ステージ・次ステージへの課題・必要リソース・タイムライン・担当すべき主体」を記載した標準フォーマットの1枚カルテ
+          </div>
+        </div>
+        <div class="fn-card">
+          <div class="fn-card-label">ステージ定義</div>
+          <div class="fn-card-body">
+            <strong>BoT 4ステージモデル</strong>
+            S1: 研究（TRL 1-3） → S2: 実証（TRL 4-6） → S3: 量産準備（TRL 7-8） → S4: 普及（TRL 9）。各ステージで「BoT が何を提供できるか」を定義
+          </div>
+        </div>
+        <div class="fn-card">
+          <div class="fn-card-label">主要パートナー</div>
+          <div class="fn-card-body">
+            <strong>ステージ別主体</strong>
+            S1: 大学・研究機関・JST / S2: NEDO・大企業R&D / S3: 製造業・商社・VC / S4: 政策・標準化機関。BoT は全ステージをつなぐ唯一の存在
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom:16px;">具体的アクション</h3>
+      <ul class="action-list">
+        <li>
+          <div class="action-when">3ヶ月以内</div>
+          <div class="action-what"><strong>技術パスポート v1 を9技術分作成</strong>超伝導・量子・核融合・mRNA・ロボット・グラフェン・BCI・Starship・GLP-1 それぞれの「現在地と次の一手」を1枚で表現</div>
+          <div class="action-kpi">パスポート 9枚</div>
+        </li>
+        <li>
+          <div class="action-when">6ヶ月以内</div>
+          <div class="action-what"><strong>「産業化ギャップ」の特定</strong>「なぜ研究→実証に進めていないか」の主要ボトルネックをドメイン別に分析。資金・人材・規制・市場の4軸で整理</div>
+          <div class="action-kpi">ギャップ分析 1本</div>
+        </li>
+        <li>
+          <div class="action-when">12ヶ月以内</div>
+          <div class="action-what"><strong>「実証プロジェクト」に1件参加</strong>どこかの技術の S1→S2 への移行を、BoT が「設計図の提供者」として実際に支援する。結果がケーススタディになる</div>
+          <div class="action-kpi">実証参加 1件</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FN 02 -->
+  <div class="fn-block">
+    <div class="fn-header">
+      <div class="fn-num">02</div>
+      <div>
+        <div class="fn-name">接続設計</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">「素材×製造×課題」の組み合わせを設計し、知的接続を現実の協働に変える</div>
+      </div>
+      <div class="fn-status status-build">3〜6ヶ月後</div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-grid">
+        <div class="fn-card">
+          <div class="fn-card-label">接続の3形式</div>
+          <div class="fn-card-body">
+            <strong>A. 人と人の接続</strong>「量子物理学者×製造エンジニア」等、必要な組み合わせを設計し、実際に引き合わせる
+            <br><strong>B. 技術と産業の接続</strong>「MXene×電磁波シールド×EV産業」等の具体的プロジェクト提案
+            <br><strong>C. 組織と資源の接続</strong>スタートアップ×大企業R&D×VCの三角形を設計
+          </div>
+        </div>
+        <div class="fn-card">
+          <div class="fn-card-label">接続の素材</div>
+          <div class="fn-card-body">
+            <strong>symphony-map の14接続ライン</strong>
+            すでに特定済みの14ラインを「最初の接続候補」とする。各ラインに「誰を繋げば現実のプロジェクトになるか」を具体化していく
+          </div>
+        </div>
+        <div class="fn-card">
+          <div class="fn-card-label">接続の価値</div>
+          <div class="fn-card-body">
+            <strong>接続コーディネーター</strong>
+            不動産仲介・M&Aアドバイザーと同じ構造。接続を実現した対価として、プロジェクト参加権・コンサルフィー・共同研究クレジット等を得る
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom:16px;">具体的アクション</h3>
+      <ul class="action-list">
+        <li>
+          <div class="action-when">3ヶ月以内</div>
+          <div class="action-what"><strong>「接続提案書」の形式を確立</strong>「課題×技術×担当主体×期待成果×BoT の役割」を1枚にまとめた提案フォーマットを作成。14接続ラインのうち最優先3本に適用</div>
+          <div class="action-kpi">提案書 3本</div>
+        </li>
+        <li>
+          <div class="action-when">6ヶ月以内</div>
+          <div class="action-what"><strong>初の接続を1件実現</strong>研究者1名 + 産業人1名を引き合わせ、共同プロジェクトまたは共同研究の合意を獲得。BoT 初の「接続実績」にする</div>
+          <div class="action-kpi">接続案件 1件</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FN 04 -->
+  <div class="fn-block">
+    <div class="fn-header">
+      <div class="fn-num">04</div>
+      <div>
+        <div class="fn-name">人材・組織の接続</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">専門の壁を越えた「共鳴するチーム」を設計する</div>
+      </div>
+      <div class="fn-status status-build">6〜12ヶ月後</div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-grid">
+        <div class="fn-card">
+          <div class="fn-card-label">コミュニティ設計</div>
+          <div class="fn-card-body">
+            <strong>BoT メンバーの3タイプ</strong>
+            ①翻訳者（研究者・技術者）：論文を産業語に変える / ②接続者（産業人・起業家）：課題を持ち込み、技術と接続する / ③可視化者（クリエイター・ライター）：地図を社会に届ける
+          </div>
+        </div>
+        <div class="fn-card">
+          <div class="fn-card-label">コミュニティの形式</div>
+          <div class="fn-card-body">
+            <strong>段階的な器の設計</strong>
+            Phase 1: Discord/Slack（非公開、招待制） → Phase 2: 月次勉強会 → Phase 3: 合宿・ハッカソン → Phase 4: 正式組織・プロジェクト体制
+          </div>
+        </div>
+        <div class="fn-card">
+          <div class="fn-card-label">採用基準</div>
+          <div class="fn-card-body">
+            <strong>「共鳴」で選ぶ</strong>
+            BoT のビジョンを読んで「自分のことだ」と感じる人だけが入る。履歴書ではなく「この技術についてどう思うか」という思考の質で選別する
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom:16px;">具体的アクション</h3>
+      <ul class="action-list">
+        <li>
+          <div class="action-when">3ヶ月以内</div>
+          <div class="action-what"><strong>JOIN ページをアップグレード</strong>現在の「連絡先」から「BoT に参加するとは何か」「3タイプのうち自分はどれか」「応募フォーム」まで含む実質的な採用ページへ改修</div>
+          <div class="action-kpi">参加申込 10名</div>
+        </li>
+        <li>
+          <div class="action-when">6ヶ月以内</div>
+          <div class="action-what"><strong>「翻訳ワークショップ」第1回開催</strong>研究者2名 + 産業人2名 + BoT メンバーで、特定技術の「産業語翻訳」を半日かけて行う。成果物をレポートとして公開</div>
+          <div class="action-kpi">ワークショップ 1回</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FN 05 -->
+  <div class="fn-block">
+    <div class="fn-header">
+      <div class="fn-num">05</div>
+      <div>
+        <div class="fn-name">投資・政策への提言</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">システム全体への最適な介入点を特定し、資源の配分を最適化する</div>
+      </div>
+      <div class="fn-status status-future">18ヶ月以降</div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-grid">
+        <div class="fn-card">
+          <div class="fn-card-label">前提条件</div>
+          <div class="fn-card-body">
+            <strong>信頼は実績から生まれる</strong>
+            投資家・政策立案者に「BoT の提言を聞くべき理由」を持たせるには、Function 01〜04 の実績が必要。レポート実績・接続実績・産業化事例 が前提。
+          </div>
+        </div>
+        <div class="fn-card">
+          <div class="fn-card-label">提言の形式</div>
+          <div class="fn-card-body">
+            <strong>3形式</strong>
+            ①政策ブリーフ（経産省・内閣府向け、A4×2枚） / ②投資提言書（VC・CVC向け、「今この技術に投資すべき理由」） / ③産業勧告書（大企業R&D部門向け）
+          </div>
+        </div>
+        <div class="fn-card">
+          <div class="fn-card-label">差別化</div>
+          <div class="fn-card-body">
+            <strong>「全体地図」を持つ者の優位</strong>
+            量子だけ・バイオだけを見る専門家には、「量子×バイオ×材料の交差点」が見えない。BoT は交差点を定量化した上で提言できる唯一の機関を目指す
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom:16px;">具体的アクション（準備フェーズ）</h3>
+      <ul class="action-list">
+        <li>
+          <div class="action-when">今すぐ</div>
+          <div class="action-what"><strong>提言の「根拠資産」を積み上げる</strong>レポートを書くたびに「政策的含意」のセクションを1段落追加する習慣を作る。後でまとめてブリーフに転化できる</div>
+          <div class="action-kpi">含意メモ 9本</div>
+        </li>
+        <li>
+          <div class="action-when">12ヶ月以内</div>
+          <div class="action-what"><strong>政策関係者へのアクセス構築</strong>NEDO・JST・経産省の担当者、または影響力のあるVC（DCM、WiL 等）に BoT のレポートを届けるパスを1本作る</div>
+          <div class="action-kpi">接点 1件</div>
+        </li>
+        <li>
+          <div class="action-when">18ヶ月以内</div>
+          <div class="action-what"><strong>政策ブリーフ v1 を発行</strong>「日本の量子産業化における最大のボトルネックと解決策」等、具体的な政策課題に対する提言を公開文書として発行</div>
+          <div class="action-kpi">ブリーフ 1本</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- SECTION 4: フェーズ別ロードマップ -->
+<div class="section">
+  <div class="section-label">04 — Phased Roadmap</div>
+  <h2>フェーズ別ロードマップ</h2>
+
+  <div class="phases">
+    <div class="phase">
+      <div class="phase-tag">Phase 1</div>
+      <div class="phase-time">今〜3ヶ月</div>
+      <div class="phase-theme">"地図を持つ者になる"</div>
+      <ul class="phase-items">
+        <li><span class="item-fn">01</span>翻訳プロトコル v1 を確立し、レポート #010 を執筆</li>
+        <li><span class="item-fn">06</span>全レポートをウェブサイトに統合し、公開</li>
+        <li><span class="item-fn">06</span>技術協奏マップをインタラクティブ化（クリックでレポートへ）</li>
+        <li><span class="item-fn">04</span>JOIN ページを本格的な参加募集ページへ</li>
+        <li><span class="item-fn">05</span>各レポートに「政策的含意」段落を追加</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-tag">Phase 2</div>
+      <div class="phase-time">3〜6ヶ月</div>
+      <div class="phase-theme">"最初の接続を実現する"</div>
+      <ul class="phase-items">
+        <li><span class="item-fn">03</span>技術パスポート 9枚を完成させる</li>
+        <li><span class="item-fn">02</span>接続提案書 3本を完成・送付</li>
+        <li><span class="item-fn">04</span>コアメンバー 5名をリクルート（招待制）</li>
+        <li><span class="item-fn">01</span>技術顧問 6名（ドメイン別）との関係を構築</li>
+        <li><span class="item-fn">06</span>「2030年産業地図」レポートの執筆開始</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-tag">Phase 3</div>
+      <div class="phase-time">6〜12ヶ月</div>
+      <div class="phase-theme">"実績を積み、引力を高める"</div>
+      <ul class="phase-items">
+        <li><span class="item-fn">02</span>初の接続案件（研究者×産業人）を1件完了</li>
+        <li><span class="item-fn">04</span>翻訳ワークショップ第1回を開催</li>
+        <li><span class="item-fn">03</span>いずれかの技術の産業化支援に参加</li>
+        <li><span class="item-fn">06</span>「2030年産業地図」を公開、講演1回</li>
+        <li><span class="item-fn">05</span>政策関係者への初コンタクトを1件実現</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-tag">Phase 4</div>
+      <div class="phase-time">12〜24ヶ月</div>
+      <div class="phase-theme">"システムへの影響力を持つ"</div>
+      <ul class="phase-items">
+        <li><span class="item-fn">02</span>接続実績 5件以上、継続プロジェクト 2件</li>
+        <li><span class="item-fn">04</span>コミュニティ 20名、ワークショップ 4回</li>
+        <li><span class="item-fn">01</span>「BoT 技術スコア」が業界に引用される</li>
+        <li><span class="item-fn">05</span>政策ブリーフ v1 を経産省・VCへ提出</li>
+        <li><span class="item-fn">03</span>産業化事例 1件を完成・公開</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- SECTION 5: 産出物一覧 -->
+<div class="section">
+  <div class="section-label">05 — Output Portfolio</div>
+  <h2>BoT の産出物ポートフォリオ</h2>
+  <p>BoT が社会に提供するアウトプットの全体像。これらが BoT の「製品群」だ。</p>
+
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>産出物</th>
+        <th>機能</th>
+        <th>読者</th>
+        <th>頻度</th>
+        <th>フェーズ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>技術翻訳レポート（本文書の9本+）</td>
+        <td>01</td>
+        <td>産業人・投資家・研究者</td>
+        <td>月1〜2本</td>
+        <td><span class="chip green">今すぐ</span></td>
+      </tr>
+      <tr>
+        <td>技術協奏マップ（インタラクティブ版）</td>
+        <td>06</td>
+        <td>全方向</td>
+        <td>毎月更新</td>
+        <td><span class="chip green">今すぐ</span></td>
+      </tr>
+      <tr>
+        <td>技術パスポート（各技術の1枚カルテ）</td>
+        <td>03</td>
+        <td>産業化関係者</td>
+        <td>技術ごとに1枚</td>
+        <td><span class="chip yellow">3ヶ月</span></td>
+      </tr>
+      <tr>
+        <td>接続提案書（X×Y×Z のプロジェクト案）</td>
+        <td>02</td>
+        <td>研究者・産業人・VC</td>
+        <td>案件ごと</td>
+        <td><span class="chip yellow">3ヶ月</span></td>
+      </tr>
+      <tr>
+        <td>翻訳ワークショップ（半日セッション）</td>
+        <td>04</td>
+        <td>招待制参加者</td>
+        <td>四半期</td>
+        <td><span class="chip yellow">6ヶ月</span></td>
+      </tr>
+      <tr>
+        <td>「2030年産業地図」統合レポート</td>
+        <td>06</td>
+        <td>全方向・メディア</td>
+        <td>年1本</td>
+        <td><span class="chip yellow">6ヶ月</span></td>
+      </tr>
+      <tr>
+        <td>産業化ギャップ分析レポート</td>
+        <td>03</td>
+        <td>政策・投資家</td>
+        <td>年1〜2本</td>
+        <td><span class="chip">12ヶ月</span></td>
+      </tr>
+      <tr>
+        <td>政策ブリーフ（A4×2枚、課題別）</td>
+        <td>05</td>
+        <td>経産省・内閣府・VC</td>
+        <td>半年に1本</td>
+        <td><span class="chip">18ヶ月</span></td>
+      </tr>
+      <tr>
+        <td>接続実績ケーススタディ</td>
+        <td>02/03</td>
+        <td>産業化関係者全般</td>
+        <td>案件完了時</td>
+        <td><span class="chip">18ヶ月</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- SECTION 6: 最初の30日 -->
+<div class="section">
+  <div class="section-label">06 — First 30 Days</div>
+  <h2>最初の30日でやること</h2>
+  <p>フライホイールを回し始めるための「最小限の最初の一手」。全部やろうとせず、この5つに集中する。</p>
+
+  <div class="firstmove">
+    <div class="fm-title">30-Day Sprint</div>
+    <div class="fm-steps">
+      <div class="fm-step">
+        <div class="week">Week 1</div>
+        <div class="action">レポートライブラリを公開</div>
+        <div class="output">9本のレポートが1ページからアクセスできる状態にする</div>
+      </div>
+      <div class="fm-step">
+        <div class="week">Week 2</div>
+        <div class="action">翻訳プロトコルを文書化</div>
+        <div class="output">「BoT レポートの書き方」テンプレート1枚を作る</div>
+      </div>
+      <div class="fm-step">
+        <div class="week">Week 3</div>
+        <div class="action">JOIN ページを本格化</div>
+        <div class="output">3タイプの参加者像 + 応募フォームをページに追加</div>
+      </div>
+      <div class="fm-step">
+        <div class="week">Week 4</div>
+        <div class="action">レポート #010 の公開</div>
+        <div class="output">新ドメインの技術翻訳レポートを公開、SNS で共有</div>
+      </div>
+      <div class="fm-step">
+        <div class="week">+ 30日後</div>
+        <div class="action">最初の接点を1件作る</div>
+        <div class="output">研究者または産業人に BoT を紹介し、フィードバックを得る</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div class="insight-label">最重要原則</div>
+    <p>「完璧を待たず、地図を公開し続ける」。BoT の引力はコンテンツの量と質から生まれる。1本のレポートが1人の共鳴者を呼び、その人が次のレポートの質を高め、次の接続を生む。最初の一手は「公開」だ。</p>
+  </div>
+</div>
+
+
+<!-- SECTION 7: 成功指標 -->
+<div class="section">
+  <div class="section-label">07 — Metrics</div>
+  <h2>成功指標</h2>
+  <p>BoT の進捗を測る数字。「多くの人に見られる」より「深く刺さる人に届く」を優先する。</p>
+
+  <div class="metrics-grid">
+    <div class="metric-cell">
+      <div class="metric-label">翻訳レポート数</div>
+      <div class="metric-val">30</div>
+      <div class="metric-when">12ヶ月以内の目標</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-label">コアメンバー数</div>
+      <div class="metric-val">10</div>
+      <div class="metric-when">12ヶ月以内の目標</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-label">接続案件数</div>
+      <div class="metric-val">3</div>
+      <div class="metric-when">18ヶ月以内の目標</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-label">政策ブリーフ</div>
+      <div class="metric-val">1</div>
+      <div class="metric-when">24ヶ月以内の目標</div>
+    </div>
+  </div>
+
+  <table class="product-table">
+    <thead>
+      <tr><th>指標</th><th>3ヶ月</th><th>6ヶ月</th><th>12ヶ月</th><th>意味</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>翻訳レポート累計</td>
+        <td>12本</td>
+        <td>18本</td>
+        <td>30本</td>
+        <td>BoT の知的資産量。引用・参照される地図になれるか</td>
+      </tr>
+      <tr>
+        <td>コアメンバー（招待制）</td>
+        <td>3名</td>
+        <td>5名</td>
+        <td>10名</td>
+        <td>「翻訳者・接続者・可視化者」の3タイプが揃っているか</td>
+      </tr>
+      <tr>
+        <td>外部からの問い合わせ数</td>
+        <td>3件</td>
+        <td>10件</td>
+        <td>30件</td>
+        <td>レポートが「引力」として機能しているかの指標</td>
+      </tr>
+      <tr>
+        <td>接続案件（合意済み）</td>
+        <td>0件</td>
+        <td>1件</td>
+        <td>3件</td>
+        <td>BoT が「知的接続を現実に変えた」証拠</td>
+      </tr>
+      <tr>
+        <td>技術パスポート完成数</td>
+        <td>9枚</td>
+        <td>15枚</td>
+        <td>30枚</td>
+        <td>産業化設計図の素材量</td>
+      </tr>
+      <tr>
+        <td>ワークショップ開催数</td>
+        <td>0回</td>
+        <td>1回</td>
+        <td>4回</td>
+        <td>「共鳴するチーム」が形成されているかの証拠</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <div class="footer-brand">BANK OF TECHNOLOGY</div>
+  <div class="footer-meta">戦略設計図 v1.0 — 2026 · universalbudo@gmail.com</div>
+</div>
+
+</body>
+</html>

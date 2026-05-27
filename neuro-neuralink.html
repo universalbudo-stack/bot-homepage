@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neuralinkは、脳に電極を刺す。それは正しいか。 — Bank of Technology</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#e8e8e8;font-family:'Inter',sans-serif;font-weight:300;line-height:1.8}
+.page{max-width:1100px;margin:0 auto;padding:80px 60px}
+h1{font-size:56px;font-weight:300;letter-spacing:-.03em;line-height:1.1;margin-bottom:24px}
+.subtitle{font-size:18px;color:#777;margin-bottom:80px;font-weight:300}
+h2{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#888;border-bottom:1px solid #1a1a1a;padding-bottom:12px;margin-bottom:32px}
+.section{margin-bottom:100px}
+.plain{background:#0d0d0d;padding:48px;border-radius:2px;margin-bottom:32px}
+.plain p{font-size:16px;color:#777;line-height:2;margin-bottom:16px}
+.plain p:last-child{margin-bottom:0}
+.plain strong{color:#aaa;font-weight:400}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#111;margin-bottom:32px}
+.metric{background:#000;padding:40px 32px}
+.metric-val{font-size:36px;font-weight:300;letter-spacing:-.02em;margin-bottom:8px}
+.metric-label{font-size:11px;color:#666;letter-spacing:.1em;text-transform:uppercase}
+.metric-sub{font-size:12px;color:#555;margin-top:4px}
+table{width:100%;border-collapse:collapse;margin-bottom:32px}
+th{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#666;padding:16px 20px;text-align:left;border-bottom:1px solid #111}
+td{padding:20px;border-bottom:1px solid #0d0d0d;font-size:14px;color:#888;vertical-align:top}
+td:first-child{color:#aaa;font-weight:400}
+tr:last-child td{border-bottom:none}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:#111;margin-bottom:32px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#111;margin-bottom:32px}
+.card{background:#000;padding:40px 32px}
+.card-title{font-size:13px;font-weight:500;letter-spacing:.05em;margin-bottom:16px;color:#ccc}
+.card-body{font-size:13px;color:#777;line-height:1.9}
+.bot-box{background:#0a0a0a;border:1px solid #1a1a1a;padding:48px;margin-bottom:32px}
+.bot-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#555;margin-bottom:24px}
+.bot-text{font-size:16px;color:#777;line-height:2}
+.bot-text strong{color:#999;font-weight:400}
+.tag{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;background:#111;color:#666;margin-right:8px;margin-bottom:8px}
+.nav{font-size:12px;color:#555;margin-bottom:60px}
+.nav a{color:#666;text-decoration:none}
+.nav a:hover{color:#888}
+.ethics-box{background:#0d0d0d;border-left:2px solid #2a2a2a;padding:40px 40px 40px 48px;margin-bottom:32px}
+.ethics-q{font-size:18px;color:#888;font-weight:300;margin-bottom:16px;line-height:1.6}
+.ethics-body{font-size:14px;color:#666;line-height:2}
+.timeline{margin-bottom:32px}
+.tl-item{display:flex;gap:32px;margin-bottom:0;padding:28px 0;border-bottom:1px solid #0d0d0d}
+.tl-item:last-child{border-bottom:none}
+.tl-date{font-size:13px;color:#555;min-width:100px;padding-top:3px;font-variant-numeric:tabular-nums}
+.tl-content{flex:1}
+.tl-title{font-size:14px;color:#aaa;margin-bottom:6px}
+.tl-body{font-size:13px;color:#666;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="nav">
+  <a href="index.html">Bank of Technology</a> / <a href="frontier-analysis.html">フロンティア技術解析</a> / <a href="neuro-analysis.html">神経技術</a> / Neuralink
+</div>
+
+<h1>Neuralinkは、脳に<br>電極を刺す。<br>それは正しいか。</h1>
+<p class="subtitle">Neuralink：テクノロジーと倫理の交差点で起きていること　— 技術解析レポート #008-02</p>
+
+<div class="section">
+<h2>まず、一般の人向けに</h2>
+<div class="plain">
+<p>脳は、手術が最も難しい臓器だ。1mm以下の血管が密集し、機能が局在し、少しのミスが「その人らしさ」を永遠に変えてしまう。医学の歴史で脳手術が一般化したのは20世紀後半に過ぎず、それでも「最後の手段」として慎重に適用されてきた。</p>
+<p>Neuralinkは、その脳に電子デバイスを埋め込もうとしている。しかも最終的には、医療目的だけでなく、<strong>「人間の認知能力を拡張する」という目的で健常者にも適用する</strong>ビジョンをイーロン・マスクは公言している。</p>
+<p>技術的な主張は印象的だ。ロボットが自動的に血管を避けながら脳表面に1024本の超細電極を刺入する。チップは完全埋め込み型でワイヤレス充電。動物実験ではサルがPingPongを思考でプレイする動画を公開した。2024年には初の人体埋め込みが行われ、患者がマウスを操作する映像が世界中に流れた。</p>
+<p>しかし、Neuralinkの歴史には批判と問題の記録もある。動物実験での死亡例（サルとブタの計23匹、2020〜2022年）が倫理的問題として指摘された。FDAの承認申請は2022年に一度却下され、2023年に条件付きで承認を受けた。会社の文化と研究スピードをめぐる内部告発も報告された。</p>
+<p>これは「Neuralinkが悪い会社か良い会社か」の問題ではない。<strong>脳に電極を埋め込む行為に伴うリスクと便益を、社会がどう判断するか</strong>——それを問う会社が、初めて世界規模で注目を集めている。</p>
+</div>
+</div>
+
+<div class="section">
+<h2>主要指標</h2>
+<div class="metrics">
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">2016</div>
+    <div class="metric-label">Neuralink創業</div>
+    <div class="metric-sub">Musk, Hodak, Seo ら8名</div>
+  </div>
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">$700M+</div>
+    <div class="metric-label">累積調達額（〜2024年）</div>
+    <div class="metric-sub">評価額$3.5B（2023年シリーズD）</div>
+  </div>
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">1,024</div>
+    <div class="metric-label">N1チップ電極数</div>
+    <div class="metric-sub">64スレッド×16電極/スレッド</div>
+  </div>
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">Jan 2024</div>
+    <div class="metric-label">初の人体埋め込み</div>
+    <div class="metric-sub">Noland Arbaugh 氏（頸髄損傷）</div>
+  </div>
+</div>
+</div>
+
+<div class="section">
+<h2>技術の詳細：何が革新的か</h2>
+<div class="plain">
+<p>Neuralinkの技術的な核心は3つある。</p>
+<p>第一は<strong>電極の細さと数</strong>。従来のユタアレイ（BrainGateが使用）は96電極・直径数十ミクロンの固い電極だ。Neuralinkの電極は直径5〜8ミクロン——人の赤血球（8μm）以下の柔軟な「スレッド」だ。柔軟性があるため、脳の動きに追随して組織を傷つけにくいとされる。</p>
+<p>第二は<strong>挿入ロボット「R1」</strong>。血管をカメラでリアルタイム検出し、最適な軌跡で電極を自動挿入する。外科医が手動で行うより均一で精密な挿入が可能とされ、手術時間の短縮にも貢献する。</p>
+<p>第三は<strong>完全埋め込み・ワイヤレス設計</strong>。従来の侵襲型BCIは頭蓋外にコネクタが露出しており、感染リスクと日常生活の不便がある。Neuralinkチップ（N1）は皮膚の下に完全に収まり、スマートウォッチのようにワイヤレス充電・ブルートゥース通信する。これは清潔さとQOL（生活の質）の面で大きな前進だ。</p>
+</div>
+</div>
+
+<div class="section">
+<h2>Neuralinkの時系列</h2>
+<div class="timeline">
+  <div class="tl-item">
+    <div class="tl-date">2016年</div>
+    <div class="tl-content">
+      <div class="tl-title">創業</div>
+      <div class="tl-body">イーロン・マスク含む8人の共同創業者。San Francisco設立。「人間とAIの共生」をビジョンに掲げ、BCIを初の事業として選択。</div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-date">2019年7月</div>
+    <div class="tl-content">
+      <div class="tl-title">初の公式発表</div>
+      <div class="tl-body">ラット実験で1500以上の電極を同時記録。ロボット挿入システムを公開。医療目的での人体適用を目標と明言。</div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-date">2020年8月</div>
+    <div class="tl-content">
+      <div class="tl-title">ブタ実験公開「Gertrude」</div>
+      <div class="tl-body">嗅覚野に埋め込まれたチップを持つブタの脳信号をリアルタイム表示。完全埋め込み型デバイスの動作を実証。</div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-date">2021年4月</div>
+    <div class="tl-content">
+      <div class="tl-title">サルのPing-Pong映像</div>
+      <div class="tl-body">マカクザル「Pager」がジョイスティックを使わず脳信号でゲームをプレイ。世界中でニュースに。</div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-date">2022〜2023年</div>
+    <div class="tl-content">
+      <div class="tl-title">FDA申請→却下→承認</div>
+      <div class="tl-body">2022年にFDAが安全性懸念（電極移動リスク、摘出手術の困難さなど）で申請却下。改善後、2023年5月に臨床試験（PRIME Study）の承認取得。</div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-date">2024年1月</div>
+    <div class="tl-content">
+      <div class="tl-title">初の人体埋め込み</div>
+      <div class="tl-body">Noland Arbaugh氏（頸椎損傷で四肢麻痺）に手術実施。数週間後、思考でマウスカーソルを操作しチェスをプレイする映像を公開。</div>
+    </div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-date">2024年中〜後半</div>
+    <div class="tl-content">
+      <div class="tl-title">電極問題と回復</div>
+      <div class="tl-body">埋め込みから数週間で電極スレッドが脳から後退（リトラクション）し、機能する電極数が一時減少。ソフトウェア更新で一部性能を回復。第2例・第3例の埋め込みへ。</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="section">
+<h2>倫理の問い</h2>
+
+<div class="ethics-box">
+<div class="ethics-q">動物実験での死亡例をどう評価するか？</div>
+<div class="ethics-body">2022年のロイター報道によると、Neuralinkの2020〜2022年の動物実験でサル・ブタ計23匹が死亡した。ただし医療機器開発での動物実験は規制の範囲内であり、この数字を単独で「残酷」と評価するのは難しい。問題とされたのは数よりも、社内での「不必要な苦痛を与えた」という具体的な指摘だった。USDAが調査を開始したが、当初の報告では重大な違反は認定されなかった。</div>
+</div>
+
+<div class="ethics-box">
+<div class="ethics-q">「同意」は本当に有効か？</div>
+<div class="ethics-body">ALS患者や脊髄損傷患者は、BCIに頼りたいという強い動機を持つ。そのような状況下での「同意」は、外部からの圧力がなくても、心理的に自由な選択と言えるか。さらに、デバイスが正常に動作しなくなった場合、摘出するか否かの選択を誰がどのタイミングで行うか。Neuralinkの利用規約とデバイス管理権の所在は、依然として議論の対象だ。</div>
+</div>
+
+<div class="ethics-box">
+<div class="ethics-q">「健常者への拡張」は許容されるべきか？</div>
+<div class="ethics-body">マスクは「記憶能力の強化」「AIとのダイレクト通信」など、健常者の認知拡張をNeuralink長期ビジョンとして語っている。もしこれが実現した場合、BCIを使える者と使えない者の間に「認知格差」が生まれる。軍事応用、雇用判断への利用、脳データのプライバシー問題は、医療目的の枠を超えた法的・倫理的整備を必要とする。</div>
+</div>
+</div>
+
+<div class="section">
+<h2>競合との比較</h2>
+<table>
+<tr>
+  <th>企業</th>
+  <th>電極数</th>
+  <th>侵襲度</th>
+  <th>手術方法</th>
+  <th>現状</th>
+</tr>
+<tr>
+  <td>Neuralink</td>
+  <td>1,024</td>
+  <td>侵襲（皮質内）</td>
+  <td>ロボット自動挿入</td>
+  <td>FDA治験承認。人体3例実施</td>
+</tr>
+<tr>
+  <td>Synchron（ステントロード）</td>
+  <td>16</td>
+  <td>低侵襲（血管内）</td>
+  <td>血管を通じてカテーテル留置</td>
+  <td>FDA・TGA承認。複数例実施</td>
+</tr>
+<tr>
+  <td>Precision Neuroscience</td>
+  <td>1,024（Layer 7）</td>
+  <td>半侵襲（硬膜下）</td>
+  <td>薄膜グリッドを皮質表面に留置</td>
+  <td>一時留置の治験継続中</td>
+</tr>
+<tr>
+  <td>BrainGate / Utah Array</td>
+  <td>96〜256</td>
+  <td>侵襲（皮質内）</td>
+  <td>外科医による手動挿入</td>
+  <td>最多の患者実績。学術研究中心</td>
+</tr>
+</table>
+</div>
+
+<div class="section">
+<h2>BoT Perspective</h2>
+<div class="bot-box">
+<div class="bot-label">Bank of Technology — 見解</div>
+<div class="bot-text">
+<p><strong>Neuralinkの本質的な貢献は「BCI産業の存在を証明したこと」だ。</strong>技術的な先導性（1024電極・ロボット挿入）より、グローバルメディアを通じて「脳とコンピュータが繋がる時代が来た」という認識を何億人に植え付けたことの方が、長期的な影響として大きい。投資家・規制当局・医師・患者すべての意識が変わった。</p>
+<p>ただし、Neuralinkが最終的なBCI覇者になるかは不明確だ。競合のSynchronは「開頭手術不要」という圧倒的な安全性優位を持ち、それだけで適用可能な患者数が桁違いに広がる。信号の量（電極数）と安全性はトレードオフであり、「少ない電極で十分な機能が実現できる」と証明されれば、Neuralinkの優位は揺らぐ。</p>
+<p>倫理問題については、会社を断罪するより<strong>規制の速度が技術に追いついていない問題</strong>として捉えるべきだ。FDA・欧州EMA・日本のPMDAは皮質内BCIのリスク評価の枠組みをまだ確立していない。日本の患者がNeuralinkの治療を受けたい場合、国内では承認された施設がない。この規制空白が続くと、日本の患者だけが蚊帳の外になる。</p>
+<p>「脳に電極を刺すことは正しいか」という問いへの答えは、目的と代替手段によって異なる。ALSで声を失った患者にとって、リスクを上回る便益は明確に存在しうる。健常者の「能力強化」については、社会的コンセンサスが形成されるより先に技術が走りすぎてはいけない。この速度調整こそが、規制当局と市民社会の役割だ。</p>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h2>タグ</h2>
+<div>
+<span class="tag">Neuralink</span>
+<span class="tag">BCI</span>
+<span class="tag">神経工学</span>
+<span class="tag">医療倫理</span>
+<span class="tag">FDA</span>
+<span class="tag">脳インターフェース</span>
+<span class="tag">認知拡張</span>
+<span class="tag">ニューロライツ</span>
+</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,266 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>遺伝子は、書き換えられる。— BoT技術解析レポート #005-02</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased}
+.page{max-width:1100px;margin:0 auto;padding:80px 60px}
+.breadcrumb{font-size:11px;color:#666;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px}
+.breadcrumb span{color:#555}
+.label{font-size:11px;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:#777;margin-bottom:16px}
+h1{font-size:56px;font-weight:300;line-height:1.1;letter-spacing:-.03em;margin-bottom:24px}
+h1 span{color:#888}
+.meta{font-size:13px;color:#777;margin-bottom:80px}
+.section{margin-bottom:100px}
+h2{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#777;margin-bottom:48px;padding-bottom:16px;border-bottom:1px solid #1a1a1a}
+.plain{background:#0d0d0d;padding:48px;margin-bottom:2px}
+.plain h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.plain p{font-size:16px;color:#777;line-height:2;margin-bottom:20px}
+.plain p:last-child{margin-bottom:0}
+.plain p strong{color:#bbb;font-weight:400}
+.divider{height:1px;background:#1a1a1a;margin:32px 0}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:80px}
+.metric{background:#0d0d0d;padding:32px 24px;text-align:center}
+.metric .val{font-size:36px;font-weight:300;letter-spacing:-.02em;margin-bottom:8px}
+.metric .lbl{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.metric .note{font-size:12px;color:#666;line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px}
+.card{background:#0d0d0d;padding:36px}
+.card .tag{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.card h3{font-size:18px;font-weight:500;color:#fff;margin-bottom:12px}
+.card p{font-size:13px;color:#777;line-height:1.9}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:32px}
+.tier{padding:28px;border:1px solid #1a1a1a;background:#0a0a0a}
+.tier .tier-tag{font-size:9px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px}
+.tier .tier-name{font-size:15px;font-weight:500;margin-bottom:10px}
+.tier .tier-body{font-size:12px;color:#777;line-height:1.8}
+.tier.now .tier-tag{color:#4a9}
+.tier.near .tier-tag{color:#88f}
+.tier.far .tier-tag{color:#f84}
+.tier.meta .tier-tag{color:#888}
+.table-wrap{overflow-x:auto;margin-bottom:32px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#0a0a0a;color:#777;font-weight:500;text-transform:uppercase;letter-spacing:.08em;padding:14px 18px;text-align:left;border-bottom:1px solid #1a1a1a;font-size:11px}
+td{padding:14px 18px;border-bottom:1px solid #111;color:#777;vertical-align:top;line-height:1.7}
+td:first-child{color:#ccc;font-weight:400}
+tr:hover td{background:#080808}
+.ethics-box{background:#120808;border:1px solid #3a1515;padding:40px;margin-bottom:24px}
+.ethics-box h3{font-size:18px;font-weight:500;color:#c66;margin-bottom:16px}
+.ethics-box p{font-size:14px;color:#855;line-height:1.9;margin-bottom:12px}
+.ethics-box p:last-child{margin-bottom:0}
+.bot-box{background:#0a0a0a;border:1px solid #1a1a1a;padding:48px}
+.bot-box h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.bot-box p{font-size:15px;color:#888;line-height:2;margin-bottom:16px}
+.bot-box p:last-child{margin-bottom:0}
+.bot-box strong{color:#aaa;font-weight:400}
+footer{margin-top:120px;padding-top:40px;border-top:1px solid #1a1a1a;display:flex;justify-content:space-between;font-size:12px;color:#555}
+@media(max-width:700px){.metrics,.cards,.tiers{grid-template-columns:1fr}.page{padding:40px 20px}h1{font-size:36px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="breadcrumb">
+  Bank of Technology <span>›</span> Report #005 バイオテクノロジー <span>›</span> #005-02 CRISPR
+</div>
+
+<div class="label">Bank of Technology — 技術解析レポート #005-02</div>
+<h1>遺伝子は、<br><span>書き換えられる。</span></h1>
+<div class="meta">CRISPR ゲノム編集の全貌 · 2026年 · 解析: Bank of Technology</div>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="lbl">CRISPRの発見から初の承認薬まで</div>
+    <div class="val">11年</div>
+    <div class="note">2012年にジェニファー・ダウドナが論文発表。2023年に Casgevy が FDA 承認。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">Casgevy の鎌状赤血球症への効果</div>
+    <div class="val">93%</div>
+    <div class="note">重篤な疼痛発作からの解放。試験参加者29人中27人で効果が確認された。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">Casgevy の治療費（米国）</div>
+    <div class="val">$2.2M</div>
+    <div class="note">1回の治療で生涯有効とされる。高額だが、生涯の輸血・入院コストを大きく下回る。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">CRISPR が編集できる精度</div>
+    <div class="val">1塩基</div>
+    <div class="note">30億塩基対のゲノムから特定の1文字を見つけて書き換える。DNAの「検索・置換」。</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>まず、一般の人向けに</h2>
+  <div class="plain">
+    <h3>バクテリアの「免疫システム」が、遺伝子編集の道具になった</h3>
+    <p>
+      CRISPR（クリスパー）の起源は意外なところにある。
+      バクテリアは過去に感染したウイルスのDNA断片を記憶し、再び侵入してきたとき
+      Cas9というタンパク質でウイルスのDNAを切断して無効化する——これが自然界のCRISPRだ。
+    </p>
+    <p>
+      2012年、ジェニファー・ダウドナとエマニュエル・シャルパンティエは
+      <strong>この仕組みを「任意のDNA配列を切るハサミ」として改造することに成功した</strong>。
+      ガイドRNA（gRNA）と呼ばれる20文字の目印を設計すれば、
+      ゲノムの中の狙った場所だけを正確に切断できる。
+      2020年、この発見はノーベル化学賞に輝いた。
+    </p>
+    <div class="divider"></div>
+    <h3>2023年、人類は初めて「遺伝子を書き換えて病気を治した」</h3>
+    <p>
+      鎌状赤血球症は、ヘモグロビン遺伝子の1文字の間違いで起きる遺伝病だ。
+      患者は激しい痛みの発作を繰り返し、臓器障害が進む。
+      <strong>2023年12月、Casgevy（カスゲビー）が FDA に承認された。
+      世界初のCRISPR治療薬だ。</strong>
+      患者の骨髄細胞を取り出し、CRISPR で胎児ヘモグロビン遺伝子をオンにして戻す。
+      治験参加者の93%で重篤な発作が消えた。
+    </p>
+    <p>
+      これは医学の転換点だ。「遺伝子の呪い」と呼ばれた病気が、
+      <strong>1回の治療で生涯にわたって改善できる時代が来た</strong>。
+      同じ技術はサラセミア・デュシェンヌ型筋ジストロフィー・
+      一部のがんへと応用が広がっている。
+    </p>
+    <div class="divider"></div>
+    <h3>しかし、「デザイナーベビー」という倫理の地雷が待っている</h3>
+    <p>
+      2018年、中国の科学者・賀建奎がCRISPRを使って
+      受精卵の段階でゲノムを編集した双子を誕生させた。
+      世界中の科学者が「最も無責任な実験」として批判し、賀は懲役3年を宣告された。
+      <strong>体細胞の編集（患者本人だけに影響）と、生殖細胞の編集（子孫に影響）は
+      根本的に異なる倫理的問題を孕む</strong>。
+      遺伝子操作で「より賢く・より健康な子ども」を作ることは許されるのか——
+      技術の進歩は、答えが出ていない問いを突きつけている。
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>CRISPR ツールの進化 — より精密な編集へ</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ツール</th>
+          <th>仕組み</th>
+          <th>精度・安全性</th>
+          <th>主な用途</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CRISPR-Cas9（初代）</td>
+          <td>DNAを両鎖で切断。修復時に編集が入る</td>
+          <td>オフターゲット（意図しない切断）リスクあり</td>
+          <td>遺伝子ノックアウト・基礎研究。Casgevy はこの方式</td>
+        </tr>
+        <tr>
+          <td>塩基編集（Base Editing）</td>
+          <td>DNAを切断せず、特定の塩基を化学変換</td>
+          <td>切断なし → 安全性が高い。1塩基の書き換えに特化</td>
+          <td>点突然変異による遺伝病。Beam Therapeutics が開発</td>
+        </tr>
+        <tr>
+          <td>プライム編集（Prime Editing）</td>
+          <td>「コピー&ペースト」型。任意の配列を挿入・置換</td>
+          <td>理論上ほぼすべての変異に対応。精度が高い</td>
+          <td>より複雑な遺伝子修正。Prime Medicine が商業化開発中</td>
+        </tr>
+        <tr>
+          <td>CRISPR-Cas13（RNA編集）</td>
+          <td>DNAではなくRNAを標的にする</td>
+          <td>一時的な効果。永続的なゲノム変化なし</td>
+          <td>感染症診断（SHERLOCK）・一時的な遺伝子抑制</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <h2>倫理の最前線</h2>
+  <div class="ethics-box">
+    <h3>「治療」と「強化」の境界線はどこか</h3>
+    <p>
+      体細胞編集（Casgevy のような治療）は患者本人のみに影響する。次世代への影響はない。
+      しかし生殖細胞・受精卵の編集は子孫のゲノムを永続的に変える「ヒト種の改変」だ。
+      賀建奎事件後、各国は生殖細胞編集を事実上禁止しているが、
+      技術的なハードルは年々下がっている。
+    </p>
+    <p>
+      さらに「病気の治療」から「能力の強化」への移行が問題化する。
+      筋ジストロフィーを治す編集と、筋肉量を増やす編集の差は何か。
+      遺伝性の知的障害を防ぐ編集と、知能を高める編集は何が違うのか。
+      技術の民主化が進むほど、この問いは避けられなくなる。
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>産業化ロードマップ</h2>
+  <div class="tiers">
+    <div class="tier now">
+      <div class="tier-tag">NOW · 実用化済み</div>
+      <div class="tier-name">遺伝性血液疾患</div>
+      <div class="tier-body">Casgevy（鎌状赤血球症・サラセミア）が2023年に FDA・EMA 承認。Vertex と CRISPR Therapeutics が共同開発。患者数は限られるが「CRISPR で病気が治る」という概念実証として歴史的意義がある。</div>
+    </div>
+    <div class="tier near">
+      <div class="tier-tag">NEAR · 2026-2030</div>
+      <div class="tier-name">がん免疫療法 × CRISPR</div>
+      <div class="tier-body">T細胞にCRISPRで改変を加え、がんを攻撃する能力を高める（CAR-T の進化版）。既存の CAR-T より効果が高く、製造コストが下がる可能性。複数の治験が進行中。</div>
+    </div>
+    <div class="tier far">
+      <div class="tier-tag">FAR · 2028-2035</div>
+      <div class="tier-name">体内 in vivo 編集</div>
+      <div class="tier-body">現在のCRISPR治療は細胞を取り出して編集して戻す。体内に直接 CRISPR を送り込んで編集する「in vivo」は筋肉・脳・心臓など到達困難な組織の疾患治療を可能にする。LNP とウイルスベクターが配送手段の候補。</div>
+    </div>
+    <div class="tier meta">
+      <div class="tier-tag">META · 2035+</div>
+      <div class="tier-name">農業・工業での応用</div>
+      <div class="tier-body">病気に強い作物・成長速度の速い家畜・特定の化学物質を生産する微生物——CRISPR は医療だけでなく食料・素材産業を変える。日本でも「ゲノム編集食品」のトマトが2021年に販売を開始した。</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Bank of Technology の視点</h2>
+  <div class="bot-box">
+    <h3>CRISPRは「遺伝子の検索・置換」機能だ。そしてその先に何があるか</h3>
+    <p>
+      CRISPRを最も端的に表現するなら「DNAのCtrl+H（検索・置換）」だ。
+      30億文字のゲノムから特定の1文字を見つけて書き換える——
+      これが生命の設計図に対して初めて可能になった操作だ。
+      <strong>Casgevy の承認は、「遺伝病は運命ではなく、工学の問題だ」という宣言だ。</strong>
+    </p>
+    <p>
+      産業的に最も重要なのは<strong>プライム編集の成熟だ</strong>。
+      初代 CRISPR-Cas9 が「切断」しかできなかったのに対し、
+      プライム編集は「コピー&ペースト」ができる。
+      理論上、ヒトゲノムの変異の89%に対応できるとされており、
+      対応可能な疾患の範囲が桁違いに広がる。
+    </p>
+    <p>
+      日本の機会は<strong>農業・食品分野のゲノム編集</strong>だ。
+      日本は「ゲノム編集食品」を世界でいち早く流通させた国のひとつ（シシトウ・トマト）。
+      GMO（遺伝子組み換え）とは異なる規制フレームワークで、
+      農業×バイオの競争力を高められるポジションにある。
+      カリコのように「誰も信じなかった技術」を30年後に世界が必要とした——
+      今そのポテンシャルを秘めているのはどの技術か、見極める目が必要だ。
+    </p>
+  </div>
+</div>
+
+<footer>
+  <span>Bank of Technology — 技術解析レポート #005-02</span>
+  <span>親レポート: <a href="bio-analysis.html" style="color:#555">#005 バイオテクノロジー</a> · 2026</span>
+</footer>
+
+</div>
+</body>
+</html>

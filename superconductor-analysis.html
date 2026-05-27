@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>室温超伝導 — 技術解析レポート | Bank of Technology</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+    .page { max-width: 1100px; margin: 0 auto; padding: 80px 60px; }
+    .label { font-size: 11px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: #555; margin-bottom: 16px; }
+    h1 { font-size: 56px; font-weight: 300; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 24px; }
+    h1 span { color: #888; }
+    .meta { font-size: 13px; color: #555; margin-bottom: 80px; }
+    .section { margin-bottom: 100px; }
+    h2 { font-size: 13px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: #555; margin-bottom: 48px; padding-bottom: 16px; border-bottom: 1px solid #1a1a1a; }
+    .summary-text { font-size: 22px; font-weight: 300; line-height: 2; color: #bbb; max-width: 750px; margin-bottom: 40px; }
+    .summary-text strong { color: #fff; font-weight: 400; }
+
+    /* TECH MAP */
+    .tech-map { display: grid; gap: 2px; margin-bottom: 16px; }
+    .tech-row { display: grid; grid-template-columns: 200px 1fr 120px 120px; gap: 2px; }
+    .tech-header { display: grid; grid-template-columns: 200px 1fr 120px 120px; gap: 2px; margin-bottom: 8px; }
+    .tech-header span { font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #444; padding: 0 16px 8px; }
+    .cell { padding: 16px; background: #0d0d0d; }
+    .cell.name { font-size: 14px; font-weight: 500; color: #fff; }
+    .cell.desc { font-size: 13px; color: #666; }
+    .cell.tc { font-size: 18px; font-weight: 500; text-align: center; }
+    .cell.score { text-align: center; }
+
+    /* SCORE BARS */
+    .score-num { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+    .score-bar-bg { height: 3px; background: #1a1a1a; }
+    .score-bar { height: 3px; }
+
+    /* MATERIALS */
+    .materials { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+    .material-card { background: #0d0d0d; padding: 32px; }
+    .material-name { font-size: 16px; font-weight: 500; color: #fff; margin-bottom: 8px; font-family: monospace; }
+    .material-tc { font-size: 36px; font-weight: 300; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .material-cond { font-size: 12px; color: #555; margin-bottom: 20px; }
+    .material-body { font-size: 13px; color: #666; line-height: 1.8; }
+    .tag { display: inline-block; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border: 1px solid #222; color: #555; margin-right: 6px; margin-top: 12px; }
+    .tag.hot { border-color: #ffffff22; color: #888; }
+    .tag.debunked { border-color: #ff444422; color: #ff4444; }
+    .tag.theoretical { border-color: #4444ff22; color: #6688ff; }
+    .tag.ai { border-color: #44ff8822; color: #44ff88; }
+
+    /* BARRIER MAP */
+    .barriers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .barrier { background: #0d0d0d; padding: 32px; }
+    .barrier-num { font-size: 48px; font-weight: 300; color: #222; letter-spacing: -0.04em; margin-bottom: 16px; }
+    .barrier-title { font-size: 16px; font-weight: 500; color: #fff; margin-bottom: 12px; }
+    .barrier-body { font-size: 13px; color: #555; line-height: 1.8; }
+    .barrier-status { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 20px; }
+    .status-hard { color: #ff6666; }
+    .status-mid { color: #ffaa44; }
+    .status-soft { color: #44ff88; }
+
+    /* OPPORTUNITY */
+    .opportunities { display: grid; gap: 2px; }
+    .opp { display: grid; grid-template-columns: 60px 1fr 200px; gap: 24px; align-items: start; background: #0d0d0d; padding: 32px; }
+    .opp-num { font-size: 11px; font-weight: 500; color: #333; padding-top: 4px; }
+    .opp-body h3 { font-size: 18px; font-weight: 500; color: #fff; margin-bottom: 8px; }
+    .opp-body p { font-size: 13px; color: #555; line-height: 1.8; }
+    .opp-meta { text-align: right; }
+    .opp-horizon { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 8px; }
+    .opp-scale { font-size: 24px; font-weight: 300; color: #888; }
+
+    /* PLAIN LANGUAGE */
+    .plain { background: #0d0d0d; padding: 48px; }
+    .plain h3 { font-size: 20px; font-weight: 500; color: #fff; margin-bottom: 24px; }
+    .plain p { font-size: 16px; color: #777; line-height: 2; margin-bottom: 20px; }
+    .plain p strong { color: #bbb; font-weight: 400; }
+    .plain-divider { height: 1px; background: #1a1a1a; margin: 32px 0; }
+
+    /* TC CHART */
+    .tc-chart { margin: 40px 0; }
+    .tc-item { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+    .tc-label { width: 180px; font-size: 12px; color: #555; text-align: right; flex-shrink: 0; }
+    .tc-bar-wrap { flex: 1; height: 24px; background: #0d0d0d; position: relative; }
+    .tc-bar { height: 100%; display: flex; align-items: center; padding-left: 12px; font-size: 11px; font-weight: 500; }
+    .tc-ref { position: absolute; top: 0; height: 100%; border-right: 1px dashed #333; }
+    .tc-ref-label { position: absolute; top: -20px; right: 4px; font-size: 10px; color: #333; white-space: nowrap; }
+    .ref-line { fill: none; }
+
+    footer { margin-top: 120px; padding-top: 40px; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-between; font-size: 12px; color: #333; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="label">Bank of Technology — 技術解析レポート #001</div>
+  <h1>室温超伝導は<br /><span>いつ産業になるか。</span></h1>
+  <div class="meta">2026年5月 · 解析: Claude / Bank of Technology</div>
+
+  <!-- PLAIN SUMMARY -->
+  <div class="section">
+    <h2>まず、一般の人向けに</h2>
+    <div class="plain">
+      <h3>超伝導って何？</h3>
+      <p>
+        普通の電線を電気が流れるとき、<strong>熱が発生して電力が失われます</strong>。
+        日本の送電ロスは約5%。年間数百億円が「熱」として消えています。
+      </p>
+      <p>
+        超伝導体は、電気抵抗がゼロになる物質です。
+        <strong>電力ロスがなくなり、強力な磁場を少ないエネルギーで作れます</strong>。
+        MRIや リニアモーターカーはすでにこの技術を使っています。
+      </p>
+      <div class="plain-divider"></div>
+      <h3>じゃあなぜ普及していないの？</h3>
+      <p>
+        問題は<strong>「超低温が必要」</strong>なこと。
+        現在の実用超伝導体は−196℃（液体窒素温度）以下でしか機能しません。
+        液体窒素の維持コストと設備が、応用範囲を大きく制限しています。
+      </p>
+      <p>
+        <strong>室温（約20℃）で超伝導になれば</strong>、冷却設備が不要になり、
+        送電インフラ・モーター・量子コンピュータ・医療機器が根本から変わります。
+        これが「室温超伝導」が注目される理由です。
+      </p>
+      <div class="plain-divider"></div>
+      <h3>今、研究者たちは何をしてるの？</h3>
+      <p>
+        主に3つのアプローチが競っています。
+        <strong>①高圧水素化物</strong>（すでに理論上300Kを超えたが、100万気圧が必要）、
+        <strong>②常圧で動く新材料の計算予測</strong>（AIも参戦）、
+        <strong>③2D材料</strong>（グラフェン系で新しい物理が起きている）。
+      </p>
+      <p>
+        2023年の「LK-99騒動」を覚えていますか？
+        韓国チームが「常温常圧超伝導体を発見した」と発表し世界が騒然としましたが、
+        <strong>複数の研究機関が検証し、不純物の誤検知と結論づけられました</strong>。
+        科学の自浄作用が働いた事例です。
+      </p>
+    </div>
+  </div>
+
+  <!-- Tc CHART -->
+  <div class="section">
+    <h2>臨界温度マップ — どの材料がどのくらい冷やす必要があるか</h2>
+    <div class="tc-chart">
+
+      <!-- reference lines: 室温=293K, 液体窒素=77K, 液体ヘリウム=4K -->
+      <!-- max scale = 340K -->
+
+      <div class="tc-item">
+        <div class="tc-label">YSc₂H₂₄（理論・高圧）</div>
+        <div class="tc-bar-wrap">
+          <div class="tc-ref" style="left: calc(293/340*100%)">
+            <div class="tc-ref-label">室温 293K</div>
+          </div>
+          <div class="tc-ref" style="left: calc(77/340*100%); opacity:0.4">
+          </div>
+          <div class="tc-bar" style="width: calc(330/340*100%); background: linear-gradient(90deg, #1a1a2e, #4466ff);">
+            330 K &nbsp;<span style="color:#888;font-weight:300">高圧(310 GPa)必要</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tc-item">
+        <div class="tc-label">Grokene（AI予測・2D）</div>
+        <div class="tc-bar-wrap">
+          <div class="tc-bar" style="width: calc(325/340*100%); background: linear-gradient(90deg, #0d2e1a, #22cc66);">
+            325 K &nbsp;<span style="color:#888;font-weight:300">平均場Tc（実効は120K）</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tc-item">
+        <div class="tc-label" style="color:#ff6666">LK-99（反証済み）</div>
+        <div class="tc-bar-wrap">
+          <div class="tc-bar" style="width: calc(400/340*100%); max-width:100%; background: #1a0000; color:#ff4444">
+            400K以上を主張 → 不純物と判明
+          </div>
+        </div>
+      </div>
+
+      <div class="tc-item">
+        <div class="tc-label">PdH₄（理論・常圧）</div>
+        <div class="tc-bar-wrap">
+          <div class="tc-bar" style="width: calc(133/340*100%); background: linear-gradient(90deg, #1a1a00, #aaaa00);">
+            133 K
+          </div>
+        </div>
+      </div>
+
+      <div class="tc-item">
+        <div class="tc-label">LiMgZr₂H₁₂（理論・常圧）</div>
+        <div class="tc-bar-wrap">
+          <div class="tc-bar" style="width: calc(61/340*100%); background: linear-gradient(90deg, #1a0d00, #884400);">
+            60.8 K
+          </div>
+        </div>
+      </div>
+
+      <div class="tc-item">
+        <div class="tc-label" style="color:#44ff88">実用ライン（液体窒素）</div>
+        <div class="tc-bar-wrap">
+          <div class="tc-bar" style="width: calc(77/340*100%); background: #001a0d; border: 1px dashed #44ff8833; color:#44ff88">
+            77 K ← ここを超えると格段に扱いやすくなる
+          </div>
+        </div>
+      </div>
+
+      <div class="tc-item">
+        <div class="tc-label">既存実用（YBCO等）</div>
+        <div class="tc-bar-wrap">
+          <div class="tc-bar" style="width: calc(93/340*100%); background: #111;">
+            93 K（現在の実用最高）
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <p style="font-size:12px;color:#555;margin-top:16px">※ 高圧条件が必要な材料は実用上の制約が大きい。常圧で動く材料が産業化のカギ。</p>
+  </div>
+
+  <!-- BARRIERS -->
+  <div class="section">
+    <h2>産業化を阻む3つの壁</h2>
+    <div class="barriers">
+      <div class="barrier">
+        <div class="barrier-num">01</div>
+        <div class="barrier-title">圧力の壁</div>
+        <div class="barrier-body">
+          理論上最も高いTcを持つ水素化物は100万気圧以上が必要。
+          地球の中心と同じ圧力で、装置はダイヤモンドアンビルセル（豆粒サイズ）。
+          産業スケールで維持できる圧力は現実的に1GPa以下。
+        </div>
+        <div class="barrier-status status-hard">壁の高さ：極めて高い</div>
+      </div>
+      <div class="barrier">
+        <div class="barrier-num">02</div>
+        <div class="barrier-title">合成の壁</div>
+        <div class="barrier-body">
+          計算で予測された材料の多くはまだ合成されていない。
+          理論→実験の歩留まりは非常に低く、
+          合成できても安定性・再現性の確保が別の難題になる。
+          LK-99騒動はこの難しさを象徴した。
+        </div>
+        <div class="barrier-status status-mid">壁の高さ：高いが突破事例あり</div>
+      </div>
+      <div class="barrier">
+        <div class="barrier-num">03</div>
+        <div class="barrier-title">スケールの壁</div>
+        <div class="barrier-body">
+          超伝導体の製造・加工・配線は専門技術が必要。
+          現在の高温超伝導線材（REBCO等）は1mあたり数万円。
+          室温材料ができても、量産・コスト・信頼性の課題が残る。
+        </div>
+        <div class="barrier-status status-soft">壁の高さ：中程度（技術的に解決可能）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPPORTUNITY MAP -->
+  <div class="section">
+    <h2>産業化可能エリア — 時間軸別</h2>
+    <div class="opportunities">
+
+      <div class="opp">
+        <div class="opp-num">NOW</div>
+        <div class="opp-body">
+          <h3>高温超伝導線材の拡大応用</h3>
+          <p>
+            −196℃での超伝導は今すでに実用段階。MRI・加速器・風力発電機の次は、
+            送電ケーブル・核融合炉マグネット・電動航空機モーターへの展開。
+            技術はある。コストと製造規模が課題。
+          </p>
+        </div>
+        <div class="opp-meta">
+          <div class="opp-horizon">今すぐ〜5年</div>
+          <div class="opp-scale">数千億円市場</div>
+        </div>
+      </div>
+
+      <div class="opp">
+        <div class="opp-num">NEAR</div>
+        <div class="opp-body">
+          <h3>液体窒素不要の超伝導（77K超え・常圧）</h3>
+          <p>
+            PdH₄やLiMgZr₂H₁₂系が計算通りなら、常圧で−100℃前後の超伝導が実現する。
+            これは「電子冷却機（ペルチェ）レベルの冷却で使える」ことを意味する。
+            量子コンピュータの冷却コスト革命・小型MRIへの応用が現実的になる。
+          </p>
+        </div>
+        <div class="opp-meta">
+          <div class="opp-horizon">5〜15年</div>
+          <div class="opp-scale">数兆円市場</div>
+        </div>
+      </div>
+
+      <div class="opp">
+        <div class="opp-num">FAR</div>
+        <div class="opp-body">
+          <h3>真の室温超伝導による送電インフラ革命</h3>
+          <p>
+            常圧・室温で動く超伝導体が実現すれば、送電ロスがゼロになる。
+            電力網の効率化だけで世界のCO₂排出量を数%削減できる計算。
+            さらに超伝導モーター・磁気浮上輸送・核融合発電との組み合わせで
+            エネルギー文明が根本から変わる。
+          </p>
+        </div>
+        <div class="opp-meta">
+          <div class="opp-horizon">15〜30年以上</div>
+          <div class="opp-scale">数百兆円規模</div>
+        </div>
+      </div>
+
+      <div class="opp">
+        <div class="opp-num">META</div>
+        <div class="opp-body">
+          <h3>AI×材料探索プラットフォーム（今すぐ投資できる領域）</h3>
+          <p>
+            Grokeneに代表されるように、LLM×第一原理計算で材料探索が加速している。
+            超伝導に限らず、触媒・電池・半導体材料の予測に同じ手法が使える。
+            「材料探索AIの指揮者」としてのプラットフォームビジネスが成立する。
+          </p>
+        </div>
+        <div class="opp-meta">
+          <div class="opp-horizon">今すぐ</div>
+          <div class="opp-scale">戦略的優位性</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOT PERSPECTIVE -->
+  <div class="section">
+    <h2>Bank of Technology の視点</h2>
+    <div class="plain">
+      <h3>この分野で「指揮者」が必要な理由</h3>
+      <p>
+        室温超伝導の研究は、<strong>物理・化学・材料科学・計算科学・AIが交差する領域</strong>にある。
+        arxivには毎週数十本の論文が投稿されるが、それらをつないで
+        「産業化シナリオ」を描く存在がいない。
+      </p>
+      <p>
+        研究者は論文を書く。企業は製品を作る。
+        しかし<strong>「この技術とこの技術を組み合わせると、5年後にこの市場が生まれる」</strong>
+        という構造を設計する機能が、エコシステムに欠けている。
+      </p>
+      <p>
+        超伝導×量子コンピュータ×核融合×送電インフラ——
+        これらは別々に語られているが、根っこは「超伝導材料の進化」という一本の軸でつながっている。
+        <strong>この軸を見える化し、技術と産業をつなぐ設計図を描く。</strong>
+        それがBank of Technologyの役割だ。
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    <span>Bank of Technology — 技術解析レポート #001</span>
+    <span>2026年5月 · Bank of Technology</span>
+  </footer>
+
+</div>
+</body>
+</html>

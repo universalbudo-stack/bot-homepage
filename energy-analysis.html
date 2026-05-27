@@ -1,0 +1,312 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>エネルギー技術 — 技術解析レポート | Bank of Technology</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-weight: 300; line-height: 1.8; -webkit-font-smoothing: antialiased; }
+    .page { max-width: 1100px; margin: 0 auto; padding: 80px 60px; }
+    .label { font-size: 11px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: #555; margin-bottom: 16px; }
+    h1 { font-size: 56px; font-weight: 300; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 24px; }
+    h1 span { color: #888; }
+    .meta { font-size: 13px; color: #555; margin-bottom: 80px; }
+    .section { margin-bottom: 100px; }
+    h2 { font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: #555; margin-bottom: 48px; padding-bottom: 16px; border-bottom: 1px solid #1a1a1a; }
+    .plain { background: #0d0d0d; padding: 48px; }
+    .plain h3 { font-size: 20px; font-weight: 500; color: #fff; margin-bottom: 24px; }
+    .plain p { font-size: 16px; color: #777; line-height: 2; margin-bottom: 20px; }
+    .plain p:last-child { margin-bottom: 0; }
+    .plain p strong { color: #bbb; font-weight: 400; }
+    .divider { height: 1px; background: #1a1a1a; margin: 32px 0; }
+
+    /* TECH GRID */
+    .tech-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .tech-card { background: #0d0d0d; padding: 36px; }
+    .tech-num { font-size: 48px; font-weight: 300; color: #111; letter-spacing: -0.04em; margin-bottom: 16px; }
+    .tech-name { font-size: 16px; font-weight: 500; color: #fff; margin-bottom: 12px; }
+    .tech-body { font-size: 13px; color: #555; line-height: 1.9; margin-bottom: 20px; }
+    .tech-status { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+    .s-ready { color: #44ff88; }
+    .s-near { color: #4488ff; }
+    .s-far { color: #888; }
+    .s-watch { color: #ffaa44; }
+
+    /* ENERGY COMPARISON */
+    .energy-chart { margin: 0; }
+    .e-item { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; }
+    .e-label { width: 220px; font-size: 12px; color: #555; text-align: right; flex-shrink: 0; }
+    .e-bar-wrap { flex: 1; height: 28px; background: #0a0a0a; }
+    .e-bar { height: 100%; display: flex; align-items: center; padding: 0 12px; font-size: 11px; font-weight: 500; }
+    .e-note { width: 200px; font-size: 11px; color: #444; flex-shrink: 0; }
+
+    /* FUSION SPECIAL */
+    .fusion-box { background: #0d0d0d; padding: 48px; margin-bottom: 2px; }
+    .fusion-box h3 { font-size: 24px; font-weight: 300; color: #fff; margin-bottom: 24px; letter-spacing: -0.02em; }
+    .fusion-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 32px; }
+    .fusion-stat { background: #000; padding: 24px; }
+    .fusion-stat-num { font-size: 36px; font-weight: 300; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .fusion-stat-label { font-size: 12px; color: #555; }
+
+    /* OPPORTUNITY */
+    .opps { display: grid; gap: 2px; }
+    .opp { display: grid; grid-template-columns: 80px 1fr 180px; gap: 24px; align-items: start; background: #0d0d0d; padding: 32px; }
+    .opp-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #444; padding-top: 4px; }
+    .opp h3 { font-size: 18px; font-weight: 500; color: #fff; margin-bottom: 8px; }
+    .opp p { font-size: 13px; color: #555; line-height: 1.8; }
+    .opp-right { text-align: right; }
+    .opp-horizon { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 8px; }
+    .opp-scale { font-size: 22px; font-weight: 300; color: #888; }
+
+    .bot-box { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 48px; }
+    .bot-box h3 { font-size: 20px; font-weight: 500; color: #fff; margin-bottom: 24px; }
+    .bot-box p { font-size: 15px; color: #666; line-height: 2; margin-bottom: 16px; }
+    .bot-box p:last-child { margin-bottom: 0; }
+    .bot-box strong { color: #aaa; font-weight: 400; }
+
+    footer { margin-top: 120px; padding-top: 40px; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-between; font-size: 12px; color: #333; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="label">Bank of Technology — 技術解析レポート #003</div>
+  <h1>エネルギーの<br /><span>次の形。</span></h1>
+  <div class="meta">核融合・全固体電池・グリッドスケール蓄電・次世代太陽光・水素 を解析 · 2026年5月</div>
+
+  <!-- PLAIN -->
+  <div class="section">
+    <h2>一般の人向けに</h2>
+    <div class="plain">
+      <h3>なぜエネルギー技術がこれほど重要になったのか</h3>
+      <p>
+        電気自動車・AI・半導体工場・データセンター——<strong>現代文明の電力需要は加速度的に増えています</strong>。
+        2030年までに世界の電力需要は今の1.5倍以上になるという予測もあります。
+        同時に、CO₂削減の圧力で「石炭・ガスを減らせ」という要求も強まっています。
+      </p>
+      <p>
+        つまり「<strong>より多くの電力を、よりクリーンに、より安定して作る</strong>」という
+        3つの要求を同時に満たさなければならない。これが次世代エネルギー技術が
+        世界中で競争的に開発されている理由です。
+      </p>
+      <div class="divider"></div>
+      <h3>核融合が「太陽を地球に作る」と言われる理由</h3>
+      <p>
+        太陽は水素原子核を融合させてエネルギーを生んでいます。これを地球上で再現するのが核融合。
+        <strong>燃料は海水中の重水素（事実上無限）、廃棄物は少量のヘリウム</strong>。
+        理論上は夢のエネルギー源ですが、1億℃以上のプラズマを安定維持するのが難題で、
+        「あと30年でできる」と50年以上言われ続けてきました。
+      </p>
+      <p>
+        しかし2022年12月、米国NIFが<strong>初めてエネルギー収支プラス（Q&gt;1）を達成</strong>。
+        投入したエネルギーより多くのエネルギーが出た、人類初の瞬間でした。
+        民間企業も参入し、2030年代の実用化が現実の議論になっています。
+      </p>
+    </div>
+  </div>
+
+  <!-- TECH CARDS -->
+  <div class="section">
+    <h2>5つの主要技術の現在地</h2>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-num">01</div>
+        <div class="tech-name">核融合発電</div>
+        <div class="tech-body">
+          トカマク型（ITER・Commonwealth Fusion）と慣性閉じ込め型（NIF・Marvel Fusion）が競合。
+          ITERは2025年完成予定、SPARC（Commonwealth）は2027年でQ&gt;2を目指す。
+          民間8社以上が競争しており、2030年代の実証炉稼働は現実的なシナリオ。
+        </div>
+        <div class="tech-status s-near">見通し：2030年代実証</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-num">02</div>
+        <div class="tech-name">全固体電池</div>
+        <div class="tech-body">
+          液体電解質をセラミック・硫化物固体に置き換える。エネルギー密度2倍・充電速度10分・
+          発火リスクゼロが目標。Toyotaが2027〜2028年のEV搭載を宣言。
+          QuantumScapeはVW・フォードと提携し量産準備中。コスト低減が最後の課題。
+        </div>
+        <div class="tech-status s-near">見通し：2027〜2030年量産</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-num">03</div>
+        <div class="tech-name">グリッドスケール蓄電</div>
+        <div class="tech-body">
+          太陽光・風力の不安定さを補う「大規模な充電池」。鉄-空気電池・液体金属電池・
+          フロー電池など新方式が続々登場。Formエネルギーの鉄-空気電池はコスト$20/kWhを目指す
+          （現行リチウムの1/5）。再エネ100%社会のインフラとして必須。
+        </div>
+        <div class="tech-status s-ready">見通し：今すぐ〜5年で拡大</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-num">04</div>
+        <div class="tech-name">ペロブスカイト太陽電池</div>
+        <div class="tech-body">
+          印刷で作れる次世代太陽電池。効率は既にシリコン系に匹敵（26%超）し、
+          製造コストは大幅に安い。課題は耐久性（屋外での劣化）。
+          日本・中国・欧州で量産競争が始まっており、2026〜2027年の製品化が見えている。
+          建材一体型（BIPV）での応用が特に期待される。
+        </div>
+        <div class="tech-status s-near">見通し：2026〜2028年量産</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-num">05</div>
+        <div class="tech-name">グリーン水素</div>
+        <div class="tech-body">
+          再エネ電力で水を電気分解して作る「燃料」。製鉄・化学・航空・船舶など
+          電池では代替できない分野の脱炭素に不可欠。
+          現状コストは化石燃料由来の3〜5倍だが、電解槽コストが急速に低下中。
+          2030年代に競争力のある価格になるとの予測が増えている。
+        </div>
+        <div class="tech-status s-watch">見通し：コスト次第で爆発的拡大</div>
+      </div>
+      <div class="tech-card" style="background:#000;border:1px solid #1a1a1a">
+        <div class="tech-num" style="color:#1a1a1a">06</div>
+        <div class="tech-name" style="color:#666">小型モジュール炉（SMR）</div>
+        <div class="tech-body" style="color:#555">
+          従来の大型原発を小型化したもの。工場で製造して現地に輸送できる。
+          Rolls-Royce、NuScale、TerraPowerなどが開発中。
+          AIデータセンターの電力需要急増で投資が集中している。
+          規制承認が最大のボトルネック。
+        </div>
+        <div class="tech-status" style="color:#555">見通し：2030年代〜</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FUSION DETAIL -->
+  <div class="section">
+    <h2>核融合 — 特別解説</h2>
+    <div class="fusion-box">
+      <h3>なぜ今、核融合に民間資金が殺到しているのか</h3>
+      <p style="font-size:15px;color:#888;line-height:2;margin-bottom:24px">
+        2022年のNIF成功、超伝導磁石技術の進化、AIによるプラズマ制御の改善——
+        複数の技術的ブレークスルーが重なり、核融合の「商業化タイムライン」が急速に縮まった。
+        2024年時点で民間核融合企業への累計投資額は60億ドルを超えた。
+      </p>
+      <div class="fusion-grid">
+        <div class="fusion-stat">
+          <div class="fusion-stat-num" style="color:#4488ff">Q &gt; 1</div>
+          <div class="fusion-stat-label">NIF達成（2022年12月）— 人類初のエネルギー収支プラス</div>
+        </div>
+        <div class="fusion-stat">
+          <div class="fusion-stat-num" style="color:#44ff88">20T</div>
+          <div class="fusion-stat-label">Commonwealth FusionのHTS磁石達成磁場強度 — SPARCのコアテクノロジー</div>
+        </div>
+        <div class="fusion-stat">
+          <div class="fusion-stat-num" style="color:#ffaa44">2035</div>
+          <div class="fusion-stat-label">Commonwealth Fusion / Helionなどが目指す実証炉稼働年</div>
+        </div>
+        <div class="fusion-stat">
+          <div class="fusion-stat-num" style="color:#888">30年</div>
+          <div class="fusion-stat-label">「核融合まであと30年」と言われ続けた年数。今回は本当に縮まっている</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENERGY CHART -->
+  <div class="section">
+    <h2>エネルギー密度比較 — 技術の物理的ポテンシャル</h2>
+    <div class="energy-chart">
+      <div class="e-item">
+        <div class="e-label">核融合（重水素-三重水素）</div>
+        <div class="e-bar-wrap"><div class="e-bar" style="width:100%;background:linear-gradient(90deg,#0a1a2e,#4488ff)">337,000,000 MJ/kg</div></div>
+        <div class="e-note" style="color:#4488ff">理論上の最高値</div>
+      </div>
+      <div class="e-item">
+        <div class="e-label">核分裂（ウラン235）</div>
+        <div class="e-bar-wrap"><div class="e-bar" style="width:24%;background:#1a1a2e">83,140,000 MJ/kg</div></div>
+        <div class="e-note">現在の原発</div>
+      </div>
+      <div class="e-item">
+        <div class="e-label">水素（燃焼）</div>
+        <div class="e-bar-wrap"><div class="e-bar" style="width:0.04%;min-width:80px;background:#1a2e1a">142 MJ/kg</div></div>
+        <div class="e-note">グリーン水素</div>
+      </div>
+      <div class="e-item">
+        <div class="e-label">リチウムイオン電池（現行）</div>
+        <div class="e-bar-wrap"><div class="e-bar" style="width:0.001%;min-width:120px;background:#1a1a0a">0.9 MJ/kg</div></div>
+        <div class="e-note">EV・スマホ</div>
+      </div>
+      <div class="e-item">
+        <div class="e-label">全固体電池（目標値）</div>
+        <div class="e-bar-wrap"><div class="e-bar" style="width:0.001%;min-width:160px;background:#2e1a00;color:#ffaa44">2.0 MJ/kg（目標）</div></div>
+        <div class="e-note" style="color:#ffaa44">現行の2〜3倍</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:#555;margin-top:16px">※ 核融合のエネルギー密度は石油の約600万倍。物理的ポテンシャルは桁違い。</p>
+  </div>
+
+  <!-- OPPORTUNITIES -->
+  <div class="section">
+    <h2>産業化チャンス</h2>
+    <div class="opps">
+      <div class="opp">
+        <div class="opp-tag">今すぐ</div>
+        <div>
+          <h3>グリッドスケール蓄電の設計・統合</h3>
+          <p>再エネ比率が上がるほど「蓄電」の価値が上がる。複数の蓄電技術（リチウム・鉄-空気・フロー）を最適に組み合わせる設計プラットフォームに大きなビジネスチャンスがある。</p>
+        </div>
+        <div class="opp-right">
+          <div class="opp-horizon">Now</div>
+          <div class="opp-scale">数兆円市場</div>
+        </div>
+      </div>
+      <div class="opp">
+        <div class="opp-tag">3〜5年</div>
+        <div>
+          <h3>全固体電池の製造技術・材料供給</h3>
+          <p>電池セル自体はToyota・QuantumScapeが作る。しかし固体電解質材料・製造装置・品質管理システムのサプライチェーンは未成熟。ここに参入余地がある。</p>
+        </div>
+        <div class="opp-right">
+          <div class="opp-horizon">3〜5年</div>
+          <div class="opp-scale">数十兆円</div>
+        </div>
+      </div>
+      <div class="opp">
+        <div class="opp-tag">10〜20年</div>
+        <div>
+          <h3>核融合プラントの周辺産業</h3>
+          <p>核融合炉が動けば、超伝導マグネット・高温材料・中性子遮蔽・三重水素管理・電力変換システムなど周辺産業が一斉に立ち上がる。今から技術を持っておく価値がある。</p>
+        </div>
+        <div class="opp-right">
+          <div class="opp-horizon">10〜20年</div>
+          <div class="opp-scale">数百兆円規模</div>
+        </div>
+      </div>
+      <div class="opp">
+        <div class="opp-tag">メタ機会</div>
+        <div>
+          <h3>エネルギー技術の「協奏」設計</h3>
+          <p>核融合×超伝導送電×全固体電池×グリーン水素——これらは単独では不完全。組み合わせて初めて「脱炭素社会のエネルギーシステム」が成立する。その全体設計ができる組織が世界にほぼ存在しない。</p>
+        </div>
+        <div class="opp-right">
+          <div class="opp-horizon">今すぐ</div>
+          <div class="opp-scale">戦略的優位</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOT PERSPECTIVE -->
+  <div class="section">
+    <h2>Bank of Technology の視点</h2>
+    <div class="bot-box">
+      <h3>エネルギーは「技術の協奏」が最も必要な領域</h3>
+      <p>核融合・蓄電・太陽光・水素・送電インフラは、<strong>それぞれが単独では社会を変えられない</strong>。脱炭素社会は、これらが正しい順序・正しい規模で組み合わさることで初めて成立する。</p>
+      <p>しかし現実には、核融合の研究者は送電を知らず、電池メーカーは核融合を見ていない。政策立案者は個別技術を支援するが、<strong>システム全体の設計図を持つ者がいない</strong>。</p>
+      <p>Bank of Technologyが描くべきは、<strong>「2040年のエネルギーシステム設計図」</strong>だ。どの技術がいつ成熟し、どの順番でインフラを置き換えるか。その設計図があれば、各技術への投資判断・政策提言・人材育成の優先順位が決まる。</p>
+    </div>
+  </div>
+
+  <footer>
+    <span>Bank of Technology — 技術解析レポート #003</span>
+    <span>2026年5月 · エネルギー技術解析</span>
+  </footer>
+</div>
+</body>
+</html>

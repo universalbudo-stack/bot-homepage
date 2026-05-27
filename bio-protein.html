@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>タンパク質の謎は解かれた。次は、設計する。— BoT技術解析レポート #005-05</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased}
+.page{max-width:1100px;margin:0 auto;padding:80px 60px}
+.breadcrumb{font-size:11px;color:#666;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px}
+.breadcrumb span{color:#555}
+.label{font-size:11px;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:#777;margin-bottom:16px}
+h1{font-size:56px;font-weight:300;line-height:1.1;letter-spacing:-.03em;margin-bottom:24px}
+h1 span{color:#888}
+.meta{font-size:13px;color:#777;margin-bottom:80px}
+.section{margin-bottom:100px}
+h2{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#777;margin-bottom:48px;padding-bottom:16px;border-bottom:1px solid #1a1a1a}
+.plain{background:#0d0d0d;padding:48px;margin-bottom:2px}
+.plain h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.plain p{font-size:16px;color:#777;line-height:2;margin-bottom:20px}
+.plain p:last-child{margin-bottom:0}
+.plain p strong{color:#bbb;font-weight:400}
+.divider{height:1px;background:#1a1a1a;margin:32px 0}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:80px}
+.metric{background:#0d0d0d;padding:32px 24px;text-align:center}
+.metric .val{font-size:36px;font-weight:300;letter-spacing:-.02em;margin-bottom:8px}
+.metric .lbl{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.metric .note{font-size:12px;color:#666;line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px}
+.card{background:#0d0d0d;padding:36px}
+.card .tag{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.card h3{font-size:18px;font-weight:500;color:#fff;margin-bottom:12px}
+.card p{font-size:13px;color:#777;line-height:1.9}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:32px}
+.tier{padding:28px;border:1px solid #1a1a1a;background:#0a0a0a}
+.tier .tier-tag{font-size:9px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px}
+.tier .tier-name{font-size:15px;font-weight:500;margin-bottom:10px}
+.tier .tier-body{font-size:12px;color:#777;line-height:1.8}
+.tier.now .tier-tag{color:#4a9}
+.tier.near .tier-tag{color:#88f}
+.tier.far .tier-tag{color:#f84}
+.tier.meta .tier-tag{color:#888}
+.table-wrap{overflow-x:auto;margin-bottom:32px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#0a0a0a;color:#777;font-weight:500;text-transform:uppercase;letter-spacing:.08em;padding:14px 18px;text-align:left;border-bottom:1px solid #1a1a1a;font-size:11px}
+td{padding:14px 18px;border-bottom:1px solid #111;color:#777;vertical-align:top;line-height:1.7}
+td:first-child{color:#ccc;font-weight:400}
+tr:hover td{background:#080808}
+.milestone{position:relative;padding-left:32px;margin-bottom:0}
+.milestone::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:1px;background:#1a1a1a}
+.ms{position:relative;margin-bottom:48px}
+.ms::before{content:'';position:absolute;left:-36px;top:8px;width:8px;height:8px;border-radius:50%;background:#333}
+.ms.done::before{background:#44ff88}
+.ms.near::before{background:#4488ff}
+.ms-year{font-size:11px;font-weight:500;letter-spacing:.15em;color:#666;margin-bottom:8px}
+.ms.done .ms-year{color:#44ff88}
+.ms.near .ms-year{color:#4488ff}
+.ms-title{font-size:18px;font-weight:400;color:#fff;margin-bottom:8px}
+.ms-body{font-size:13px;color:#777;line-height:1.8;max-width:680px}
+.bot-box{background:#0a0a0a;border:1px solid #1a1a1a;padding:48px}
+.bot-box h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.bot-box p{font-size:15px;color:#888;line-height:2;margin-bottom:16px}
+.bot-box p:last-child{margin-bottom:0}
+.bot-box strong{color:#aaa;font-weight:400}
+footer{margin-top:120px;padding-top:40px;border-top:1px solid #1a1a1a;display:flex;justify-content:space-between;font-size:12px;color:#555}
+@media(max-width:700px){.metrics,.cards,.tiers{grid-template-columns:1fr}.page{padding:40px 20px}h1{font-size:36px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="breadcrumb">
+  Bank of Technology <span>›</span> Report #005 バイオテクノロジー <span>›</span> #005-05 タンパク質設計
+</div>
+
+<div class="label">Bank of Technology — 技術解析レポート #005-05</div>
+<h1>タンパク質の謎は解かれた。<br><span>次は、設計する。</span></h1>
+<div class="meta">AI タンパク質設計の全貌 · 2026年 · 解析: Bank of Technology</div>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="lbl">タンパク質折りたたみ問題が「解けた」年</div>
+    <div class="val">2020年</div>
+    <div class="note">DeepMind の AlphaFold2 が CASP14 コンペで圧勝。50年来の難問を解いた。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">AlphaFold が予測した構造の数</div>
+    <div class="val">2億以上</div>
+    <div class="note">地球上のほぼすべての生物のタンパク質構造を無料公開。生命科学の地図が完成した。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">RFdiffusion が設計できる新規タンパク質</div>
+    <div class="val">自然界に存在しないもの</div>
+    <div class="note">「読む」から「書く」へ。自然が作ったことのないタンパク質をゼロから設計できる。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">David Baker のノーベル化学賞</div>
+    <div class="val">2024年</div>
+    <div class="note">タンパク質設計の先駆者。AlphaFold のデミス・ハサビスと同年受賞。</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>まず、一般の人向けに</h2>
+  <div class="plain">
+    <h3>50年間解けなかった問題が、2日で解けた</h3>
+    <p>
+      生命を動かす機械は「タンパク質」だ。酵素・ホルモン・抗体・筋肉——
+      体内のほぼすべての仕事をこの分子が担っている。
+      タンパク質はアミノ酸の鎖が複雑に折りたたまれた立体構造を持ち、
+      その形が機能を決める。
+    </p>
+    <p>
+      問題は「アミノ酸の配列から3D構造を予測する」ことが非常に難しかったことだ。
+      理論的には天文学的な数の折りたたみパターンがあり、
+      50年間コンピュータが解けなかった。
+      X線結晶解析で構造を実験的に決定するのに、1つのタンパク質で数年かかることもあった。
+      <strong>これが「タンパク質折りたたみ問題」だ。</strong>
+    </p>
+    <div class="divider"></div>
+    <h3>2020年、AlphaFold2 が科学史に残る勝利を収めた</h3>
+    <p>
+      毎年開催されるタンパク質構造予測の世界大会 CASP。
+      2020年の CASP14 に DeepMind の AlphaFold2 が出場し、
+      <strong>前代未聞のスコアで圧勝した。</strong>
+      2位との差は、2位と50位の差より大きかった。
+      Science 誌は「今年最も重要な科学的成果」として表彰した。
+    </p>
+    <p>
+      DeepMind は 2022年、AlphaFold のデータベースを無料公開した。
+      <strong>地球上のほぼすべての生物の、2億を超えるタンパク質の3D構造が無料で使えるようになった。</strong>
+      何百万人もの科学者が何十年もかけてX線で解析してきた量を、
+      AIが一気に埋めた。生命科学の「地図」が完成した瞬間だった。
+    </p>
+    <div class="divider"></div>
+    <h3>「読む」から「書く」へ——次は存在しないタンパク質を設計する</h3>
+    <p>
+      AlphaFold が「自然のタンパク質を読む」ツールなら、
+      次の世代は<strong>「存在しないタンパク質を設計する」ツールだ。</strong>
+      David Baker（2024年ノーベル化学賞受賞）のチームが開発した RFdiffusion は、
+      目的の機能（例：がん細胞だけに結合する）を指定すると、
+      その機能を持つ全く新しいタンパク質の設計図を生成する。
+      自然が38億年の進化で作れなかったタンパク質を、数秒で設計できる——
+      これが今起きていることだ。
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>AI タンパク質ツールの系譜</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ツール</th>
+          <th>開発元</th>
+          <th>何ができるか</th>
+          <th>インパクト</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AlphaFold2</td>
+          <td>DeepMind（英・Google傘下）</td>
+          <td>アミノ酸配列から3D構造を予測</td>
+          <td>2億以上の構造を無料公開。CASP14 で革命的スコア。2024年ノーベル化学賞</td>
+        </tr>
+        <tr>
+          <td>AlphaFold3</td>
+          <td>Google DeepMind</td>
+          <td>タンパク質＋DNA/RNA＋低分子化合物の複合体構造を予測</td>
+          <td>創薬の「分子ドッキング」が精度革命。薬と標的の結合を事前予測</td>
+        </tr>
+        <tr>
+          <td>ESMfold</td>
+          <td>Meta AI</td>
+          <td>AlphaFold2 より60倍高速な構造予測</td>
+          <td>大規模スクリーニングに対応。メタゲノムの全タンパク質を網羅</td>
+        </tr>
+        <tr>
+          <td>RFdiffusion</td>
+          <td>Baker Lab（ワシントン大）</td>
+          <td>目的機能を指定して新規タンパク質をゼロから設計</td>
+          <td>「読む」から「書く」への転換。自然界にないタンパク質の de novo 設計</td>
+        </tr>
+        <tr>
+          <td>ProteinMPNN</td>
+          <td>Baker Lab</td>
+          <td>3D構造からアミノ酸配列を逆算設計</td>
+          <td>RFdiffusion と組み合わせて完全な de novo 設計パイプラインを形成</td>
+        </tr>
+        <tr>
+          <td>Chai-1</td>
+          <td>Chai Discovery</td>
+          <td>AlphaFold3 に匹敵する複合体予測を無料・商業利用可能で公開</td>
+          <td>DeepMind の独占を崩すオープンな選択肢として急速に普及</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <h2>産業化のマイルストーン</h2>
+  <div class="milestone">
+    <div class="ms done">
+      <div class="ms-year">2020 — 達成済み</div>
+      <div class="ms-title">タンパク質折りたたみ問題の解決</div>
+      <div class="ms-body">AlphaFold2 が CASP14 で圧勝。世界中の研究室が一夜にして「構造解析の壁」を超えた。</div>
+    </div>
+    <div class="ms done">
+      <div class="ms-year">2022 — 達成済み</div>
+      <div class="ms-title">2億タンパク質構造の無料公開</div>
+      <div class="ms-body">DeepMind が AlphaFold データベースを無料公開。創薬・農業・素材の研究が一斉に加速した。</div>
+    </div>
+    <div class="ms done">
+      <div class="ms-year">2023〜2024 — 達成済み</div>
+      <div class="ms-title">de novo タンパク質設計の実証</div>
+      <div class="ms-body">RFdiffusion が実験室でテストをパスする新規タンパク質を高確率で設計できることを実証。「書く」時代の幕開け。</div>
+    </div>
+    <div class="ms near">
+      <div class="ms-year">2025〜2028 — 目前</div>
+      <div class="ms-title">AI 設計タンパク質の医薬品承認</div>
+      <div class="ms-body">AI が設計した抗体・ペプチド薬が臨床試験に入り始めている。承認されれば「AIが発明した薬」という歴史的な第一号が生まれる。</div>
+    </div>
+    <div class="ms near">
+      <div class="ms-year">2030〜 — 中期</div>
+      <div class="ms-title">設計された酵素による工業化学革命</div>
+      <div class="ms-body">石油化学プロセスをタンパク質（酵素）に置き換える。プラスチック分解酵素・CO₂固定酵素・廃水処理酵素が産業スケールで稼働する。</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>産業化ロードマップ</h2>
+  <div class="tiers">
+    <div class="tier now">
+      <div class="tier-tag">NOW · 実用化</div>
+      <div class="tier-name">創薬研究の加速</div>
+      <div class="tier-body">AlphaFold データベースで標的タンパク質の構造が即座に入手可能に。従来数年かかった「構造決定」がスキップされ、創薬の初期段階が劇的に短縮。世界中の製薬企業が AlphaFold 前提の研究体制に移行中。</div>
+    </div>
+    <div class="tier near">
+      <div class="tier-tag">NEAR · 2026-2030</div>
+      <div class="tier-name">AI 設計抗体・ペプチド薬</div>
+      <div class="tier-body">RFdiffusion で設計した新規抗体・結合タンパク質が臨床試験へ。従来の抗体スクリーニング（ランダム探索）から「目的機能から逆算設計」へのパラダイムシフト。開発期間が半分以下になる。</div>
+    </div>
+    <div class="tier far">
+      <div class="tier-tag">FAR · 2028-2035</div>
+      <div class="tier-name">工業酵素の全面設計</div>
+      <div class="tier-body">ノボザイムス（世界最大の酵素メーカー）等が AI 設計酵素を商業展開。洗剤・食品加工・繊維・製紙産業の酵素が「自然の酵素」から「設計された酵素」に置き換わる。性能・コストが格段に向上。</div>
+    </div>
+    <div class="tier meta">
+      <div class="tier-tag">META · 2035+</div>
+      <div class="tier-name">完全な生命設計</div>
+      <div class="tier-body">タンパク質→遺伝子→細胞→生命体の「フルスタック設計」が可能になる。「目的を指定すると細胞が設計される」AI システムと合成生物学の融合で、生命工学が電気工学と同じ地位を得る。</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Bank of Technology の視点</h2>
+  <div class="bot-box">
+    <h3>AlphaFold は「生命の Google Maps」だ。RFdiffusion は「生命の CAD ソフト」だ</h3>
+    <p>
+      地図がなかった時代と地図がある時代では、探検の効率が根本から違う。
+      AlphaFold はタンパク質の「地図」を完成させた。
+      創薬研究者はもう「暗闇の中を手探りで歩く」必要がない。
+      <strong>標的の構造が一瞬でわかり、どこに薬を当てるべきかが見える。</strong>
+    </p>
+    <p>
+      しかし本当の革命は RFdiffusion が示している。
+      地図を「読む」のではなく「書く」——
+      <strong>「こんな機能のタンパク質が欲しい」と入力すれば、AIがその設計図を出す。</strong>
+      これは38億年の進化が作り上げてきたライブラリを超え、
+      人間の知性が生命の分子を設計する時代の始まりだ。
+    </p>
+    <p>
+      日本の強みは「酵素応用」にある。
+      <strong>味噌・醤油・日本酒・豆腐——日本の食文化は世界最高峰の酵素利用の歴史だ。</strong>
+      天野エンザイム・新日本化学工業など、世界に誇る酵素産業がある。
+      AI タンパク質設計と日本の酵素産業が組み合わさることで、
+      バイオ素材・食品加工・環境浄化の分野で圧倒的な競争力を作れる。
+      AlphaFold が地図を完成させた今、日本はその地図を最もうまく使える立場にある。
+    </p>
+  </div>
+</div>
+
+<footer>
+  <span>Bank of Technology — 技術解析レポート #005-05</span>
+  <span>親レポート: <a href="bio-analysis.html" style="color:#555">#005 バイオテクノロジー</a> · 2026</span>
+</footer>
+
+</div>
+</body>
+</html>

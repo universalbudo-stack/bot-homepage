@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>宇宙産業 — 技術解析レポート | Bank of Technology</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-weight: 300; line-height: 1.8; -webkit-font-smoothing: antialiased; }
+    .page { max-width: 1100px; margin: 0 auto; padding: 80px 60px; }
+    .label { font-size: 11px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: #555; margin-bottom: 16px; }
+    h1 { font-size: 56px; font-weight: 300; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 24px; }
+    h1 span { color: #888; }
+    .meta { font-size: 13px; color: #555; margin-bottom: 80px; }
+    .section { margin-bottom: 100px; }
+    h2 { font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: #555; margin-bottom: 48px; padding-bottom: 16px; border-bottom: 1px solid #1a1a1a; }
+    .plain { background: #0d0d0d; padding: 48px; }
+    .plain h3 { font-size: 20px; font-weight: 500; color: #fff; margin-bottom: 24px; }
+    .plain p { font-size: 16px; color: #777; line-height: 2; margin-bottom: 20px; }
+    .plain p:last-child { margin-bottom: 0; }
+    .plain p strong { color: #bbb; font-weight: 400; }
+    .divider { height: 1px; background: #1a1a1a; margin: 32px 0; }
+
+    .cost-chart { margin: 40px 0; }
+    .cost-item { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+    .cost-label { width: 200px; font-size: 12px; color: #555; text-align: right; flex-shrink: 0; }
+    .cost-bar-wrap { flex: 1; height: 32px; background: #0a0a0a; position: relative; }
+    .cost-bar { height: 100%; display: flex; align-items: center; padding: 0 16px; font-size: 12px; font-weight: 500; }
+    .cost-year { width: 60px; font-size: 11px; color: #444; flex-shrink: 0; }
+
+    .domains { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+    .domain { background: #0d0d0d; padding: 40px; }
+    .dom-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: #444; margin-bottom: 12px; }
+    .dom-title { font-size: 22px; font-weight: 400; color: #fff; margin-bottom: 16px; }
+    .dom-body { font-size: 13px; color: #555; line-height: 1.9; margin-bottom: 24px; }
+    .dom-body strong { color: #888; font-weight: 400; }
+    .dom-status { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+    .s-now { color: #44ff88; } .s-near { color: #4488ff; } .s-mid { color: #ffaa44; } .s-far { color: #888; }
+    .dom-players { font-size: 12px; color: #444; margin-top: 12px; }
+    .dom-players span { color: #555; margin-right: 12px; }
+
+    .timeline { padding-left: 32px; position: relative; }
+    .timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 1px; background: #1a1a1a; }
+    .ms { position: relative; margin-bottom: 48px; }
+    .ms::before { content: ''; position: absolute; left: -36px; top: 8px; width: 8px; height: 8px; border-radius: 50%; }
+    .ms.done::before { background: #44ff88; }
+    .ms.near::before { background: #4488ff; }
+    .ms.far::before { background: #333; }
+    .ms-year { font-size: 11px; font-weight: 500; letter-spacing: 0.15em; color: #444; margin-bottom: 8px; }
+    .ms.done .ms-year { color: #44ff88; }
+    .ms.near .ms-year { color: #4488ff; }
+    .ms-title { font-size: 18px; font-weight: 400; color: #fff; margin-bottom: 8px; }
+    .ms-body { font-size: 13px; color: #555; line-height: 1.8; max-width: 640px; }
+
+    .japan-box { background: #050510; border: 1px solid #00005a; padding: 48px; }
+    .japan-box h3 { font-size: 20px; font-weight: 500; color: #fff; margin-bottom: 24px; }
+    .japan-box p { font-size: 14px; color: #555; line-height: 2; margin-bottom: 16px; }
+    .japan-box p strong { color: #888; font-weight: 400; }
+
+    .opps { display: grid; gap: 2px; }
+    .opp { display: grid; grid-template-columns: 80px 1fr 180px; gap: 24px; align-items: start; background: #0d0d0d; padding: 32px; }
+    .opp-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #444; padding-top: 4px; }
+    .opp h3 { font-size: 18px; font-weight: 500; color: #fff; margin-bottom: 8px; }
+    .opp p { font-size: 13px; color: #555; line-height: 1.8; }
+    .opp-right { text-align: right; }
+    .opp-horizon { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 8px; }
+    .opp-scale { font-size: 22px; font-weight: 300; color: #888; }
+
+    .bot-box { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 48px; }
+    .bot-box h3 { font-size: 20px; font-weight: 500; color: #fff; margin-bottom: 24px; }
+    .bot-box p { font-size: 15px; color: #666; line-height: 2; margin-bottom: 16px; }
+    .bot-box p:last-child { margin-bottom: 0; }
+    .bot-box strong { color: #aaa; font-weight: 400; }
+
+    footer { margin-top: 120px; padding-top: 40px; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-between; font-size: 12px; color: #333; }
+  </style>
+</head>
+<body>
+<div class="page">
+  <div class="label">Bank of Technology — 技術解析レポート #009</div>
+  <h1>宇宙が<br /><span>産業になる。</span></h1>
+  <div class="meta">打ち上げコスト革命 · 衛星コンステレーション · 軌道上製造 · 月経済 · 宇宙太陽光発電 を解析 · 2026年5月</div>
+
+  <div class="section">
+    <h2>一般の人向けに</h2>
+    <div class="plain">
+      <h3>宇宙産業に何が起きているのか</h3>
+      <p>1970年代の宇宙開発は「国家が莫大なコストをかけて行うもの」でした。しかし2024年現在、<strong>宇宙への参入コストが1970年代比で1000分の1以下</strong>になりつつあります。これはインターネットが登場したときと同じ構造変化です。</p>
+      <p>SpaceXのFalcon 9ロケットは打ち上げコストをkgあたり$2,700まで下げました。開発中のStarshipは$100/kg以下を目指しています。コストが崩壊したことで、<strong>「宇宙を使ったビジネス」のアイデアが一気に経済合理性を持ち始めました。</strong></p>
+      <div class="divider"></div>
+      <h3>宇宙で何ができるのか——地球にない3つの環境</h3>
+      <p><strong>①無重力</strong>：地球の重力に引っ張られない環境でしか作れない素材・結晶・医薬品がある。<br/>
+      <strong>②超真空</strong>：大気がないため汚染ゼロの極限的清潔な製造環境が可能。<br/>
+      <strong>③無限の太陽光</strong>：24時間・365日、雲も夜もない太陽光が降り注ぐ。宇宙太陽光発電の理論的効率は地上の8倍。</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>打ち上げコストの革命的低下</h2>
+    <div class="cost-chart">
+      <div class="cost-item">
+        <div class="cost-label">スペースシャトル</div>
+        <div class="cost-bar-wrap"><div class="cost-bar" style="width:100%;background:linear-gradient(90deg,#1a0a0a,#555)">$54,500 / kg</div></div>
+        <div class="cost-year">〜2011</div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-label">Falcon 9（使い捨て）</div>
+        <div class="cost-bar-wrap"><div class="cost-bar" style="width:50%;background:linear-gradient(90deg,#0a1a0a,#4488ff)">$2,720 / kg</div></div>
+        <div class="cost-year">2015〜</div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-label">Falcon 9（再使用）</div>
+        <div class="cost-bar-wrap"><div class="cost-bar" style="width:28%;background:linear-gradient(90deg,#0a1a0a,#44aa44)">$1,500 / kg</div></div>
+        <div class="cost-year">2017〜</div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-label">Starship（目標）</div>
+        <div class="cost-bar-wrap"><div class="cost-bar" style="width:2%;min-width:140px;background:linear-gradient(90deg,#001a00,#44ff88);color:#44ff88">$100 / kg（目標）</div></div>
+        <div class="cost-year">2027〜?</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:#555;margin-top:8px">コストが$100/kgになると、宇宙利用の経済合理性が根本から変わる。</p>
+  </div>
+
+  <div class="section">
+    <h2>6つの宇宙産業ドメイン</h2>
+    <div class="domains">
+      <div class="domain">
+        <div class="dom-eyebrow">Domain 01</div>
+        <div class="dom-title">衛星インターネット（コンステレーション）</div>
+        <div class="dom-body">低軌道に何千もの小型衛星を配置し、地球全体に高速通信を提供。<strong>SpaceXのStarlinkは2025年時点で6,000基以上を展開、300万以上のユーザー</strong>（船舶・航空機・農村地域）が利用中。Amazon Kuiperが後追い。軍事通信でも戦略的インフラに。日本企業のLite-i・スカパーJSATも参入。海運・農業・防災での市場が確実に存在する。</div>
+        <div class="dom-status s-now">産業化：今まさに進行中</div>
+        <div class="dom-players">主要プレーヤー：<span>SpaceX</span><span>Amazon</span><span>OneWeb</span></div>
+      </div>
+      <div class="domain">
+        <div class="dom-eyebrow">Domain 02</div>
+        <div class="dom-title">地球観測・リモートセンシング</div>
+        <div class="dom-body">高解像度衛星画像を毎日・全地球規模で取得。農作物の収穫量予測・森林伐採の監視・都市インフラの変化検知・海面温度モニタリング・軍事偵察。<strong>Planet Labs（毎日地球全域を撮影）・Capella Space（夜間・雨天でも見えるSAR）</strong>が先行。AIによる画像解析との組み合わせで「地球のデジタルツイン」が成立しつつある。保険・金融・食料・防衛で今すぐ使えるデータ。</div>
+        <div class="dom-status s-now">産業化：商業化済み・急成長中</div>
+        <div class="dom-players">主要プレーヤー：<span>Planet</span><span>Maxar</span><span>Capella</span></div>
+      </div>
+      <div class="domain">
+        <div class="dom-eyebrow">Domain 03</div>
+        <div class="dom-title">軌道上製造（In-Space Manufacturing）</div>
+        <div class="dom-body">無重力・超真空・無尽蔵太陽光の環境を活かした製造。<strong>Varda Space Industriesが2024年に実際の医薬品（HIV治療薬のリトナビル）の結晶を宇宙で製造し地球に持ち帰った</strong>。無重力で成長した結晶は地上より純度・均質性が高い。光ファイバー（ZBLAN）も無重力製造で品質が10倍以上向上する。半導体ウェハー・先端素材の宇宙製造が2030年代に本格化する可能性。</div>
+        <div class="dom-status s-near">産業化：初期実証段階→急拡大</div>
+        <div class="dom-players">主要プレーヤー：<span>Varda Space</span><span>Space Tango</span><span>ISAM</span></div>
+      </div>
+      <div class="domain">
+        <div class="dom-eyebrow">Domain 04</div>
+        <div class="dom-title">宇宙太陽光発電（SBSP）</div>
+        <div class="dom-body">静止軌道に巨大な太陽光パネルを展開し、マイクロ波で地上に送電する。理論上の効率は地上太陽光の8倍（夜も曇りもない）。<strong>日本の宇宙航空研究開発機構（JAXA）・欧州宇宙機関（ESA）・中国が研究に本腰</strong>。ESAは2030年代の実証機を目指す。コストはまだ非常に高いが、Starshipが$100/kgになれば経済合理性が変わる。2050年代に実用化した場合のインパクトは核融合に匹敵。</div>
+        <div class="dom-status s-mid">産業化：研究→実証段階（2030年代〜）</div>
+        <div class="dom-players">主要プレーヤー：<span>JAXA</span><span>ESA</span><span>CNSA</span></div>
+      </div>
+      <div class="domain">
+        <div class="dom-eyebrow">Domain 05</div>
+        <div class="dom-title">月経済（シスルナ経済）</div>
+        <div class="dom-body">月面の氷（水）から水素・酸素を製造してロケット燃料にする「月の燃料補給基地」構想。これにより火星探査のコストが激減する。<strong>NASAのアルテミス計画で2025〜2026年に宇宙飛行士が月に戻る予定</strong>。月のレアアース・ヘリウム3（核融合燃料候補）の採掘も長期的な可能性。日本はispace（月面着陸船）・JAXAが参画。シスルナ空間（月と地球の間）の物流・通信インフラが産業化フロンティア。</div>
+        <div class="dom-status s-near">産業化：インフラ構築フェーズ（2025〜2035）</div>
+        <div class="dom-players">主要プレーヤー：<span>NASA</span><span>ispace</span><span>Blue Origin</span></div>
+      </div>
+      <div class="domain">
+        <div class="dom-eyebrow">Domain 06</div>
+        <div class="dom-title">小惑星・宇宙資源採掘</div>
+        <div class="dom-body">小惑星には地球の全埋蔵量を超えるレアメタル・白金族・鉄ニッケルが存在する。<strong>NASAのPsyche探査機が2023年に金属小惑星（推定価値$10京）に向け出発</strong>。Asteroid Institute・AstroForgeなど民間企業が採掘計画を進める。法的枠組み（宇宙資源の所有権）が各国で整備中。2040年代以降に経済的現実性が出てくる可能性。鉄・チタン・白金を宇宙で採掘し宇宙で使う（宇宙製造の原料）モデルが先行。</div>
+        <div class="dom-status s-far">産業化：探査フェーズ（2040年代〜）</div>
+        <div class="dom-players">主要プレーヤー：<span>AstroForge</span><span>Karman+</span><span>各国宇宙機関</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>宇宙と日本</h2>
+    <div class="japan-box">
+      <h3>日本の宇宙産業の現在地と課題</h3>
+      <p><strong>強み</strong>：H3ロケット（再挑戦中）・小型衛星技術・ispaceの月着陸挑戦・三菱・NEC・IHIの宇宙機器製造基盤・JAXAの研究力。宇宙太陽光発電で世界先端。</p>
+      <p><strong>弱み</strong>：SpaceX的な「コスト破壊・反復試験」のカルチャーが弱い。国家主導から民間主導への移行が遅い。ベンチャー資金が宇宙分野に集まりにくい環境。H3の失敗リカバリーに時間がかかっている。</p>
+      <p><strong>機会</strong>：地球観測データの農業・防災応用・月経済へのispace参画・衛星コンステレーションのサプライチェーン参加。<strong>「宇宙インフラを使った地上産業の変革」は日本が得意とするものづくり×デジタル化の文脈と合致する。</strong></p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>産業化チャンス</h2>
+    <div class="opps">
+      <div class="opp"><div class="opp-tag">今すぐ</div><div><h3>衛星データ×AI×産業応用</h3><p>地球観測データは今すぐ使えるが、「農業・保険・金融・物流への適用設計」が遅れている。衛星データの解析パイプラインと産業用途アプリケーションの開発に大きな空白がある。日本の農業・漁業・防災での市場が明確。</p></div><div class="opp-right"><div class="opp-horizon">Now</div><div class="opp-scale">数千億円</div></div></div>
+      <div class="opp"><div class="opp-tag">3〜5年</div><div><h3>軌道上製造の素材・医薬品設計</h3><p>「無重力でしか作れないもの」の設計と事業化。医薬品結晶・ZBLAN光ファイバー・半導体ウェハーの軌道上製造は技術的に実証が進む。製造後の地上での応用・販売設計が次のフロンティア。</p></div><div class="opp-right"><div class="opp-horizon">3〜5年</div><div class="opp-scale">数兆円</div></div></div>
+      <div class="opp"><div class="opp-tag">10〜20年</div><div><h3>月面インフラ建設・資源開発</h3><p>月面基地の建設・資源採掘・燃料補給ステーションの設計・運用。日本のものづくり技術（精密機械・ロボット・素材）が直接活かせる領域。ispaceを起点に宇宙建設産業クラスターを形成できる可能性。</p></div><div class="opp-right"><div class="opp-horizon">10〜20年</div><div class="opp-scale">数十兆円</div></div></div>
+      <div class="opp"><div class="opp-tag">メタ機会</div><div><h3>宇宙×地上技術の統合設計</h3><p>宇宙技術は単独では閉じている。超伝導（衛星搭載用）・新素材（軌道上製造）・ロボット（月面探査）・AI（衛星データ解析）との統合設計がBank of Technologyの役割。「宇宙産業の指揮者」は日本から生まれる必然性がある。</p></div><div class="opp-right"><div class="opp-horizon">今すぐ</div><div class="opp-scale">戦略的優位</div></div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Bank of Technology の視点</h2>
+    <div class="bot-box">
+      <h3>宇宙は「技術の協奏の最終ステージ」だ</h3>
+      <p>宇宙産業は、超伝導・新素材・ロボット・AI・核融合（宇宙太陽光）・バイオ（宇宙医薬品製造）のすべてが収束する場所だ。<strong>地球上のすべての先端技術が、宇宙で試され、宇宙で使われ、宇宙で発展する。</strong></p>
+      <p>日本には製造業の底力・精密技術・宇宙研究の蓄積がある。しかし「宇宙産業の全体設計者」がいない。個別技術は各社・各機関が持つが、<strong>それらを「宇宙文明の設計図」として統合するビジョンが欠けている。</strong></p>
+      <p>Bank of Technologyが宇宙分野で果たすべき役割は、この設計図を描くことだ。地上の技術文明を宇宙に拡張する——それは人類史上最大規模の「技術の協奏」になる。</p>
+    </div>
+  </div>
+
+  <footer>
+    <span>Bank of Technology — 技術解析レポート #009</span>
+    <span>2026年5月 · 宇宙産業解析</span>
+  </footer>
+</div>
+</body>
+</html>

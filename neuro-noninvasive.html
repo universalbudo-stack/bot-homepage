@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>手術なしで、脳を読む。 — Bank of Technology</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#e8e8e8;font-family:'Inter',sans-serif;font-weight:300;line-height:1.8}
+.page{max-width:1100px;margin:0 auto;padding:80px 60px}
+h1{font-size:56px;font-weight:300;letter-spacing:-.03em;line-height:1.1;margin-bottom:24px}
+.subtitle{font-size:18px;color:#777;margin-bottom:80px;font-weight:300}
+h2{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#888;border-bottom:1px solid #1a1a1a;padding-bottom:12px;margin-bottom:32px}
+.section{margin-bottom:100px}
+.plain{background:#0d0d0d;padding:48px;border-radius:2px;margin-bottom:32px}
+.plain p{font-size:16px;color:#777;line-height:2;margin-bottom:16px}
+.plain p:last-child{margin-bottom:0}
+.plain strong{color:#aaa;font-weight:400}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#111;margin-bottom:32px}
+.metric{background:#000;padding:40px 32px}
+.metric-val{font-size:36px;font-weight:300;letter-spacing:-.02em;margin-bottom:8px}
+.metric-label{font-size:11px;color:#666;letter-spacing:.1em;text-transform:uppercase}
+.metric-sub{font-size:12px;color:#555;margin-top:4px}
+table{width:100%;border-collapse:collapse;margin-bottom:32px}
+th{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#666;padding:16px 20px;text-align:left;border-bottom:1px solid #111}
+td{padding:20px;border-bottom:1px solid #0d0d0d;font-size:14px;color:#888;vertical-align:top}
+td:first-child{color:#aaa;font-weight:400}
+tr:last-child td{border-bottom:none}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:#111;margin-bottom:32px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#111;margin-bottom:32px}
+.card{background:#000;padding:40px 32px}
+.card-title{font-size:13px;font-weight:500;letter-spacing:.05em;margin-bottom:16px;color:#ccc}
+.card-body{font-size:13px;color:#777;line-height:1.9}
+.bot-box{background:#0a0a0a;border:1px solid #1a1a1a;padding:48px;margin-bottom:32px}
+.bot-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#555;margin-bottom:24px}
+.bot-text{font-size:16px;color:#777;line-height:2}
+.bot-text strong{color:#999;font-weight:400}
+.tag{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;background:#111;color:#666;margin-right:8px;margin-bottom:8px}
+.nav{font-size:12px;color:#555;margin-bottom:60px}
+.nav a{color:#666;text-decoration:none}
+.nav a:hover{color:#888}
+.modality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#111;margin-bottom:32px}
+.mod-card{background:#000;padding:36px 28px}
+.mod-name{font-size:14px;color:#aaa;margin-bottom:8px;font-weight:400}
+.mod-principle{font-size:11px;color:#555;letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.mod-pros{font-size:12px;color:#777;line-height:1.8;margin-bottom:12px}
+.mod-cons{font-size:12px;color:#555;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="nav">
+  <a href="index.html">Bank of Technology</a> / <a href="frontier-analysis.html">フロンティア技術解析</a> / <a href="neuro-analysis.html">神経技術</a> / 非侵襲型BCI
+</div>
+
+<h1>手術なしで、<br>脳を読む。</h1>
+<p class="subtitle">非侵襲型ブレイン・コンピュータ・インターフェース：頭蓋骨の外から脳に触れる　— 技術解析レポート #008-05</p>
+
+<div class="section">
+<h2>まず、一般の人向けに</h2>
+<div class="plain">
+<p>脳を読みたいが、手術はしたくない——これは当然の欲求だ。</p>
+<p>Neuralinkが注目を集める一方で、侵襲型BCIは「頭を開けて電極を刺す」という根本的なリスクがある。感染、出血、電極の劣化、取り出す手術。いくら技術が進歩しても、健常者が趣味でやることにはならない。</p>
+<p>非侵襲型BCIは、頭蓋骨の外側から脳を読む。最も古く普及しているのはEEG（脳波計）だ。頭皮に電極を貼るだけで、脳全体の電気活動を測れる。問題は、頭蓋骨・髄液・頭皮が「ノイズフィルター」になってしまい、細かい信号が消えてしまうことだ。</p>
+<p>2020年代に入り、この限界を突破しようという動きが複数の方向で加速している。AIによる信号処理の飛躍的向上。光を使ったfNIRS（近赤外分光法）。集束超音波の神経刺激。ドライ電極とウェアラブル設計によるEEGの日常使用化——それぞれが「手術なしでどこまでできるか」の限界を押し上げている。</p>
+<p>非侵襲型BCIは、侵襲型より精度で劣る。しかし「精度が低くても使えること」には巨大な価値がある。医師の手の届かない在宅患者、症状が軽い間の早期スクリーニング、工場や自動車の作業者モニタリング、ゲームやVRのインターフェース。<strong>侵襲型が一部の患者の道具であるなら、非侵襲型は全人類の道具になる可能性がある。</strong></p>
+</div>
+</div>
+
+<div class="section">
+<h2>主要指標</h2>
+<div class="metrics">
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">1924</div>
+    <div class="metric-label">EEG初記録（Berger）</div>
+    <div class="metric-sub">100年の歴史を持つ最古のBCI技術</div>
+  </div>
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">82語/分</div>
+    <div class="metric-label">非侵襲型EEG最高文字入力速度</div>
+    <div class="metric-sub">SSVEP方式、2021年 NeurIPS</div>
+  </div>
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">$1.5B</div>
+    <div class="metric-label">非侵襲型BCI市場規模（2023年）</div>
+    <div class="metric-sub">→ 2030年に$4B超予測</div>
+  </div>
+  <div class="metric">
+    <div class="metric-val" style="color:#e8e8e8">100%</div>
+    <div class="metric-label">適用可能人口（手術不要）</div>
+    <div class="metric-sub">侵襲型は特定患者に限定される</div>
+  </div>
+</div>
+</div>
+
+<div class="section">
+<h2>主要モダリティの比較</h2>
+<div class="modality-grid">
+  <div class="mod-card">
+    <div class="mod-name">EEG（脳波計）</div>
+    <div class="mod-principle">頭皮上の電気活動</div>
+    <div class="mod-pros">安価・ポータブル・高時間解像度（ms単位）。100年の実績。ドライ電極化で装着容易に。</div>
+    <div class="mod-cons">空間解像度が低い（cm単位）。筋電・眼球運動ノイズに弱い。ゲル電極は準備が手間。</div>
+  </div>
+  <div class="mod-card">
+    <div class="mod-name">fNIRS（近赤外分光）</div>
+    <div class="mod-principle">血流変化を近赤外光で測定</div>
+    <div class="mod-pros">動きに強い。MRIより装着容易。ウェアラブル化が進む。前頭葉の認知負荷測定に優れる。</div>
+    <div class="mod-cons">時間解像度が低い（秒単位）。深部の活動は測れない。光の皮膚通過に個人差がある。</div>
+  </div>
+  <div class="mod-card">
+    <div class="mod-name">fMRI（機能的MRI）</div>
+    <div class="mod-principle">血流変化を磁気で測定</div>
+    <div class="mod-pros">最高の空間解像度（mm単位）。深部まで測定可能。研究のゴールドスタンダード。</div>
+    <div class="mod-cons">大型装置・高コスト。動けない。リアルタイム性低い。BCI用途には非実用的。</div>
+  </div>
+  <div class="mod-card">
+    <div class="mod-name">MEG（脳磁図）</div>
+    <div class="mod-principle">神経活動の微細磁場を測定</div>
+    <div class="mod-pros">EEGより空間解像度高く、時間解像度も高い。頭蓋骨・髄液の影響を受けにくい。</div>
+    <div class="mod-cons">超電導センサが必要。数億円の装置。完全に遮磁された環境が必要。</div>
+  </div>
+  <div class="mod-card">
+    <div class="mod-name">OPM-MEG</div>
+    <div class="mod-principle">ヘルメット型量子センサ</div>
+    <div class="mod-pros">室温動作・ウェアラブル化が可能。従来MEGに迫る感度。自由に動きながら測定できる。</div>
+    <div class="mod-cons">まだ高価。マルチチャンネル化のコスト。磁場シールドルームが依然必要な場合も。</div>
+  </div>
+  <div class="mod-card">
+    <div class="mod-name">経頭蓋超音波（TUS）</div>
+    <div class="mod-principle">集束超音波で神経刺激</div>
+    <div class="mod-pros">深部ターゲットが可能。空間精度mmオーダー。TMS・TDCSより精密な刺激点制御。</div>
+    <div class="mod-cons">「読む」より「書く（刺激）」寄り。長期安全性のデータ蓄積中。装置がまだ大型。</div>
+  </div>
+</div>
+</div>
+
+<div class="section">
+<h2>AIが変えた：信号処理の革命</h2>
+<div class="plain">
+<p>非侵襲型BCIの最大の問題は「信号が弱くてノイズだらけ」だった。頭皮EEGで取れる信号は、実際の神経活動が頭蓋骨・髄液・頭皮でフィルタリングされた「ぼんやりした影」に過ぎない。</p>
+<p>2020年代、ディープラーニングがこの問題に変化をもたらした。大量のEEGデータで訓練された深層学習モデルは、ノイズの中から意図した信号成分を抽出する精度を大幅に向上させた。特に<strong>Transformer系アーキテクチャ（BrainBERT、EEGformerなど）</strong>が脳波パターンの学習に有効であることが示され、2022〜2024年の間に解読精度が飛躍的に改善した。</p>
+<p>2023年、テキサス大学（Alexander Huth研究室）の研究が話題になった。fMRIを使って、被験者が聴いた話の内容を約70〜80%の精度で「心の中のセリフ」として復元することに成功した。侵襲型なしで「考えていることを推測する」——これは倫理論議を呼んだが、精度はまだ低く、数時間の個別キャリブレーションが必要だ。</p>
+</div>
+</div>
+
+<div class="section">
+<h2>注目企業</h2>
+<table>
+<tr>
+  <th>企業</th>
+  <th>技術</th>
+  <th>ターゲット市場</th>
+  <th>状況</th>
+</tr>
+<tr>
+  <td>Emotiv</td>
+  <td>ドライEEGヘッドセット</td>
+  <td>研究・企業向け認知モニタリング</td>
+  <td>製品販売中。14〜32電極のヘッドセットが市販</td>
+</tr>
+<tr>
+  <td>Neurosity</td>
+  <td>開発者向けEEGデバイス</td>
+  <td>集中度・ストレスモニタリング</td>
+  <td>Crown製品を販売。Node.js SDKで開発者が利用可能</td>
+</tr>
+<tr>
+  <td>Kernel</td>
+  <td>TD-fNIRS ヘルメット型</td>
+  <td>研究・ウェルネス・製薬</td>
+  <td>Braintree創業者設立。Flow2デバイスが研究機関に提供中</td>
+</tr>
+<tr>
+  <td>Arctop（旧InteraXon）</td>
+  <td>EEG（Muse）</td>
+  <td>瞑想・ウェルネス・研究</td>
+  <td>Museシリーズが一般向けに販売中。最も普及した民生EEG</td>
+</tr>
+<tr>
+  <td>CTRL-labs（Meta傘下）</td>
+  <td>リストバンド型筋電</td>
+  <td>AR/VRジェスチャー入力</td>
+  <td>Meta買収（2019年）。Ray-Banスマートグラスとの統合を開発中</td>
+</tr>
+<tr>
+  <td>ニューロスカイ / 富士通</td>
+  <td>EEGベース集中度測定</td>
+  <td>教育・産業安全</td>
+  <td>工場・建設現場での眠気・注意力低下検知に商用展開中</td>
+</tr>
+</table>
+</div>
+
+<div class="section">
+<h2>日本の強み：産業・福祉への応用</h2>
+<div class="plain">
+<p>日本では、非侵襲型BCIの産業安全への応用が世界でも先進的な段階にある。工場・建設・運転現場での「作業者の状態モニタリング」は、労働安全の観点から明確なニーズがある。</p>
+<p>富士通・パナソニック・日立が脳波ベースの眠気検知・集中力モニタリングの実用製品を展開している。自動車分野では、ドライバーモニタリングシステム（DMS）へのEEG統合を研究する動きがホンダ・デンソーで進んでいる。</p>
+<p>医療・福祉分野では、島津製作所がfNIRSを使ったうつ病診断補助デバイスの保険適用を取得し、世界初の商業的非侵襲型脳機能診断デバイスとして評価されている。これは日本の非侵襲型BCI産業化における最も具体的な成果だ。</p>
+</div>
+</div>
+
+<div class="section">
+<h2>BoT Perspective</h2>
+<div class="bot-box">
+<div class="bot-label">Bank of Technology — 見解</div>
+<div class="bot-text">
+<p><strong>非侵襲型BCIは「侵襲型の劣化版」ではない。</strong>別の市場だ。侵襲型が医療で「動けない人を動かす」技術であるなら、非侵襲型は「全員の状態を知る」技術だ。この非対称性を理解しないと、市場を誤読する。</p>
+<p>最も確実な近期市場は3つだ。第一は<strong>産業安全</strong>——眠気・注意散漫の検知は労働安全法規の文脈でニーズが明確。日本企業が世界で最もリードしている領域だ。第二は<strong>メンタルヘルスのバイオマーカー</strong>——うつ病・ADHD・認知症の早期スクリーニングで非侵襲型が唯一の選択肢。島津製作所のfNIRSデバイスが示したように、保険適用という収益化パスが存在する。第三は<strong>没入型エンターテインメント</strong>——MetaがCTRL-labsを買収した理由は、AR/VRの操作を「ジェスチャーから脳電位へ」進化させるためだ。ゲーム・VRの文脈での非侵襲型BCI商業化は2030年前に来る。</p>
+<p>日本への提言：研究の強さを産業化する速度を上げることが急務だ。島津製作所・富士通の実績は本物だが、グローバル展開が弱い。非侵襲型BCIデバイスの国際医療機器認証（FDA・CE）取得を国として後押しし、「日本発の脳センシング技術」がグローバルスタンダードになる道を作るべきだ。脳波データという究極のパーソナルデータを、誰のインフラで管理するかは、今後10年の重要な地政学的問題だ。</p>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h2>タグ</h2>
+<div>
+<span class="tag">非侵襲型BCI</span>
+<span class="tag">EEG</span>
+<span class="tag">fNIRS</span>
+<span class="tag">脳波</span>
+<span class="tag">産業安全</span>
+<span class="tag">メンタルヘルス</span>
+<span class="tag">AR/VR</span>
+<span class="tag">島津製作所</span>
+</div>
+</div>
+
+</div>
+</body>
+</html>

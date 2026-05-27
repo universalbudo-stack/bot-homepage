@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自律システムは、いつ「判断」を任せられるか。— BoT技術解析レポート #006-05</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased}
+.page{max-width:1100px;margin:0 auto;padding:80px 60px}
+.breadcrumb{font-size:11px;color:#666;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px}
+.breadcrumb span{color:#555}
+.label{font-size:11px;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:#777;margin-bottom:16px}
+h1{font-size:56px;font-weight:300;line-height:1.1;letter-spacing:-.03em;margin-bottom:24px}
+h1 span{color:#888}
+.meta{font-size:13px;color:#777;margin-bottom:80px}
+.section{margin-bottom:100px}
+h2{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#777;margin-bottom:48px;padding-bottom:16px;border-bottom:1px solid #1a1a1a}
+.plain{background:#0d0d0d;padding:48px;margin-bottom:2px}
+.plain h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.plain p{font-size:16px;color:#777;line-height:2;margin-bottom:20px}
+.plain p:last-child{margin-bottom:0}
+.plain p strong{color:#bbb;font-weight:400}
+.divider{height:1px;background:#1a1a1a;margin:32px 0}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:80px}
+.metric{background:#0d0d0d;padding:32px 24px;text-align:center}
+.metric .val{font-size:36px;font-weight:300;letter-spacing:-.02em;margin-bottom:8px}
+.metric .lbl{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.metric .note{font-size:12px;color:#666;line-height:1.6}
+.table-wrap{overflow-x:auto;margin-bottom:32px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#0a0a0a;color:#777;font-weight:500;text-transform:uppercase;letter-spacing:.08em;padding:14px 18px;text-align:left;border-bottom:1px solid #1a1a1a;font-size:11px}
+td{padding:14px 18px;border-bottom:1px solid #111;color:#777;vertical-align:top;line-height:1.7}
+td:first-child{color:#ccc;font-weight:400}
+tr:hover td{background:#080808}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:32px}
+.tier{padding:28px;border:1px solid #1a1a1a;background:#0a0a0a}
+.tier .tier-tag{font-size:9px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px}
+.tier .tier-name{font-size:15px;font-weight:500;margin-bottom:10px}
+.tier .tier-body{font-size:12px;color:#777;line-height:1.8}
+.tier.now .tier-tag{color:#4a9}
+.tier.near .tier-tag{color:#88f}
+.tier.far .tier-tag{color:#f84}
+.tier.meta .tier-tag{color:#888}
+.bot-box{background:#0a0a0a;border:1px solid #1a1a1a;padding:48px}
+.bot-box h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:24px}
+.bot-box p{font-size:15px;color:#888;line-height:2;margin-bottom:16px}
+.bot-box p:last-child{margin-bottom:0}
+.bot-box strong{color:#aaa;font-weight:400}
+.level-grid{display:grid;gap:2px;margin-bottom:32px}
+.level-row{display:grid;grid-template-columns:80px 160px 1fr 160px;gap:2px;align-items:stretch}
+.lv{background:#0d0d0d;padding:20px 24px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:300;color:#555}
+.lv.active{background:#111;color:#fff}
+.lname{background:#0d0d0d;padding:20px 24px;display:flex;align-items:center;font-size:14px;font-weight:500;color:#777}
+.lname.active{color:#fff}
+.ldesc{background:#0a0a0a;padding:20px 24px;font-size:12px;color:#777;line-height:1.7;display:flex;align-items:center}
+.ldesc.active{color:#888}
+.lstatus{background:#0d0d0d;padding:20px 24px;display:flex;align-items:center;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em}
+.done{color:#4a9}
+.real{color:#88f}
+.far-c{color:#f84}
+footer{margin-top:120px;padding-top:40px;border-top:1px solid #1a1a1a;display:flex;justify-content:space-between;font-size:12px;color:#555}
+@media(max-width:700px){.metrics,.tiers{grid-template-columns:1fr}.level-row{grid-template-columns:1fr}.page{padding:40px 20px}h1{font-size:36px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="breadcrumb">
+  Bank of Technology <span>›</span> Report #006 ロボティクス <span>›</span> #006-05 自律システム
+</div>
+
+<div class="label">Bank of Technology — 技術解析レポート #006-05</div>
+<h1>自律システムは、いつ<br><span>「判断」を任せられるか。</span></h1>
+<div class="meta">自律走行・自律システムの全貌 · 2026年 · 解析: Bank of Technology</div>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="lbl">Waymo の週間ライド数（2024年末）</div>
+    <div class="val">15万回以上</div>
+    <div class="note">サンフランシスコ・フェニックスで完全無人タクシーが日常化。累計走行距離数千万マイル。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">Tesla の Autopilot 走行距離（累計）</div>
+    <div class="val">50億マイル+</div>
+    <div class="note">レベル2（半自動）での膨大な走行データが FSD（完全自動）の学習データになっている。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">自動運転タクシーの人間比事故率</div>
+    <div class="val">1/5以下</div>
+    <div class="note">Waymo の公開データ。人間ドライバーより安全。ただしロングテールの稀なシナリオが課題。</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">農業ドローン市場規模（2030年予測）</div>
+    <div class="val">$10B</div>
+    <div class="note">農薬散布・種まき・収量調査。日本でも農林水産省が普及を推進する自律システム。</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>まず、一般の人向けに</h2>
+  <div class="plain">
+    <h3>「自動化」と「自律」は、まったく異なる</h3>
+    <p>
+      洗濯機は「自動」だが「自律」ではない。
+      設定した通りに動くだけで、洗濯物が少なかったときに水量を調整したり、
+      靴下が入っていると気づいて待ってくれたりはしない。
+      <strong>自律とは「状況を認識し、自分で判断し、行動を変える」能力だ。</strong>
+    </p>
+    <p>
+      自動運転車はこの「自律」の最も複雑な事例だ。
+      走行中に起きる無数の状況——飛び出してくる子供、突然の工事、読めない手書きの看板——
+      これらすべてに適切に対応するには、ルールを書き切ることはできない。
+      <strong>AIがリアルタイムで状況を認識し、判断し、ハンドルとブレーキを操作する——
+      これが Level 4（高度自動運転）だ。</strong>
+      Waymo がサンフランシスコで毎日これを実行している。
+    </p>
+    <div class="divider"></div>
+    <h3>自動運転には「長い尾」がある</h3>
+    <p>
+      Waymo の統計では、自動運転の事故率は人間より低い。
+      では「完全解決」したのか——そうではない。
+      <strong>「ロングテール問題」と呼ばれる難題がある。</strong>
+      99.9%のシナリオは完璧に対処できる。しかし
+      「霧の中の高速道路で積み荷をはみ出した大型トラックが停車している」
+      「白い服を着た人が白い車の隣に立っている」
+      「道路に描かれた謎の記号が交通規制の標識だった」——
+      こうした極めて稀なシナリオで失敗が起きる。
+      「稀」でも交通量が多ければ事故は起きる。これが完全自律の難しさだ。
+    </p>
+    <div class="divider"></div>
+    <h3>自動車以外の「自律」が静かに産業を変えている</h3>
+    <p>
+      自動運転の話題は自動車に偏りがちだが、
+      <strong>自律システムの産業的インパクトは農業・港湾・建設・鉱山でより先行している。</strong>
+      Rio Tinto の鉄鉱石鉱山では自律ダンプトラックが20年以上稼働し、
+      24時間365日を人件費なしで運営している。
+      Port of Rotterdam では自律クレーンとAGV（無人搬送車）がコンテナを積み降ろしする。
+      マスに見えないが、産業への経済的インパクトはフォーカスされている自動車より大きい。
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>自動化レベルの定義（SAE）</h2>
+  <div class="level-grid">
+    <div class="level-row">
+      <div class="lv">0</div>
+      <div class="lname">手動運転</div>
+      <div class="ldesc">すべての運転操作を人間が行う。警告システムのみ補助可。</div>
+      <div class="lstatus done">全車普及済み</div>
+    </div>
+    <div class="level-row">
+      <div class="lv">1</div>
+      <div class="lname">運転支援</div>
+      <div class="ldesc">自動ブレーキ・車線維持など一部を自動化。人間が常時監視。</div>
+      <div class="lstatus done">2020年代に標準化</div>
+    </div>
+    <div class="level-row">
+      <div class="lv active">2</div>
+      <div class="lname active">部分自動化</div>
+      <div class="ldesc active">ハンドルとアクセル両方を自動制御。Tesla Autopilot・Mercedes Drive Pilot がここ。人間は常時監視義務あり。</div>
+      <div class="lstatus real">現在の主流</div>
+    </div>
+    <div class="level-row">
+      <div class="lv">3</div>
+      <div class="lname">条件付き自動化</div>
+      <div class="ldesc">特定条件下（高速道路等）で自動化。人間は介入要請で即応できること。Honda Legend が世界初の L3 認可。</div>
+      <div class="lstatus real">限定展開中</div>
+    </div>
+    <div class="level-row">
+      <div class="lv active">4</div>
+      <div class="lname active">高度自動化</div>
+      <div class="ldesc active">特定エリア内で人間不要。Waymo のロボタクシーがここ。指定エリア外では動けない。</div>
+      <div class="lstatus done">商業展開中（限定エリア）</div>
+    </div>
+    <div class="level-row">
+      <div class="lv">5</div>
+      <div class="lname">完全自動化</div>
+      <div class="ldesc">あらゆる場所・条件で完全無人。ハンドル・ペダルが不要。まだ実現していない。</div>
+      <div class="lstatus far-c">2030年代以降か</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>主要プレイヤーの比較</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>企業</th>
+          <th>アプローチ</th>
+          <th>現在地（2026）</th>
+          <th>強み</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Waymo（Google）</td>
+          <td>LiDAR + カメラ + 精密地図（HD map）</td>
+          <td>SF・フェニックス・LAで週15万回以上の商業運行</td>
+          <td>最も多くの自律走行データ。安全性の実績</td>
+        </tr>
+        <tr>
+          <td>Tesla（FSD）</td>
+          <td>カメラのみ（LiDAR不使用）+ エンドツーエンド AI</td>
+          <td>Level 2+。FSD v12 でエンドツーエンド学習を実装</td>
+          <td>50億マイル超の実走データ。量産車にセンサー内蔵</td>
+        </tr>
+        <tr>
+          <td>Cruise（GM）</td>
+          <td>LiDAR + カメラ</td>
+          <td>2023年の歩行者事故後、運行停止中。再開準備中</td>
+          <td>GM の製造・販売網。ただし信頼回復が最大課題</td>
+        </tr>
+        <tr>
+          <td>Mobileye（Intel）</td>
+          <td>カメラ主体 + 地図</td>
+          <td>多くの自動車メーカーに Level 2 システム供給</td>
+          <td>OEM との深い関係。「プラットフォーム型」の強み</td>
+        </tr>
+        <tr>
+          <td>Baidu Apollo（百度）</td>
+          <td>LiDAR + カメラ</td>
+          <td>中国11都市で「萝卜快跑」ロボタクシーを商業運行</td>
+          <td>中国市場の規制上の優位。Waymo に匹敵する展開規模</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <h2>産業化ロードマップ</h2>
+  <div class="tiers">
+    <div class="tier now">
+      <div class="tier-tag">NOW · 商業展開中</div>
+      <div class="tier-name">限定エリアの自律タクシー</div>
+      <div class="tier-body">Waymo（米）・萝卜快跑（中）が特定都市で完全無人タクシーを商業運行。農業ドローン・港湾自律クレーン・鉱山ダンプカーは見えにくいが既に大規模商業化済み。</div>
+    </div>
+    <div class="tier near">
+      <div class="tier-tag">NEAR · 2026-2030</div>
+      <div class="tier-name">自律物流の拡大</div>
+      <div class="tier-body">高速道路の自律トラック（Kodiak・Aurora）が物流コストを30〜40%削減する計算。長距離輸送の「ドライバー不足」は日本でも深刻で、自律トラックへの需要は実態に基づく。</div>
+    </div>
+    <div class="tier far">
+      <div class="tier-tag">FAR · 2030-2037</div>
+      <div class="tier-name">エリア無制限の自律走行</div>
+      <div class="tier-body">「どこでも走れる」Level 5 は 2030年代中盤が現実的な見通し。実現すれば個人の車所有が不要になり、駐車場・ガソリンスタンド・自動車ディーラーが縮小する。都市設計が変わる。</div>
+    </div>
+    <div class="tier meta">
+      <div class="tier-tag">META · 2037+</div>
+      <div class="tier-name">自律インフラとしての都市</div>
+      <div class="tier-body">自律車・自律ドローン・自律ロボットが通信しながら動く「スマート都市」。信号機が不要になり、事故が限りなくゼロに近づき、交通渋滞がアルゴリズムで解消される世界。</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Bank of Technology の視点</h2>
+  <div class="bot-box">
+    <h3>自動運転の「主戦場」は乗用車より物流・産業インフラだ</h3>
+    <p>
+      ロボタクシーは話題を集めるが、経済的インパクトで言えば
+      <strong>農業・港湾・鉱山・物流倉庫の自律化の方がはるかに大きい</strong>。
+      Rio Tinto の自律ダンプトラックが年間数億ドルのコスト削減を実現し、
+      Rotterdam 港の自律クレーンが人件費と夜間稼働コストを同時に解決している。
+      これらは「実証済みの経済合理性」を持つ自律化だ。
+    </p>
+    <p>
+      日本の最大の機会は3つある。<strong>①農業ドローン・農業用自律機械</strong>——
+      農業人口の高齢化と人手不足は待ったなし。農林水産省が普及を後押しする制度環境がある。
+      <strong>②港湾の自律化</strong>——国際競争力の観点から、横浜・神戸・博多の港湾自動化が急務。
+      <strong>③建設・インフラの自律機械</strong>——コマツの「スマートコンストラクション」が先行し、
+      建設現場のドローン測量・自律ブルドーザーが普及段階にある。
+    </p>
+    <p>
+      自動運転乗用車での競争は米中が先行しているが、
+      <strong>「産業自律化の統合設計」では日本の製造業とロボティクスが
+      競争力を持てるポジションがある</strong>。
+      センサー（ソニー・京セラ）・制御システム（安川・FANUC）・車体（コマツ・ヤンマー）の
+      縦の統合力で、特定産業の「完全自律パッケージ」を世界に届ける戦略が有効だ。
+    </p>
+  </div>
+</div>
+
+<footer>
+  <span>Bank of Technology — 技術解析レポート #006-05</span>
+  <span>親レポート: <a href="robotics-analysis.html" style="color:#555">#006 ロボティクス</a> · 2026</span>
+</footer>
+
+</div>
+</body>
+</html>

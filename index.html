@@ -1,0 +1,445 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bank of Technology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #000000;
+      --text: #ffffff;
+      --muted: #888888;
+      --accent: #333333;
+      --border: #1a1a1a;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 300;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 28px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
+    }
+
+    .logo {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-link {
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-link:hover {
+      color: var(--text);
+    }
+
+    /* SECTIONS */
+    section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 160px 60px;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+    }
+
+    /* HERO */
+    #hero {
+      justify-content: center;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+
+    .hero-title {
+      font-size: clamp(56px, 8vw, 104px);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 48px;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--muted);
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 2;
+      max-width: 480px;
+      margin-bottom: 64px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 16px 40px;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color 0.3s, background 0.3s;
+      cursor: pointer;
+      background: transparent;
+    }
+
+    .btn:hover {
+      border-color: var(--text);
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* SECTION LABEL */
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 72px;
+    }
+
+    /* VISION */
+    #vision {
+      border-top: 1px solid var(--border);
+    }
+
+    .vision-text {
+      font-size: clamp(22px, 2.5vw, 32px);
+      font-weight: 300;
+      line-height: 2;
+      letter-spacing: -0.01em;
+    }
+
+    .vision-text p {
+      margin-bottom: 2em;
+    }
+
+    .vision-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .vision-text strong {
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .vision-text .dim {
+      color: var(--muted);
+    }
+
+    /* WHY */
+    #why {
+      border-top: 1px solid var(--border);
+    }
+
+    .why-text {
+      font-size: 20px;
+      font-weight: 300;
+      line-height: 2;
+      color: var(--muted);
+      max-width: 640px;
+    }
+
+    .why-text p {
+      margin-bottom: 2em;
+    }
+
+    .why-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .why-text strong {
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    /* JOIN */
+    #join {
+      border-top: 1px solid var(--border);
+    }
+
+    .join-roles {
+      font-size: clamp(32px, 4vw, 56px);
+      font-weight: 300;
+      line-height: 1.4;
+      letter-spacing: -0.02em;
+      color: var(--muted);
+      margin-bottom: 72px;
+    }
+
+    .join-roles span {
+      display: block;
+      transition: color 0.3s;
+    }
+
+    .join-roles span:hover {
+      color: var(--text);
+    }
+
+    .join-message {
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 2;
+      margin-bottom: 64px;
+      max-width: 440px;
+    }
+
+    .join-message strong {
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 48px 60px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: #666;
+    }
+
+    /* SCROLL INDICATOR */
+    .scroll-hint {
+      position: absolute;
+      bottom: 48px;
+      left: 60px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #666;
+    }
+
+    .scroll-line {
+      width: 40px;
+      height: 1px;
+      background: #333;
+    }
+
+    /* FADE IN ANIMATION */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeUp 1s ease forwards;
+    }
+
+    .fade-in-delay-1 { animation-delay: 0.2s; opacity: 0; }
+    .fade-in-delay-2 { animation-delay: 0.5s; opacity: 0; }
+    .fade-in-delay-3 { animation-delay: 0.8s; opacity: 0; }
+    .fade-in-delay-4 { animation-delay: 1.1s; opacity: 0; }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 24px 24px;
+      }
+      section {
+        padding: 120px 24px;
+      }
+      footer {
+        padding: 40px 24px;
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+      }
+      .scroll-hint {
+        left: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="logo">Bank of Technology</a>
+    <div style="display:flex;gap:40px;align-items:center">
+      <a href="library.html" class="nav-link">Reports</a>
+      <a href="#join" class="nav-link">Join the Vision</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" style="position: relative;">
+    <div class="container">
+      <p class="hero-eyebrow fade-in">Bank of Technology</p>
+      <h1 class="hero-title fade-in fade-in-delay-1">
+        Technology<br />
+        needs a<br />
+        <em>conductor.</em>
+      </h1>
+      <p class="hero-sub fade-in fade-in-delay-2">
+        分断された技術を結び、<br />
+        まだ存在しない産業を創る。<br /><br />
+        Bank of Technology は、<br />
+        技術文明の新しい編成方法を探求する。
+      </p>
+      <a href="#join" class="btn fade-in fade-in-delay-3">Join the Vision</a>
+    </div>
+    <div class="scroll-hint fade-in fade-in-delay-4">
+      <span class="scroll-line"></span>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- VISION -->
+  <section id="vision">
+    <div class="container">
+      <p class="section-label">Vision</p>
+      <div class="vision-text">
+        <p class="dim">
+          世界には、<br />
+          優れた技術が無数に存在している。
+        </p>
+        <p class="dim">
+          しかし多くは、<br />
+          研究室、企業、制度、専門領域の壁に閉じ込められ、<br />
+          産業化されないまま消えていく。
+        </p>
+        <p>
+          私たちは、<br />
+          技術を単体で見るのではなく、<br />
+          <strong>"協奏"として再編成する。</strong>
+        </p>
+        <p class="dim">
+          必要なのは、<br />
+          新しい技術そのものではない。
+        </p>
+        <p>
+          技術同士をつなぎ、<br />
+          未来産業へ変換する<br />
+          <strong>「指揮者」の存在だ。</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section id="why">
+    <div class="container">
+      <p class="section-label">Why</p>
+      <div class="why-text">
+        <p>
+          AI、ロボティクス、バイオ、<br />
+          量子技術、エネルギー、素材。<br /><br />
+          技術は加速度的に進化している。
+        </p>
+        <p>
+          しかし、<br />
+          それらを統合し、<br />
+          社会実装へ導く<strong>構造は未成熟だ。</strong>
+        </p>
+        <p>
+          Bank of Technology は、<br />
+          <strong>技術集約機能</strong>として、<br />
+          分断された知を接続し、<br />
+          <strong>未来産業の創出を加速させる。</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOIN -->
+  <section id="join">
+    <div class="container">
+      <p class="section-label">Join</p>
+      <div class="join-roles">
+        <span>研究者。</span>
+        <span>エンジニア。</span>
+        <span>事業家。</span>
+        <span>デザイナー。</span>
+        <span>思想家。</span>
+      </div>
+      <p class="join-message">
+        専門領域を超え、<br />
+        未来を共創したい人へ。<br /><br />
+        私たちは、<br />
+        <strong>共鳴する仲間を探しています。</strong>
+      </p>
+      <a href="mailto:universalbudo@gmail.com" class="btn">Contact</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">Bank of Technology</span>
+    <span class="footer-copy">© 2026 Bank of Technology</span>
+  </footer>
+
+</body>
+</html>
