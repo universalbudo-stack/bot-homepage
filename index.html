@@ -430,7 +430,7 @@
         私たちは、<br />
         <strong>共鳴する仲間を探しています。</strong>
       </p>
-      <a href="mailto:universalbudo@gmail.com" class="btn">Contact</a>
+      <button onclick="document.getElementById('contact-modal').style.display='flex'" class="btn" style="cursor:pointer;font-family:inherit">Contact</button>
     </div>
   </section>
 
@@ -439,6 +439,33 @@
     <span class="footer-logo">Bank of Technology</span>
     <span class="footer-copy">© 2026 Bank of Technology</span>
   </footer>
+
+  <!-- Contact Modal -->
+  <style>
+    #contact-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:200;align-items:center;justify-content:center;padding:24px}
+    #contact-modal .mbox{background:#0a0a0a;border:1px solid #1a1a1a;padding:48px;max-width:480px;width:100%;position:relative}
+    #contact-modal .mclose{position:absolute;top:16px;right:20px;background:none;border:none;color:#555;font-size:22px;cursor:pointer;line-height:1;font-family:inherit}
+    #contact-modal .mclose:hover{color:#fff}
+    #contact-modal h3{font-size:11px;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;color:#555;margin-bottom:36px}
+    #contact-modal input,#contact-modal textarea{width:100%;background:transparent;border:none;border-bottom:1px solid #222;color:#fff;font-family:inherit;font-size:14px;font-weight:300;padding:12px 0;margin-bottom:24px;outline:none;display:block;box-sizing:border-box;transition:border-color 0.2s}
+    #contact-modal input::placeholder,#contact-modal textarea::placeholder{color:#444}
+    #contact-modal input:focus,#contact-modal textarea:focus{border-bottom-color:#666}
+    #contact-modal textarea{height:120px;resize:none}
+    #contact-modal .msend{padding:14px 40px;border:1px solid rgba(255,255,255,0.2);color:#fff;font-family:inherit;font-size:12px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;background:transparent;cursor:pointer;transition:border-color 0.3s}
+    #contact-modal .msend:hover{border-color:rgba(255,255,255,0.6)}
+  </style>
+  <div id="contact-modal" onclick="if(event.target===this)this.style.display='none'">
+    <div class="mbox">
+      <button class="mclose" onclick="document.getElementById('contact-modal').style.display='none'">×</button>
+      <h3>お問い合わせ</h3>
+      <form action="https://formspree.io/f/mnjyjvlr" method="POST">
+        <input type="text" name="name" placeholder="お名前" required />
+        <input type="email" name="email" placeholder="メールアドレス" required />
+        <textarea name="message" placeholder="メッセージ"></textarea>
+        <button type="submit" class="msend">送信</button>
+      </form>
+    </div>
+  </div>
 
 </body>
 </html>
